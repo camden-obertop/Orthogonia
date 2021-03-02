@@ -17,7 +17,9 @@
     <changedPaths>
       <option value="$PROJECT_DIR$/Assets/SpawnVoxels.cs" />
       <option value="$PROJECT_DIR$/../Test_1/Assets/Scripts/Manager.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/MouseInteractions.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/SpawnVoxels.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/ManageVoxel.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1pBCdHsFACWOdidjLv7MfcZ4hz9" />
@@ -62,7 +64,8 @@
       <option name="presentableId" value="Default" />
       <updated>1614647184015</updated>
       <workItem from="1614647191960" duration="2189000" />
-      <workItem from="1614650064453" duration="307000" />
+      <workItem from="1614650064453" duration="904000" />
+      <workItem from="1614657799011" duration="3359000" />
     </task>
     <servers />
   </component>
