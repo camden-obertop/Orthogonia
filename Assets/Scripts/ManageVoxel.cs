@@ -5,29 +5,63 @@ using UnityEngine;
 public class ManageVoxel : MonoBehaviour
 {
     private MeshRenderer _meshRenderer;
-    private bool _isHovering;
+    private bool _isHovering = false;
+    private bool _cleared = false;
+    private bool _marked = false;
     
     public Material defaultColor;
     public Material hoverColor;
+    public Material markedColor;
+    public Material clearColor;
     public bool isPuzzleVoxel;
 
     private void Start()
     {
         _meshRenderer = GetComponent<MeshRenderer>();
-        _isHovering = false;
     }
 
-    private void OnMouseDown()
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            ClearVoxel();
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            MarkVoxel();
+        }
+    }
+
+    private void MarkVoxel()
+    {
+        if (_isHovering && !_cleared)
+        {
+            if (_marked)
+            {
+                _marked = false;
+                _meshRenderer.material = hoverColor;
+            } else
+            {
+                _marked = true;
+                _meshRenderer.material = markedColor;
+            }
+        }
+    }
+
+    private void ClearVoxel()
     {
         if (_isHovering)
         {
-            if (isPuzzleVoxel)
+            if (_cleared)
             {
-                Debug.Log("WRONG!!!");
-            }
-            else
+                _cleared = false;
+                _meshRenderer.material = hoverColor;
+            } else
             {
-                Destroy(transform.gameObject);
+                _cleared = true;
+                _marked = false;
+                _meshRenderer.material = clearColor;
             }
         }
     }
@@ -36,12 +70,20 @@ public class ManageVoxel : MonoBehaviour
     {
         _isHovering = true;
         _meshRenderer.material = hoverColor;
-        Debug.Log(isPuzzleVoxel);
     }
 
     private void OnMouseExit()
     {
         _isHovering = false;
-        _meshRenderer.material = defaultColor;
+        if (_cleared)
+        {
+            _meshRenderer.material = clearColor;
+        } else if (_marked)
+        {
+            _meshRenderer.material = markedColor;
+        } else
+        {
+            _meshRenderer.material = defaultColor;
+        }
     }
 }
