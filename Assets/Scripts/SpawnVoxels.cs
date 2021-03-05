@@ -7,15 +7,19 @@ using Random = UnityEngine.Random;
 public class SpawnVoxels : MonoBehaviour
 {
     [SerializeField] private int length, height, width; // length = x, height = y, width = z 
+    [SerializeField] private float rotateSpeed;
 
+    public GameObject mainCamera;
     public GameObject cube;
 
     private GameObject[,,] voxels;
+    private Vector3 _target = Vector3.zero;
+    private Transform cameraTransform;
 
     private void Start()
     {
         InitializeVoxels();
-        DeactivateFace();
+        cameraTransform = mainCamera.transform;
     }
 
     private void InitializeVoxels()
@@ -27,7 +31,7 @@ public class SpawnVoxels : MonoBehaviour
             {
                 for (int k = 0; k < width; k++)
                 {
-                    voxels[i, j, k] = Instantiate(cube, new Vector3(i + 0.5f, j + 0.5f, k + 0.5f), Quaternion.identity, transform);
+                    voxels[i, j, k] = Instantiate(cube, new Vector3(i - length/2, j - height/2, k - width/2), Quaternion.identity, transform);
                     voxels[i, j, k].GetComponent<ManageVoxel>().isPuzzleVoxel = Convert.ToBoolean(Random.Range(0, 2));
                 }
             }
@@ -36,22 +40,35 @@ public class SpawnVoxels : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            // Deactivate a layer of the length
-            
-        } 
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            // Reactivate a layer of the length
-        }
+        ManageRotations();
     }
 
-    private void DeactivateFace()
+    private void ManageRotations()
     {
-        foreach(GameObject voxel in voxels)
+        float timeSpeed = rotateSpeed * Time.deltaTime;
+        if (Input.GetKey(KeyCode.A))
         {
-            Debug.Log(voxel);
+            transform.RotateAround(_target, Vector3.up, timeSpeed);
+        }
+
+        if (Input.GetKey(KeyCode.D))
+        {
+            transform.RotateAround(_target, Vector3.up, -timeSpeed);
+        }
+
+        if (Input.GetKey(KeyCode.W))
+        {
+            transform.RotateAround(_target, cameraTransform.right, timeSpeed);
+        }
+        
+        if (Input.GetKey(KeyCode.S))
+        {
+            transform.RotateAround(_target, cameraTransform.right, -timeSpeed);
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            transform.rotation = Quaternion.identity;
         }
     }
 }
