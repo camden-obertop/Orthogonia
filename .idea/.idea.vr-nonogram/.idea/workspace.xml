@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cd9c8882-5323-4112-8547-d2753f20897a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.vr-nonogram/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.vr-nonogram/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.vr-nonogram/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.vr-nonogram/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.vr-nonogram/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.vr-nonogram/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Camden Scene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Camden Scene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/SpawnVoxels.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SpawnVoxels.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -71,7 +68,7 @@
       <workItem from="1614647191960" duration="2189000" />
       <workItem from="1614650064453" duration="904000" />
       <workItem from="1614657799011" duration="3359000" />
-      <workItem from="1614981612485" duration="2111000" />
+      <workItem from="1614981612485" duration="4264000" />
     </task>
     <servers />
   </component>

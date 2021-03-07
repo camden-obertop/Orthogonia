@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 public class SpawnVoxels : MonoBehaviour
 {
     [SerializeField] private int length, height, width; // length = x, height = y, width = z 
+    private int visibleLayersX, visibleLayersY, visibleLayersZ;
     [SerializeField] private float rotateSpeed;
 
     public GameObject mainCamera;
@@ -18,6 +19,9 @@ public class SpawnVoxels : MonoBehaviour
 
     private void Start()
     {
+        visibleLayersX = length - 1;
+        visibleLayersY = height - 1;
+        visibleLayersZ = width - 1;
         InitializeVoxels();
         cameraTransform = mainCamera.transform;
     }
@@ -41,6 +45,77 @@ public class SpawnVoxels : MonoBehaviour
     private void Update()
     {
         ManageRotations();
+        ManageVisibleLayers();
+    }
+
+    private void ManageVisibleLayers()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1) && visibleLayersX > 0)
+        {
+            for (int i = 0; i < visibleLayersY + 1; i++)
+            {
+                for (int j = 0; j < visibleLayersZ + 1; j++)
+                {
+                    voxels[visibleLayersX, i, j].SetActive(false);
+                }
+            }
+            visibleLayersX--;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2) && visibleLayersX < length - 1)
+        {
+            visibleLayersX++;
+            for (int i = 0; i < visibleLayersY + 1; i++)
+            {
+                for (int j = 0; j < visibleLayersZ + 1; j++)
+                {
+                    voxels[visibleLayersX, i, j].SetActive(true);
+                }
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3) && visibleLayersY > 0)
+        {
+            for (int i = 0; i < visibleLayersX + 1; i++)
+            {
+                for (int j = 0; j < visibleLayersZ + 1; j++)
+                {
+                    voxels[i, visibleLayersY, j].SetActive(false);
+                }
+            }
+            visibleLayersY--;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4) && visibleLayersY < height - 1)
+        {
+            visibleLayersY++;
+            for (int i = 0; i < visibleLayersX + 1; i++)
+            {
+                for (int j = 0; j < visibleLayersZ + 1; j++)
+                {
+                    voxels[i, visibleLayersY, j].SetActive(true);
+                }
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5) && visibleLayersZ > 0)
+        {
+            for (int i = 0; i < visibleLayersX + 1; i++)
+            {
+                for (int j = 0; j < visibleLayersY + 1; j++)
+                {
+                    voxels[i, j, visibleLayersZ].SetActive(false);
+                }
+            }
+            visibleLayersZ--;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha6) && visibleLayersZ < width - 1)
+        {
+            visibleLayersZ++;
+            for (int i = 0; i < visibleLayersX + 1; i++)
+            {
+                for (int j = 0; j < visibleLayersY + 1; j++)
+                {
+                    voxels[i, j, visibleLayersZ].SetActive(true);
+                }
+            }
+        }
     }
 
     private void ManageRotations()
