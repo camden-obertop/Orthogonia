@@ -25,33 +25,33 @@ public class VoxelManager : MonoBehaviour
     [SerializeField] private GameObject mainCamera;
     [SerializeField] private GameObject cube;
 
-    private int visibleLayersX, visibleLayersY, visibleLayersZ;
-    private GameObject[,,] voxels;
+    private int _visibleLayersX, _visibleLayersY, _visibleLayersZ;
+    private GameObject[,,] _voxels;
     private Vector3 _target = Vector3.zero;
-    private Transform cameraTransform;
-    private bool coroutineFinished = true;
-    private bool canVerticallyRotate = true;
+    private Transform _cameraTransform;
+    private bool _coroutineFinished = true;
+    private bool _canVerticallyRotate = true;
 
     private void Start()
     {
-        visibleLayersX = length - 1;
-        visibleLayersY = height - 1;
-        visibleLayersZ = width - 1;
+        _visibleLayersX = length - 1;
+        _visibleLayersY = height - 1;
+        _visibleLayersZ = width - 1;
         InitializeVoxels();
-        cameraTransform = mainCamera.transform;
+        _cameraTransform = mainCamera.transform;
     }
 
     private void InitializeVoxels()
     {
-        voxels = new GameObject[length, height, width];
+        _voxels = new GameObject[length, height, width];
         for (int i = 0; i < length; i++)
         {
             for (int j = 0; j < height; j++)
             {
                 for (int k = 0; k < width; k++)
                 {
-                    voxels[i, j, k] = Instantiate(cube, new Vector3(i - length / 2, j - height / 2, k - width / 2), Quaternion.identity, transform);
-                    voxels[i, j, k].GetComponent<Voxel>().IsPuzzleVoxel = Convert.ToBoolean(Random.Range(0, 2));
+                    _voxels[i, j, k] = Instantiate(cube, new Vector3(i - length / 2, j - height / 2, k - width / 2), Quaternion.identity, transform);
+                    _voxels[i, j, k].GetComponent<Voxel>().IsPuzzleVoxel = Convert.ToBoolean(Random.Range(0, 2));
                 }
             }
         }
@@ -70,76 +70,76 @@ public class VoxelManager : MonoBehaviour
 
     private void ManageVisibleLayers()
     {
-        if (coroutineFinished)
+        if (_coroutineFinished)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1) && visibleLayersX > 0)
+            if (Input.GetKeyDown(KeyCode.Alpha1) && _visibleLayersX > 0)
             {
-                for (int i = 0; i < visibleLayersY + 1; i++)
+                for (int i = 0; i < _visibleLayersY + 1; i++)
                 {
-                    for (int j = 0; j < visibleLayersZ + 1; j++)
+                    for (int j = 0; j < _visibleLayersZ + 1; j++)
                     {
-                        ChangeVoxelVisible(voxels[visibleLayersX, i, j], false);
+                        ChangeVoxelVisible(_voxels[_visibleLayersX, i, j], false);
                         // voxels[visibleLayersX, i, j].SetActive(false);
                     }
                 }
-                visibleLayersX--;
+                _visibleLayersX--;
             }
-            if (Input.GetKeyDown(KeyCode.Alpha2) && visibleLayersX < length - 1)
+            if (Input.GetKeyDown(KeyCode.Alpha2) && _visibleLayersX < length - 1)
             {
-                visibleLayersX++;
-                for (int i = 0; i < visibleLayersY + 1; i++)
+                _visibleLayersX++;
+                for (int i = 0; i < _visibleLayersY + 1; i++)
                 {
-                    for (int j = 0; j < visibleLayersZ + 1; j++)
+                    for (int j = 0; j < _visibleLayersZ + 1; j++)
                     {
-                        ChangeVoxelVisible(voxels[visibleLayersX, i, j], true);
+                        ChangeVoxelVisible(_voxels[_visibleLayersX, i, j], true);
                         // voxels[visibleLayersX, i, j].SetActive(true);
                     }
                 }
             }
-            if (Input.GetKeyDown(KeyCode.Alpha3) && visibleLayersY > 0)
+            if (Input.GetKeyDown(KeyCode.Alpha3) && _visibleLayersY > 0)
             {
-                for (int i = 0; i < visibleLayersX + 1; i++)
+                for (int i = 0; i < _visibleLayersX + 1; i++)
                 {
-                    for (int j = 0; j < visibleLayersZ + 1; j++)
+                    for (int j = 0; j < _visibleLayersZ + 1; j++)
                     {
-                        ChangeVoxelVisible(voxels[i, visibleLayersY, j], false);
+                        ChangeVoxelVisible(_voxels[i, _visibleLayersY, j], false);
                         // voxels[i, visibleLayersY, j].SetActive(false);
                     }
                 }
-                visibleLayersY--;
+                _visibleLayersY--;
             }
-            if (Input.GetKeyDown(KeyCode.Alpha4) && visibleLayersY < height - 1)
+            if (Input.GetKeyDown(KeyCode.Alpha4) && _visibleLayersY < height - 1)
             {
-                visibleLayersY++;
-                for (int i = 0; i < visibleLayersX + 1; i++)
+                _visibleLayersY++;
+                for (int i = 0; i < _visibleLayersX + 1; i++)
                 {
-                    for (int j = 0; j < visibleLayersZ + 1; j++)
+                    for (int j = 0; j < _visibleLayersZ + 1; j++)
                     {
-                        ChangeVoxelVisible(voxels[i, visibleLayersY, j], true);
+                        ChangeVoxelVisible(_voxels[i, _visibleLayersY, j], true);
                         // voxels[i, visibleLayersY, j].SetActive(true);
                     }
                 }
             }
-            if (Input.GetKeyDown(KeyCode.Alpha5) && visibleLayersZ > 0)
+            if (Input.GetKeyDown(KeyCode.Alpha5) && _visibleLayersZ > 0)
             {
-                for (int i = 0; i < visibleLayersX + 1; i++)
+                for (int i = 0; i < _visibleLayersX + 1; i++)
                 {
-                    for (int j = 0; j < visibleLayersY + 1; j++)
+                    for (int j = 0; j < _visibleLayersY + 1; j++)
                     {
-                        ChangeVoxelVisible(voxels[i, j, visibleLayersZ], false);
+                        ChangeVoxelVisible(_voxels[i, j, _visibleLayersZ], false);
                         // voxels[i, j, visibleLayersZ].SetActive(false);
                     }
                 }
-                visibleLayersZ--;
+                _visibleLayersZ--;
             }
-            if (Input.GetKeyDown(KeyCode.Alpha6) && visibleLayersZ < width - 1)
+            if (Input.GetKeyDown(KeyCode.Alpha6) && _visibleLayersZ < width - 1)
             {
-                visibleLayersZ++;
-                for (int i = 0; i < visibleLayersX + 1; i++)
+                _visibleLayersZ++;
+                for (int i = 0; i < _visibleLayersX + 1; i++)
                 {
-                    for (int j = 0; j < visibleLayersY + 1; j++)
+                    for (int j = 0; j < _visibleLayersY + 1; j++)
                     {
-                        ChangeVoxelVisible(voxels[i, j, visibleLayersZ], true);
+                        ChangeVoxelVisible(_voxels[i, j, _visibleLayersZ], true);
                         // voxels[i, j, visibleLayersZ].SetActive(true);
                     }
                 }
@@ -151,12 +151,12 @@ public class VoxelManager : MonoBehaviour
     {
         if (isActivated)
         {
-            coroutineFinished = false;
+            _coroutineFinished = false;
             StartCoroutine(GrowVoxel(voxel));
         }
         else
         {
-            coroutineFinished = false;
+            _coroutineFinished = false;
             StartCoroutine(ShrinkVoxel(voxel));
         }
     }
@@ -179,12 +179,12 @@ public class VoxelManager : MonoBehaviour
             }
             yield return new WaitForSeconds(0.02f);
         }
-        coroutineFinished = true;
+        _coroutineFinished = true;
     }
 
     private IEnumerator ShrinkVoxel(GameObject voxel)
     {
-        coroutineFinished = false;
+        _coroutineFinished = false;
         bool shrink = true;
         while (shrink)
         {
@@ -201,7 +201,7 @@ public class VoxelManager : MonoBehaviour
             }
             yield return new WaitForSeconds(0.02f);
         }
-        coroutineFinished = true;
+        _coroutineFinished = true;
     }
 
     private void ManageRotations()
@@ -217,14 +217,14 @@ public class VoxelManager : MonoBehaviour
             transform.RotateAround(_target, transform.up, -timeSpeed);
         }
 
-        if (Input.GetKey(KeyCode.W) && canVerticallyRotate)
+        if (Input.GetKey(KeyCode.W) && _canVerticallyRotate)
         {
-            transform.RotateAround(_target, cameraTransform.right, timeSpeed);
+            transform.RotateAround(_target, _cameraTransform.right, timeSpeed);
         }
 
-        if (Input.GetKey(KeyCode.S) && canVerticallyRotate)
+        if (Input.GetKey(KeyCode.S) && _canVerticallyRotate)
         {
-            transform.RotateAround(_target, cameraTransform.right, -timeSpeed);
+            transform.RotateAround(_target, _cameraTransform.right, -timeSpeed);
         }
 
         if (Input.GetKeyDown(KeyCode.R))
