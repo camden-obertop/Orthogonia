@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 318102999}
   - component: {fileID: 318103000}
   m_Layer: 0
-  m_Name: Voxies
+  m_Name: Voxel Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

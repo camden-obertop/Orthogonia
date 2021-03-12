@@ -1,19 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ManageVoxel : MonoBehaviour
+public class Voxel : MonoBehaviour
 {
+    [SerializeField] private Material defaultColor;
+    [SerializeField] private Material hoverColor;
+    [SerializeField] private Material markedColor;
+    [SerializeField] private Material clearColor;
+
+    private bool _isPuzzleVoxel;
+    public bool IsPuzzleVoxel
+    {
+        get => _isPuzzleVoxel;
+        set => _isPuzzleVoxel = value;
+    }
+
     private MeshRenderer _meshRenderer;
     private bool _isHovering = false;
     private bool _cleared = false;
     private bool _marked = false;
-    
-    public Material defaultColor;
-    public Material hoverColor;
-    public Material markedColor;
-    public Material clearColor;
-    public bool isPuzzleVoxel;
 
     private void Start()
     {
@@ -41,7 +45,8 @@ public class ManageVoxel : MonoBehaviour
             {
                 _marked = false;
                 _meshRenderer.material = hoverColor;
-            } else
+            }
+            else
             {
                 _marked = true;
                 _meshRenderer.material = markedColor;
@@ -57,7 +62,8 @@ public class ManageVoxel : MonoBehaviour
             {
                 _cleared = false;
                 _meshRenderer.material = hoverColor;
-            } else
+            }
+            else
             {
                 _cleared = true;
                 _marked = false;
@@ -78,10 +84,12 @@ public class ManageVoxel : MonoBehaviour
         if (_cleared)
         {
             _meshRenderer.material = clearColor;
-        } else if (_marked)
+        }
+        else if (_marked)
         {
             _meshRenderer.material = markedColor;
-        } else
+        }
+        else
         {
             _meshRenderer.material = defaultColor;
         }
