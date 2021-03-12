@@ -3,6 +3,20 @@ using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+public struct Clue
+{
+    public Clue(bool blank, int voxelCount, int gapCount)
+    {
+        Blank = blank;
+        VoxelCount = voxelCount;
+        GapCount = gapCount;
+    }
+
+    public bool Blank;
+    public int VoxelCount;
+    public int GapCount;
+}
+
 public class VoxelManager : MonoBehaviour
 {
     [SerializeField] private int length, height, width; // length = x, height = y, width = z 
@@ -47,6 +61,11 @@ public class VoxelManager : MonoBehaviour
     {
         ManageRotations();
         ManageVisibleLayers();
+    }
+
+    private void NumberAllVoxels()
+    {
+
     }
 
     private void ManageVisibleLayers()
