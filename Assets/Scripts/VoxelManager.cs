@@ -27,6 +27,8 @@ public class VoxelManager : MonoBehaviour
 
     private int _visibleLayersX, _visibleLayersY, _visibleLayersZ;
     private GameObject[,,] _voxels;
+    private Clue[,] _frontClues, _sideClues, _topClues;
+    private bool[,,] _solution;
     private Vector3 _target = Vector3.zero;
     private Transform _cameraTransform;
     private bool _coroutineFinished = true;
@@ -37,8 +39,17 @@ public class VoxelManager : MonoBehaviour
         _visibleLayersX = length - 1;
         _visibleLayersY = height - 1;
         _visibleLayersZ = width - 1;
+
+        CreateSolution();
         InitializeVoxels();
+
         _cameraTransform = mainCamera.transform;
+
+        _frontClues = new Clue[length, height];
+        _sideClues = new Clue[width, height];
+        _topClues = new Clue[length, width];
+
+        NumberAllVoxels();
     }
 
     private void InitializeVoxels()
@@ -51,7 +62,7 @@ public class VoxelManager : MonoBehaviour
                 for (int k = 0; k < width; k++)
                 {
                     _voxels[i, j, k] = Instantiate(cube, new Vector3(i - length / 2, j - height / 2, k - width / 2), Quaternion.identity, transform);
-                    _voxels[i, j, k].GetComponent<Voxel>().IsPuzzleVoxel = Convert.ToBoolean(Random.Range(0, 2));
+                    _voxels[i, j, k].GetComponent<Voxel>().IsPuzzleVoxel = _solution[i, j, k];
                 }
             }
         }
@@ -63,9 +74,182 @@ public class VoxelManager : MonoBehaviour
         ManageVisibleLayers();
     }
 
+    private void CreateSolution()
+    {
+        _solution = new bool[length, height, width];
+
+        for (int i = 0; i < length; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                for (int k = 0; k < width; k++)
+                {
+                    _solution[i, j, k] = Convert.ToBoolean(Random.Range(0, 2));
+                }
+            }
+        }
+
+        PrintSolution();
+    }
+
+    private void PrintSolution()
+    {
+        string matrices = "Solution:";
+        for (int k = 0; k < width; k++)
+        {
+            matrices += $"\n Layer {k + 1}: \n";
+            for (int j = 0; j < height; j++)
+            {
+                matrices += "| ";
+                for (int i = 0; i < length; i++)
+                {
+                    matrices += $"{(_solution[i, j, k] ? 1 : 0)} ";
+                }
+                matrices += "|\n";
+            }
+        }
+
+        Debug.Log(matrices);
+    }
+
     private void NumberAllVoxels()
     {
+        // Populate front clues
+        for (int j = 0; j < height; j++)
+        {
+            for (int i = 0; i < length; i++)
+            {
+                int voxelCount = 0;
+                int gapCount = 0;
+                bool previousWasGap = false;
 
+                for (int k = 0; k < width; k++)
+                {
+                    if (_solution[i, j, k])
+                    {
+                        voxelCount++;
+                        previousWasGap = false;
+                    }
+                    else if (k != width - 1 && voxelCount > 0 && !previousWasGap)
+                    {
+                        gapCount++;
+                        previousWasGap = true;
+                    }
+
+                    if (k == width - 1 && voxelCount <= 1)
+                    {
+                        gapCount = 0;
+                    }
+                }
+
+                _frontClues[i, j] = new Clue(blank: false, voxelCount: voxelCount, gapCount: gapCount);
+            }
+        }
+
+        // Populate side clues
+        for (int j = 0; j < height; j++)
+        {
+            for (int k = 0; k < width; k++)
+            {
+                int voxelCount = 0;
+                int gapCount = 0;
+                bool previousWasGap = false;
+
+                for (int i = 0; i < length; i++)
+                {
+                    if (_solution[i, j, k])
+                    {
+                        voxelCount++;
+                        previousWasGap = false;
+                    }
+                    else if (i != length - 1 && voxelCount > 0 && !previousWasGap)
+                    {
+                        gapCount++;
+                        previousWasGap = true;
+                    }
+
+                    if (i == length - 1 && voxelCount <= 1)
+                    {
+                        gapCount = 0;
+                    }
+                }
+
+                _sideClues[k, j] = new Clue(blank: false, voxelCount: voxelCount, gapCount: gapCount);
+            }
+        }
+
+        // populate top clues
+        for (int k = 0; k < width; k++)
+        {
+            for (int i = 0; i < length; i++)
+            {
+                int voxelCount = 0;
+                int gapCount = 0;
+                bool previousWasGap = false;
+                bool gap = false;
+
+                for (int j = 0; j < height; j++)
+                {
+                    if (_solution[i, j, k])
+                    {
+                        voxelCount++;
+                        if (previousWasGap)
+                        {
+                            gap = true;
+                        }
+                        previousWasGap = false;
+                    }
+                    else if (j != height - 1 && voxelCount > 0 && !previousWasGap)
+                    {
+                        gapCount++;
+                        previousWasGap = true;
+                    }
+
+                    if (j == height - 1 && !gap)
+                    {
+                        gapCount = 0;
+                    }
+                }
+
+                _topClues[i, k] = new Clue(blank: false, voxelCount: voxelCount, gapCount: gapCount);
+            }
+        }
+
+        string frontcluesstring = "front clues:\n";
+        for (int j = 0; j < height; j++)
+        {
+            frontcluesstring += "| ";
+            for (int i = 0; i < length; i++)
+            {
+                frontcluesstring += $"({_frontClues[i, j].VoxelCount}^{_frontClues[i, j].GapCount}) ";
+            }
+            frontcluesstring += "|\n";
+        }
+        Debug.Log(frontcluesstring);
+
+        string sidecluesstring = "side clues:\n";
+        for (int j = 0; j < height; j++)
+        {
+            sidecluesstring += "| ";
+            for (int k = 0; k < width; k++)
+            {
+                sidecluesstring += $"({_sideClues[k, j].VoxelCount}^{_sideClues[k, j].GapCount}) ";
+            }
+            sidecluesstring += "|\n";
+        }
+        Debug.Log(sidecluesstring);
+
+        string topcluesstring = "top clues:\n";
+        for (int k = width - 1; k >= 0; k--)
+        {
+            topcluesstring += "| ";
+            for (int i = 0; i < length; i++)
+            {
+                topcluesstring += $"({_topClues[i, k].VoxelCount}^{_topClues[i, k].GapCount}) ";
+            }
+            topcluesstring += "|\n";
+        }
+        Debug.Log(topcluesstring);
     }
 
     private void ManageVisibleLayers()

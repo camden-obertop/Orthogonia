@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Voxel : MonoBehaviour
@@ -45,8 +47,7 @@ public class Voxel : MonoBehaviour
             {
                 _marked = false;
                 _meshRenderer.material = hoverColor;
-            }
-            else
+            } else
             {
                 _marked = true;
                 _meshRenderer.material = markedColor;
@@ -62,8 +63,7 @@ public class Voxel : MonoBehaviour
             {
                 _cleared = false;
                 _meshRenderer.material = hoverColor;
-            }
-            else
+            } else
             {
                 _cleared = true;
                 _marked = false;
@@ -84,12 +84,10 @@ public class Voxel : MonoBehaviour
         if (_cleared)
         {
             _meshRenderer.material = clearColor;
-        }
-        else if (_marked)
+        } else if (_marked)
         {
             _meshRenderer.material = markedColor;
-        }
-        else
+        } else
         {
             _meshRenderer.material = defaultColor;
         }
