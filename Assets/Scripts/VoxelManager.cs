@@ -5,6 +5,12 @@ using Random = UnityEngine.Random;
 
 public class VoxelManager : MonoBehaviour
 {
+    public enum GameMode {
+        Build,
+        Destroy,
+        Mark,
+    }
+
     [SerializeField] private int length, height, width; // length = x, height = y, width = z 
     [SerializeField] private float rotateSpeed;
 
@@ -17,6 +23,12 @@ public class VoxelManager : MonoBehaviour
     private Transform _cameraTransform;
     private bool _coroutineFinished = true;
     private bool _canVerticallyRotate = true;
+
+    private GameMode _currentGameMode = GameMode.Mark;
+    public GameMode CurrentGameMode {
+        get => _currentGameMode;
+        set => _currentGameMode = value;
+    }
 
     private void Start()
     {
@@ -38,6 +50,7 @@ public class VoxelManager : MonoBehaviour
                 {
                     _voxels[i, j, k] = Instantiate(cube, new Vector3(i - length / 2, j - height / 2, k - width / 2), Quaternion.identity, transform);
                     _voxels[i, j, k].GetComponent<Voxel>().IsPuzzleVoxel = Convert.ToBoolean(Random.Range(0, 2));
+                    _voxels[i, j, k].GetComponent<Voxel>().Manager = this;
                 }
             }
         }
@@ -47,6 +60,47 @@ public class VoxelManager : MonoBehaviour
     {
         ManageRotations();
         ManageVisibleLayers();
+        ManageMode();
+    }
+
+    private void ManageMode() {
+        GameMode newGameMode;
+        if (Input.GetKeyDown(KeyCode.Z)) {
+            newGameMode = GameMode.Build;
+            if (_currentGameMode != newGameMode) {
+                _currentGameMode = newGameMode;
+                MakeBuildable();
+                Debug.Log("Build");
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.X)) {
+            newGameMode = GameMode.Destroy;
+            if (_currentGameMode != newGameMode) {
+                _currentGameMode = newGameMode;
+                Debug.Log("Destroy");
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.C)) {
+            newGameMode = GameMode.Mark;
+            if (_currentGameMode != newGameMode) {
+                _currentGameMode = newGameMode;
+                Debug.Log("Mark");
+            }
+        }
+    }
+
+    private void MakeBuildable() {
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < height; j++) {
+                for (int k = 0; k < width; k++) {
+                    GameObject currentVoxel = _voxels[i, j, k];
+                    if (!currentVoxel.activeSelf) {
+                        Debug.Log(currentVoxel);
+                        currentVoxel.SetActive(true);
+                    }
+                }
+            }
+        }
     }
 
     private void ManageVisibleLayers()
