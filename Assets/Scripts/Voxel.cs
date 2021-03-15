@@ -28,7 +28,7 @@ public class Voxel : MonoBehaviour
     [SerializeField] private HintText leftSideHint;
     [SerializeField] private HintText bottomHint;
 
-    private bool _isPuzzleVoxel;
+    [SerializeField] private bool _isPuzzleVoxel;
     public bool IsPuzzleVoxel
     {
         get => _isPuzzleVoxel;
@@ -40,18 +40,14 @@ public class Voxel : MonoBehaviour
     private bool _cleared = false;
     private bool _marked = false;
 
-    private HintText[] hints = new HintText[6];
+    private HintText[] _hints = new HintText[6];
+    private bool _hintArraySet;
 
     private void Start()
     {
         _meshRenderer = GetComponent<MeshRenderer>();
 
-        hints[0] = frontHint;
-        hints[1] = rightSideHint;
-        hints[2] = topHint;
-        hints[3] = rearHint;
-        hints[4] = leftSideHint;
-        hints[5] = bottomHint;
+        SetHintArray();
     }
 
     private void Update()
@@ -69,7 +65,22 @@ public class Voxel : MonoBehaviour
 
     public void SetSideText(VoxelSide side, int voxelCount, int gapCount)
     {
-        hints[(int)side].SetHintText(voxelCount, gapCount);
+        SetHintArray();
+        _hints[(int)side].SetHintText(voxelCount, gapCount);
+    }
+
+    private void SetHintArray()
+    {
+        if (!_hintArraySet)
+        {
+            _hintArraySet = true;
+            _hints[0] = frontHint;
+            _hints[1] = rightSideHint;
+            _hints[2] = topHint;
+            _hints[3] = rearHint;
+            _hints[4] = leftSideHint;
+            _hints[5] = bottomHint;
+        }
     }
 
     private void MarkVoxel()

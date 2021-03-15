@@ -95,10 +95,10 @@ public class VoxelManager : MonoBehaviour
     private void PrintSolution()
     {
         string matrices = "Solution:";
-        for (int k = 0; k < width; k++)
+        for (int k = width - 1; k >= 0; k--)
         {
             matrices += $"\n Layer {k + 1}: \n";
-            for (int j = 0; j < height; j++)
+            for (int j = height - 1; j >= 0; j--)
             {
                 matrices += "| ";
                 for (int i = 0; i < length; i++)
@@ -143,6 +143,8 @@ public class VoxelManager : MonoBehaviour
                 }
 
                 _frontClues[i, j] = new Clue(blank: false, voxelCount: voxelCount, gapCount: gapCount);
+                _voxels[i, j, 0].GetComponent<Voxel>().SetSideText(VoxelSide.Front, voxelCount, gapCount);
+                _voxels[i, j, width - 1].GetComponent<Voxel>().SetSideText(VoxelSide.Rear, voxelCount, gapCount);
             }
         }
 
@@ -175,6 +177,8 @@ public class VoxelManager : MonoBehaviour
                 }
 
                 _sideClues[k, j] = new Clue(blank: false, voxelCount: voxelCount, gapCount: gapCount);
+                _voxels[0, j, k].GetComponent<Voxel>().SetSideText(VoxelSide.LeftSide, voxelCount, gapCount);
+                _voxels[length - 1, j, k].GetComponent<Voxel>().SetSideText(VoxelSide.RightSide, voxelCount, gapCount);
             }
         }
 
@@ -212,44 +216,46 @@ public class VoxelManager : MonoBehaviour
                 }
 
                 _topClues[i, k] = new Clue(blank: false, voxelCount: voxelCount, gapCount: gapCount);
+                _voxels[i, 0, k].GetComponent<Voxel>().SetSideText(VoxelSide.Top, voxelCount, gapCount);
+                _voxels[i, height - 1, k].GetComponent<Voxel>().SetSideText(VoxelSide.Bottom, voxelCount, gapCount);
             }
         }
 
-        string frontcluesstring = "front clues:\n";
-        for (int j = 0; j < height; j++)
+        string frontCluesString = "front clues:\n";
+        for (int j = height - 1; j >= 0; j--)
         {
-            frontcluesstring += "| ";
-            for (int i = 0; i < length; i++)
+            frontCluesString += "| ";
+            for (int i = length - 1; i >= 0; i--)
             {
-                frontcluesstring += $"({_frontClues[i, j].VoxelCount}^{_frontClues[i, j].GapCount}) ";
+                frontCluesString += $"({_frontClues[i, j].VoxelCount}^{_frontClues[i, j].GapCount}) ";
             }
-            frontcluesstring += "|\n";
+            frontCluesString += "|\n";
         }
-        Debug.Log(frontcluesstring);
+        Debug.Log(frontCluesString);
 
-        string sidecluesstring = "side clues:\n";
-        for (int j = 0; j < height; j++)
+        string sideCluesString = "side clues:\n";
+        for (int j = height - 1; j >= 0; j--)
         {
-            sidecluesstring += "| ";
-            for (int k = 0; k < width; k++)
+            sideCluesString += "| ";
+            for (int k = width - 1; k >= 0; k--)
             {
-                sidecluesstring += $"({_sideClues[k, j].VoxelCount}^{_sideClues[k, j].GapCount}) ";
+                sideCluesString += $"({_sideClues[k, j].VoxelCount}^{_sideClues[k, j].GapCount}) ";
             }
-            sidecluesstring += "|\n";
+            sideCluesString += "|\n";
         }
-        Debug.Log(sidecluesstring);
+        Debug.Log(sideCluesString);
 
-        string topcluesstring = "top clues:\n";
-        for (int k = width - 1; k >= 0; k--)
+        string topCluesString = "top clues:\n";
+        for (int k = 0; k < width; k++)
         {
-            topcluesstring += "| ";
-            for (int i = 0; i < length; i++)
+            topCluesString += "| ";
+            for (int i = length - 1; i >= 0; i--)
             {
-                topcluesstring += $"({_topClues[i, k].VoxelCount}^{_topClues[i, k].GapCount}) ";
+                topCluesString += $"({_topClues[i, k].VoxelCount}^{_topClues[i, k].GapCount}) ";
             }
-            topcluesstring += "|\n";
+            topCluesString += "|\n";
         }
-        Debug.Log(topcluesstring);
+        Debug.Log(topCluesString);
     }
 
     private void ManageVisibleLayers()

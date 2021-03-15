@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4262617953620797728}
   - component: {fileID: 5994583896203523837}
   m_Layer: 0
-  m_Name: Bottom Gap Hint Text
+  m_Name: Top Gap Hint Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 2932055077849374395}
   - component: {fileID: 2211927817260729208}
   m_Layer: 0
-  m_Name: Front Gap Hint Text
+  m_Name: Rear Gap Hint Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -280,7 +280,7 @@ GameObject:
   - component: {fileID: 8798554116269279878}
   - component: {fileID: 1580954727627375419}
   m_Layer: 0
-  m_Name: Front Voxel Hint Text
+  m_Name: Rear Voxel Hint Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -416,7 +416,7 @@ GameObject:
   - component: {fileID: 5586134928443793653}
   - component: {fileID: 5920578554439465820}
   m_Layer: 0
-  m_Name: Left Side Canvas
+  m_Name: Right Side Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -436,7 +436,7 @@ RectTransform:
   - {fileID: 4611149403217237041}
   - {fileID: 3322716713864389422}
   m_Father: {fileID: 6549536629210668782}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -530,7 +530,7 @@ GameObject:
   - component: {fileID: 5211332659007880596}
   - component: {fileID: 6052376084002112097}
   m_Layer: 0
-  m_Name: Back Voxel Hint Text
+  m_Name: Front Voxel Hint Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -664,7 +664,7 @@ GameObject:
   - component: {fileID: 2671730805827783446}
   - component: {fileID: 9177073184138274230}
   m_Layer: 0
-  m_Name: Left Side Voxel Hint Text
+  m_Name: Right Side Voxel Hint Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -798,7 +798,7 @@ GameObject:
   - component: {fileID: 8504734168912711794}
   - component: {fileID: 8998054558720058182}
   m_Layer: 0
-  m_Name: Top Voxel Hint Text
+  m_Name: Bottom Voxel Hint Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -932,7 +932,7 @@ GameObject:
   - component: {fileID: 6683671383443425381}
   - component: {fileID: 8766540468372103476}
   m_Layer: 0
-  m_Name: Top Gap Hint Text
+  m_Name: Bottom Gap Hint Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1068,7 +1068,7 @@ GameObject:
   - component: {fileID: 8657631804620417610}
   - component: {fileID: 3879213630739027967}
   m_Layer: 0
-  m_Name: Right Side Canvas
+  m_Name: Left Side Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1088,7 +1088,7 @@ RectTransform:
   - {fileID: 212543060783969447}
   - {fileID: 4579213690630598196}
   m_Father: {fileID: 6549536629210668782}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1182,7 +1182,7 @@ GameObject:
   - component: {fileID: 7336622993508341717}
   - component: {fileID: 5312130102383729202}
   m_Layer: 0
-  m_Name: Right Side Voxel Hint Text
+  m_Name: Left Side Voxel Hint Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1316,7 +1316,7 @@ GameObject:
   - component: {fileID: 1753267303086079354}
   - component: {fileID: 7484609351585372618}
   m_Layer: 0
-  m_Name: Left Gap Hint Text
+  m_Name: Right Gap Hint Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1452,7 +1452,7 @@ GameObject:
   - component: {fileID: 6663161716765598163}
   - component: {fileID: 8892446232949199425}
   m_Layer: 0
-  m_Name: Bottom Canvas
+  m_Name: Top Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1472,7 +1472,7 @@ RectTransform:
   - {fileID: 7716077779976315475}
   - {fileID: 3068780271211722180}
   m_Father: {fileID: 6549536629210668782}
-  m_RootOrder: 5
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 90, y: 180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1568,7 +1568,7 @@ GameObject:
   - component: {fileID: 4218922097031407557}
   - component: {fileID: 2712936769909468335}
   m_Layer: 0
-  m_Name: Rear Canvas
+  m_Name: Front Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1588,7 +1588,7 @@ RectTransform:
   - {fileID: 5573915340897612889}
   - {fileID: 5524389324458731537}
   m_Father: {fileID: 6549536629210668782}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1701,12 +1701,12 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4075797733224412098}
   - {fileID: 7073131280403645410}
   - {fileID: 3806032414744781308}
+  - {fileID: 7131572323894768515}
+  - {fileID: 4075797733224412098}
   - {fileID: 8265013232038043932}
   - {fileID: 1279886004013610583}
-  - {fileID: 7131572323894768515}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1788,12 +1788,12 @@ MonoBehaviour:
   hoverColor: {fileID: 2100000, guid: 658428a2558ba464daebaa73f9473fb3, type: 2}
   markedColor: {fileID: 2100000, guid: 741448c2d7cfd4e4499e681230988c8d, type: 2}
   clearColor: {fileID: 2100000, guid: ab71d0cbe67e8f2458f7f1695cae47e8, type: 2}
-  frontHint: {fileID: 0}
-  rightSideHint: {fileID: 0}
-  topHint: {fileID: 0}
-  rearHint: {fileID: 0}
-  leftSideHint: {fileID: 0}
-  bottomHint: {fileID: 0}
+  frontHint: {fileID: 2712936769909468335}
+  rightSideHint: {fileID: 5920578554439465820}
+  topHint: {fileID: 8892446232949199425}
+  rearHint: {fileID: 2279719118499788103}
+  leftSideHint: {fileID: 3879213630739027967}
+  bottomHint: {fileID: 455951167860782246}
 --- !u!1 &7588034269981024287
 GameObject:
   m_ObjectHideFlags: 0
@@ -1808,7 +1808,7 @@ GameObject:
   - component: {fileID: 2283248153477897188}
   - component: {fileID: 455951167860782246}
   m_Layer: 0
-  m_Name: Top Canvas
+  m_Name: Bottom Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1828,7 +1828,7 @@ RectTransform:
   - {fileID: 5144106434236885119}
   - {fileID: 1389611622729088415}
   m_Father: {fileID: 6549536629210668782}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 90, y: -180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1922,7 +1922,7 @@ GameObject:
   - component: {fileID: 7911437003632032670}
   - component: {fileID: 1305094017875098017}
   m_Layer: 0
-  m_Name: Right Gap Hint Text
+  m_Name: Left Gap Hint Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2056,7 +2056,7 @@ GameObject:
   - component: {fileID: 159366226411279862}
   - component: {fileID: 780364531550800387}
   m_Layer: 0
-  m_Name: Back Gap Hint Text
+  m_Name: Front Gap Hint Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2190,7 +2190,7 @@ GameObject:
   - component: {fileID: 2371544523531375947}
   - component: {fileID: 2113488433376796683}
   m_Layer: 0
-  m_Name: Bottom Voxel Hint Text
+  m_Name: Top Voxel Hint Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2326,7 +2326,7 @@ GameObject:
   - component: {fileID: 2928271199616873597}
   - component: {fileID: 2279719118499788103}
   m_Layer: 0
-  m_Name: Front Canvas
+  m_Name: Rear Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2346,7 +2346,7 @@ RectTransform:
   - {fileID: 4203649321603641240}
   - {fileID: 6726227491528650162}
   m_Father: {fileID: 6549536629210668782}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
