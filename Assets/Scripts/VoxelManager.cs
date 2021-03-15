@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using UnityEngine.UI;
 
 public class VoxelManager : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public class VoxelManager : MonoBehaviour
 
     [SerializeField] private GameObject mainCamera;
     [SerializeField] private GameObject cube;
+    [SerializeField] private GameObject sphere;
+
+    [SerializeField] private Text _modeText;
 
     private int _visibleLayersX, _visibleLayersY, _visibleLayersZ;
     private GameObject[,,] _voxels;
@@ -37,6 +41,7 @@ public class VoxelManager : MonoBehaviour
         _visibleLayersZ = width - 1;
         InitializeVoxels();
         _cameraTransform = mainCamera.transform;
+        _modeText.text = "Mode: Mark";
     }
 
     private void InitializeVoxels()
@@ -69,22 +74,24 @@ public class VoxelManager : MonoBehaviour
             newGameMode = GameMode.Build;
             if (_currentGameMode != newGameMode) {
                 _currentGameMode = newGameMode;
+                _modeText.text = "Mode: Build";
                 MakeBuildable();
-                Debug.Log("Build");
             }
         }
         if (Input.GetKeyDown(KeyCode.X)) {
             newGameMode = GameMode.Destroy;
             if (_currentGameMode != newGameMode) {
                 _currentGameMode = newGameMode;
-                Debug.Log("Destroy");
+                _modeText.text = "Mode: Destroy";
+                MakeDestroyable();
             }
         }
         if (Input.GetKeyDown(KeyCode.C)) {
             newGameMode = GameMode.Mark;
             if (_currentGameMode != newGameMode) {
                 _currentGameMode = newGameMode;
-                Debug.Log("Mark");
+                _modeText.text = "Mode: Mark";
+                MakeMarkable();
             }
         }
     }
@@ -94,9 +101,35 @@ public class VoxelManager : MonoBehaviour
             for (int j = 0; j < height; j++) {
                 for (int k = 0; k < width; k++) {
                     GameObject currentVoxel = _voxels[i, j, k];
-                    if (!currentVoxel.activeSelf) {
+                    if (!currentVoxel.GetComponent<Voxel>().IsVisible) {
                         Debug.Log(currentVoxel);
                         currentVoxel.SetActive(true);
+                    }
+                }
+            }
+        }
+    }
+
+    private void MakeDestroyable() {
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < height; j++) {
+                for (int k = 0; k < width; k++) {
+                    GameObject currentVoxel = _voxels[i, j, k];
+                    if (!currentVoxel.GetComponent<Voxel>().IsVisible) {
+                        currentVoxel.SetActive(false);
+                    }
+                }
+            }
+        }
+    }
+
+    private void MakeMarkable() {
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < height; j++) {
+                for (int k = 0; k < width; k++) {
+                    GameObject currentVoxel = _voxels[i, j, k];
+                    if (!currentVoxel.GetComponent<Voxel>().IsVisible) {
+                        currentVoxel.SetActive(false);
                     }
                 }
             }

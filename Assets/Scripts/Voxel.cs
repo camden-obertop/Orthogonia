@@ -44,6 +44,10 @@ public class Voxel : MonoBehaviour {
     {
         if (_isHovering && Input.GetMouseButtonDown(0))
         {
+            if (_manager.CurrentGameMode == VoxelManager.GameMode.Build) {
+                BuildVoxel();
+            }
+
             if (_manager.CurrentGameMode == VoxelManager.GameMode.Destroy) {
                 ClearVoxel();
             }
@@ -51,6 +55,17 @@ public class Voxel : MonoBehaviour {
             if (_manager.CurrentGameMode == VoxelManager.GameMode.Mark) {
                 MarkVoxel();
             }
+        }
+    }
+
+    private void GameModeChanged() {
+
+    }
+
+    private void BuildVoxel() {
+        if (!_isVisible) {
+            _isVisible = true;
+            _meshRenderer.material = hoverColor;
         }
     }
 
