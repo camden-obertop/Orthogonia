@@ -2,12 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum VoxelSide
+{
+    Front = 0,
+    RightSide = 1,
+    Top = 2,
+    Rear = 3,
+    LeftSide = 4,
+    Bottom = 5
+}
+
 public class Voxel : MonoBehaviour
 {
+    [Header("Materials")]
     [SerializeField] private Material defaultColor;
     [SerializeField] private Material hoverColor;
     [SerializeField] private Material markedColor;
     [SerializeField] private Material clearColor;
+
+    [Header("Texts")]
+    [SerializeField] private HintText frontHint;
+    [SerializeField] private HintText rightSideHint;
+    [SerializeField] private HintText topHint;
+    [SerializeField] private HintText rearHint;
+    [SerializeField] private HintText leftSideHint;
+    [SerializeField] private HintText bottomHint;
 
     private bool _isPuzzleVoxel;
     public bool IsPuzzleVoxel
@@ -21,9 +40,18 @@ public class Voxel : MonoBehaviour
     private bool _cleared = false;
     private bool _marked = false;
 
+    private HintText[] hints = new HintText[6];
+
     private void Start()
     {
         _meshRenderer = GetComponent<MeshRenderer>();
+
+        hints[0] = frontHint;
+        hints[1] = rightSideHint;
+        hints[2] = topHint;
+        hints[3] = rearHint;
+        hints[4] = leftSideHint;
+        hints[5] = bottomHint;
     }
 
     private void Update()
@@ -37,6 +65,11 @@ public class Voxel : MonoBehaviour
         {
             MarkVoxel();
         }
+    }
+
+    public void SetSideText(VoxelSide side, int voxelCount, int gapCount)
+    {
+        hints[(int)side].SetHintText(voxelCount, gapCount);
     }
 
     private void MarkVoxel()
