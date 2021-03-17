@@ -31,9 +31,15 @@ public class Voxel : MonoBehaviour {
         get => _manager;
         set => _manager = value;
     }
+    
+    private bool _isHovering = false;
+    public bool IsHovering
+    {
+        get => _isHovering;
+        set => _isHovering = value;
+    }
 
     private MeshRenderer _meshRenderer;
-    private bool _isHovering = false;
 
     private void Start()
     {
@@ -56,10 +62,6 @@ public class Voxel : MonoBehaviour {
                 MarkVoxel();
             }
         }
-    }
-
-    private void GameModeChanged() {
-
     }
 
     private void BuildVoxel() {

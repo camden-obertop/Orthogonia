@@ -319,6 +319,7 @@ MonoBehaviour:
   cube: {fileID: 6549536629210668778, guid: 0b99d12d87ba2354a89eb9d28c8b62a6, type: 3}
   sphere: {fileID: 8958119763698766172, guid: b9597df70f1e9c24ebaa3a68794ba303, type: 3}
   _modeText: {fileID: 10333788}
+  _clearMaterial: {fileID: 2100000, guid: ab71d0cbe67e8f2458f7f1695cae47e8, type: 2}
 --- !u!1 &1124232418
 GameObject:
   m_ObjectHideFlags: 0

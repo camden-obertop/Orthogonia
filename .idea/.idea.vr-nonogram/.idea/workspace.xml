@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cd9c8882-5323-4112-8547-d2753f20897a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.vr-nonogram/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.vr-nonogram/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SpawnVoxels.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SpawnVoxels.cs" afterDir="false" />
-    </list>
+    <list default="true" id="cd9c8882-5323-4112-8547-d2753f20897a" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,6 +18,8 @@
       <option value="$PROJECT_DIR$/Assets/Scripts/ManageVoxel.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/CameraController.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/SpawnVoxels.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/VoxelManager.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Voxel.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1pBCdHsFACWOdidjLv7MfcZ4hz9" />
@@ -69,6 +68,7 @@
       <workItem from="1614650064453" duration="904000" />
       <workItem from="1614657799011" duration="3359000" />
       <workItem from="1614981612485" duration="4264000" />
+      <workItem from="1615952592955" duration="1770000" />
     </task>
     <servers />
   </component>
@@ -87,6 +87,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />

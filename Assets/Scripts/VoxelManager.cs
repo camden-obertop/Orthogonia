@@ -20,6 +20,7 @@ public class VoxelManager : MonoBehaviour
     [SerializeField] private GameObject sphere;
 
     [SerializeField] private Text _modeText;
+    [SerializeField] private Material _clearMaterial;
 
     private int _visibleLayersX, _visibleLayersY, _visibleLayersZ;
     private GameObject[,,] _voxels;
@@ -102,8 +103,9 @@ public class VoxelManager : MonoBehaviour
                 for (int k = 0; k < width; k++) {
                     GameObject currentVoxel = _voxels[i, j, k];
                     if (!currentVoxel.GetComponent<Voxel>().IsVisible) {
-                        Debug.Log(currentVoxel);
                         currentVoxel.SetActive(true);
+                        currentVoxel.GetComponent<MeshRenderer>().material = _clearMaterial;
+                        currentVoxel.GetComponent<Voxel>().IsHovering = false;
                     }
                 }
             }
@@ -117,6 +119,7 @@ public class VoxelManager : MonoBehaviour
                     GameObject currentVoxel = _voxels[i, j, k];
                     if (!currentVoxel.GetComponent<Voxel>().IsVisible) {
                         currentVoxel.SetActive(false);
+                        currentVoxel.GetComponent<Voxel>().IsHovering = false;
                     }
                 }
             }
@@ -130,6 +133,7 @@ public class VoxelManager : MonoBehaviour
                     GameObject currentVoxel = _voxels[i, j, k];
                     if (!currentVoxel.GetComponent<Voxel>().IsVisible) {
                         currentVoxel.SetActive(false);
+                        currentVoxel.GetComponent<Voxel>().IsHovering = false;
                     }
                 }
             }
