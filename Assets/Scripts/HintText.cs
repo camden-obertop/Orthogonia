@@ -10,7 +10,7 @@ public class HintText : MonoBehaviour
     public void SetHintText(int voxelCount, int gapCount)
     {
         voxelCountHintText.text = voxelCount.ToString();
-        gapCountHintText.text = gapCount.ToString();
+        gapCountHintText.text = gapCount > 0 ? gapCount.ToString() : String.Empty;
     }
 
     public void ClearHintText()

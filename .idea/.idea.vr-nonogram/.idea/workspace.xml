@@ -20,12 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cd9c8882-5323-4112-8547-d2753f20897a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.vr-nonogram/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.vr-nonogram/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Jaden Scene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Jaden Scene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/HintText.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/HintText.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Voxel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Voxel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/VoxelManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/VoxelManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,8 +37,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Assets/Scripts/Voxel.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/HintText.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/VoxelManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/HintText.cs" />
       </list>
     </option>
   </component>
@@ -94,7 +89,7 @@
       <workItem from="1614657799011" duration="3359000" />
       <workItem from="1614981612485" duration="4264000" />
       <workItem from="1615868229000" duration="754000" />
-      <workItem from="1615963811878" duration="2576000" />
+      <workItem from="1615963811878" duration="2908000" />
     </task>
     <servers />
   </component>
