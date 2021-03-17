@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum VoxelSide
@@ -14,14 +12,12 @@ public enum VoxelSide
 
 public class Voxel : MonoBehaviour
 {
-    [Header("Materials")]
-    [SerializeField] private Material defaultColor;
+    [Header("Materials")] [SerializeField] private Material defaultColor;
     [SerializeField] private Material hoverColor;
     [SerializeField] private Material markedColor;
     [SerializeField] private Material clearColor;
 
-    [Header("Texts")]
-    [SerializeField] private HintText frontHint;
+    [Header("Texts")] [SerializeField] private HintText frontHint;
     [SerializeField] private HintText rightSideHint;
     [SerializeField] private HintText topHint;
     [SerializeField] private HintText rearHint;
@@ -29,6 +25,7 @@ public class Voxel : MonoBehaviour
     [SerializeField] private HintText bottomHint;
 
     [SerializeField] private bool _isPuzzleVoxel;
+
     public bool IsPuzzleVoxel
     {
         get => _isPuzzleVoxel;
@@ -36,26 +33,31 @@ public class Voxel : MonoBehaviour
     }
 
     private bool _isVisible = true;
-    public bool IsVisible {
+
+    public bool IsVisible
+    {
         get => _isVisible;
         set => _isVisible = value;
     }
 
-    private bool _isMarked = false;
-    public bool IsMarked 
+    private bool _isMarked;
+
+    public bool IsMarked
     {
         get => _isMarked;
         set => _isMarked = value;
     }
 
     private VoxelManager _manager;
-    public VoxelManager Manager 
+
+    public VoxelManager Manager
     {
         get => _manager;
         set => _manager = value;
     }
-    
-    private bool _isHovering = false;
+
+    private bool _isHovering;
+
     public bool IsHovering
     {
         get => _isHovering;
@@ -78,22 +80,27 @@ public class Voxel : MonoBehaviour
     {
         if (_isHovering && Input.GetMouseButtonDown(0))
         {
-            if (_manager.CurrentGameMode == VoxelManager.GameMode.Build) {
+            if (_manager.CurrentGameMode == VoxelManager.GameMode.Build)
+            {
                 BuildVoxel();
             }
 
-            if (_manager.CurrentGameMode == VoxelManager.GameMode.Destroy) {
+            if (_manager.CurrentGameMode == VoxelManager.GameMode.Destroy)
+            {
                 ClearVoxel();
             }
 
-            if (_manager.CurrentGameMode == VoxelManager.GameMode.Mark) {
+            if (_manager.CurrentGameMode == VoxelManager.GameMode.Mark)
+            {
                 MarkVoxel();
             }
         }
     }
 
-    private void BuildVoxel() {
-        if (!_isVisible) {
+    private void BuildVoxel()
+    {
+        if (!_isVisible)
+        {
             _isVisible = true;
             _meshRenderer.material = hoverColor;
         }
@@ -102,7 +109,7 @@ public class Voxel : MonoBehaviour
     public void SetSideText(VoxelSide side, int voxelCount, int gapCount)
     {
         SetHintArray();
-        _hints[(int)side].SetHintText(voxelCount, gapCount);
+        _hints[(int) side].SetHintText(voxelCount, gapCount);
     }
 
     private void SetHintArray()
@@ -127,7 +134,8 @@ public class Voxel : MonoBehaviour
             {
                 _isMarked = false;
                 _meshRenderer.material = hoverColor;
-            } else
+            }
+            else
             {
                 _isMarked = true;
                 _meshRenderer.material = markedColor;
@@ -137,23 +145,13 @@ public class Voxel : MonoBehaviour
 
     private void ClearVoxel()
     {
+        foreach (HintText hint in _hints)
+        {
+            hint.gameObject.SetActive(_isVisible);
+        }
+
         if (!_isVisible)
         {
-            foreach (HintText hint in _hints)
-            {
-                hint.gameObject.SetActive(_cleared);
-            }
-            
-            if (_cleared)
-            {
-                _cleared = false;
-                _meshRenderer.material = hoverColor;
-            } else
-            {
-                _cleared = true;
-                _marked = false;
-                _meshRenderer.material = clearColor;
-            }
             _isVisible = true;
             _meshRenderer.material = hoverColor;
         }
@@ -182,7 +180,8 @@ public class Voxel : MonoBehaviour
         else if (_isMarked)
         {
             _meshRenderer.material = markedColor;
-        } else
+        }
+        else
         {
             _meshRenderer.material = defaultColor;
         }

@@ -20,7 +20,8 @@ public struct Clue
 
 public class VoxelManager : MonoBehaviour
 {
-    public enum GameMode {
+    public enum GameMode
+    {
         Build,
         Destroy,
         Mark,
@@ -46,7 +47,9 @@ public class VoxelManager : MonoBehaviour
     private bool _canVerticallyRotate = true;
 
     private GameMode _currentGameMode = GameMode.Mark;
-    public GameMode CurrentGameMode {
+
+    public GameMode CurrentGameMode
+    {
         get => _currentGameMode;
         set => _currentGameMode = value;
     }
@@ -79,7 +82,8 @@ public class VoxelManager : MonoBehaviour
             {
                 for (int k = 0; k < width; k++)
                 {
-                    _voxels[i, j, k] = Instantiate(cube, new Vector3(i - length / 2, j - height / 2, k - width / 2), Quaternion.identity, transform);
+                    _voxels[i, j, k] = Instantiate(cube, new Vector3(i - length / 2, j - height / 2, k - width / 2),
+                        Quaternion.identity, transform);
                     _voxels[i, j, k].GetComponent<Voxel>().IsPuzzleVoxel = _solution[i, j, k];
                     _voxels[i, j, k].GetComponent<Voxel>().Manager = this;
                 }
@@ -94,27 +98,36 @@ public class VoxelManager : MonoBehaviour
         ManageMode();
     }
 
-    private void ManageMode() {
+    private void ManageMode()
+    {
         GameMode newGameMode;
-        if (Input.GetKeyDown(KeyCode.Z)) {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
             newGameMode = GameMode.Build;
-            if (_currentGameMode != newGameMode) {
+            if (_currentGameMode != newGameMode)
+            {
                 _currentGameMode = newGameMode;
                 _modeText.text = "Mode: Build";
                 MakeBuildable();
             }
         }
-        if (Input.GetKeyDown(KeyCode.X)) {
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
             newGameMode = GameMode.Destroy;
-            if (_currentGameMode != newGameMode) {
+            if (_currentGameMode != newGameMode)
+            {
                 _currentGameMode = newGameMode;
                 _modeText.text = "Mode: Destroy";
                 MakeDestroyable();
             }
         }
-        if (Input.GetKeyDown(KeyCode.C)) {
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
             newGameMode = GameMode.Mark;
-            if (_currentGameMode != newGameMode) {
+            if (_currentGameMode != newGameMode)
+            {
                 _currentGameMode = newGameMode;
                 _modeText.text = "Mode: Mark";
                 MakeMarkable();
@@ -122,12 +135,17 @@ public class VoxelManager : MonoBehaviour
         }
     }
 
-    private void MakeBuildable() {
-        for (int i = 0; i < length; i++) {
-            for (int j = 0; j < height; j++) {
-                for (int k = 0; k < width; k++) {
+    private void MakeBuildable()
+    {
+        for (int i = 0; i < length; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                for (int k = 0; k < width; k++)
+                {
                     GameObject currentVoxel = _voxels[i, j, k];
-                    if (!currentVoxel.GetComponent<Voxel>().IsVisible) {
+                    if (!currentVoxel.GetComponent<Voxel>().IsVisible)
+                    {
                         currentVoxel.SetActive(true);
                         currentVoxel.GetComponent<MeshRenderer>().material = _clearMaterial;
                         currentVoxel.GetComponent<Voxel>().IsHovering = false;
@@ -137,12 +155,17 @@ public class VoxelManager : MonoBehaviour
         }
     }
 
-    private void MakeDestroyable() {
-        for (int i = 0; i < length; i++) {
-            for (int j = 0; j < height; j++) {
-                for (int k = 0; k < width; k++) {
+    private void MakeDestroyable()
+    {
+        for (int i = 0; i < length; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                for (int k = 0; k < width; k++)
+                {
                     GameObject currentVoxel = _voxels[i, j, k];
-                    if (!currentVoxel.GetComponent<Voxel>().IsVisible) {
+                    if (!currentVoxel.GetComponent<Voxel>().IsVisible)
+                    {
                         currentVoxel.SetActive(false);
                         currentVoxel.GetComponent<Voxel>().IsHovering = false;
                     }
@@ -151,12 +174,17 @@ public class VoxelManager : MonoBehaviour
         }
     }
 
-    private void MakeMarkable() {
-        for (int i = 0; i < length; i++) {
-            for (int j = 0; j < height; j++) {
-                for (int k = 0; k < width; k++) {
+    private void MakeMarkable()
+    {
+        for (int i = 0; i < length; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                for (int k = 0; k < width; k++)
+                {
                     GameObject currentVoxel = _voxels[i, j, k];
-                    if (!currentVoxel.GetComponent<Voxel>().IsVisible) {
+                    if (!currentVoxel.GetComponent<Voxel>().IsVisible)
+                    {
                         currentVoxel.SetActive(false);
                         currentVoxel.GetComponent<Voxel>().IsHovering = false;
                     }
@@ -196,6 +224,7 @@ public class VoxelManager : MonoBehaviour
                 {
                     matrices += $"{(_solution[i, j, k] ? 1 : 0)} ";
                 }
+
                 matrices += "|\n";
             }
         }
@@ -292,6 +321,7 @@ public class VoxelManager : MonoBehaviour
                         {
                             gap = true;
                         }
+
                         previousWasGap = false;
                     }
                     else if (j != height - 1 && voxelCount > 0 && !previousWasGap)
@@ -320,8 +350,10 @@ public class VoxelManager : MonoBehaviour
             {
                 frontCluesString += $"({_frontClues[i, j].VoxelCount}^{_frontClues[i, j].GapCount}) ";
             }
+
             frontCluesString += "|\n";
         }
+
         Debug.Log(frontCluesString);
 
         string sideCluesString = "side clues:\n";
@@ -332,8 +364,10 @@ public class VoxelManager : MonoBehaviour
             {
                 sideCluesString += $"({_sideClues[k, j].VoxelCount}^{_sideClues[k, j].GapCount}) ";
             }
+
             sideCluesString += "|\n";
         }
+
         Debug.Log(sideCluesString);
 
         string topCluesString = "top clues:\n";
@@ -344,8 +378,10 @@ public class VoxelManager : MonoBehaviour
             {
                 topCluesString += $"({_topClues[i, k].VoxelCount}^{_topClues[i, k].GapCount}) ";
             }
+
             topCluesString += "|\n";
         }
+
         Debug.Log(topCluesString);
     }
 
@@ -363,8 +399,10 @@ public class VoxelManager : MonoBehaviour
                         // voxels[visibleLayersX, i, j].SetActive(false);
                     }
                 }
+
                 _visibleLayersX--;
             }
+
             if (Input.GetKeyDown(KeyCode.Alpha2) && _visibleLayersX < length - 1)
             {
                 _visibleLayersX++;
@@ -377,6 +415,7 @@ public class VoxelManager : MonoBehaviour
                     }
                 }
             }
+
             if (Input.GetKeyDown(KeyCode.Alpha3) && _visibleLayersY > 0)
             {
                 for (int i = 0; i < _visibleLayersX + 1; i++)
@@ -387,8 +426,10 @@ public class VoxelManager : MonoBehaviour
                         // voxels[i, visibleLayersY, j].SetActive(false);
                     }
                 }
+
                 _visibleLayersY--;
             }
+
             if (Input.GetKeyDown(KeyCode.Alpha4) && _visibleLayersY < height - 1)
             {
                 _visibleLayersY++;
@@ -401,6 +442,7 @@ public class VoxelManager : MonoBehaviour
                     }
                 }
             }
+
             if (Input.GetKeyDown(KeyCode.Alpha5) && _visibleLayersZ > 0)
             {
                 for (int i = 0; i < _visibleLayersX + 1; i++)
@@ -411,8 +453,10 @@ public class VoxelManager : MonoBehaviour
                         // voxels[i, j, visibleLayersZ].SetActive(false);
                     }
                 }
+
                 _visibleLayersZ--;
             }
+
             if (Input.GetKeyDown(KeyCode.Alpha6) && _visibleLayersZ < width - 1)
             {
                 _visibleLayersZ++;
@@ -458,8 +502,10 @@ public class VoxelManager : MonoBehaviour
                 voxel.transform.localScale = normalSize;
                 grow = false;
             }
+
             yield return new WaitForSeconds(0.02f);
         }
+
         _coroutineFinished = true;
     }
 
@@ -480,8 +526,10 @@ public class VoxelManager : MonoBehaviour
                 voxel.SetActive(false);
                 shrink = false;
             }
+
             yield return new WaitForSeconds(0.02f);
         }
+
         _coroutineFinished = true;
     }
 
