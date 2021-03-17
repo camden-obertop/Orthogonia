@@ -35,10 +35,34 @@ public class Voxel : MonoBehaviour
         set => _isPuzzleVoxel = value;
     }
 
-    private MeshRenderer _meshRenderer;
+    private bool _isVisible = true;
+    public bool IsVisible {
+        get => _isVisible;
+        set => _isVisible = value;
+    }
+
+    private bool _isMarked = false;
+    public bool IsMarked 
+    {
+        get => _isMarked;
+        set => _isMarked = value;
+    }
+
+    private VoxelManager _manager;
+    public VoxelManager Manager 
+    {
+        get => _manager;
+        set => _manager = value;
+    }
+    
     private bool _isHovering = false;
-    private bool _cleared = false;
-    private bool _marked = false;
+    public bool IsHovering
+    {
+        get => _isHovering;
+        set => _isHovering = value;
+    }
+
+    private MeshRenderer _meshRenderer;
 
     private HintText[] _hints = new HintText[6];
     private bool _hintArraySet;
@@ -52,14 +76,26 @@ public class Voxel : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (_isHovering && Input.GetMouseButtonDown(0))
         {
-            ClearVoxel();
-        }
+            if (_manager.CurrentGameMode == VoxelManager.GameMode.Build) {
+                BuildVoxel();
+            }
 
-        if (Input.GetMouseButtonDown(1))
-        {
-            MarkVoxel();
+            if (_manager.CurrentGameMode == VoxelManager.GameMode.Destroy) {
+                ClearVoxel();
+            }
+
+            if (_manager.CurrentGameMode == VoxelManager.GameMode.Mark) {
+                MarkVoxel();
+            }
+        }
+    }
+
+    private void BuildVoxel() {
+        if (!_isVisible) {
+            _isVisible = true;
+            _meshRenderer.material = hoverColor;
         }
     }
 
@@ -85,15 +121,15 @@ public class Voxel : MonoBehaviour
 
     private void MarkVoxel()
     {
-        if (_isHovering && !_cleared)
+        if (_isVisible)
         {
-            if (_marked)
+            if (_isMarked)
             {
-                _marked = false;
+                _isMarked = false;
                 _meshRenderer.material = hoverColor;
             } else
             {
-                _marked = true;
+                _isMarked = true;
                 _meshRenderer.material = markedColor;
             }
         }
@@ -101,7 +137,7 @@ public class Voxel : MonoBehaviour
 
     private void ClearVoxel()
     {
-        if (_isHovering)
+        if (!_isVisible)
         {
             foreach (HintText hint in _hints)
             {
@@ -118,6 +154,15 @@ public class Voxel : MonoBehaviour
                 _marked = false;
                 _meshRenderer.material = clearColor;
             }
+            _isVisible = true;
+            _meshRenderer.material = hoverColor;
+        }
+        else
+        {
+            transform.gameObject.SetActive(false);
+            _isVisible = false;
+            _isMarked = false;
+            _meshRenderer.material = clearColor;
         }
     }
 
@@ -130,10 +175,11 @@ public class Voxel : MonoBehaviour
     private void OnMouseExit()
     {
         _isHovering = false;
-        if (_cleared)
+        if (!_isVisible)
         {
             _meshRenderer.material = clearColor;
-        } else if (_marked)
+        }
+        else if (_isMarked)
         {
             _meshRenderer.material = markedColor;
         } else
