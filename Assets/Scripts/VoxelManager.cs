@@ -32,7 +32,6 @@ public class VoxelManager : MonoBehaviour
 
     [SerializeField] private GameObject mainCamera;
     [SerializeField] private GameObject cube;
-    [SerializeField] private GameObject sphere;
 
     [SerializeField] private Text _modeText;
     [SerializeField] private Material _clearMaterial;
@@ -73,6 +72,124 @@ public class VoxelManager : MonoBehaviour
         _modeText.text = "Mode: Mark";
     }
 
+    public void UpdateAdjacentVoxelHints(Vector3 indexPosition)
+    {
+        int i = (int) indexPosition.x;
+        int j = (int) indexPosition.y;
+        int k = (int) indexPosition.z;
+
+        if (!_frontClues[i, j].Blank) // if the clues in the line aren't blank
+        {
+            // Update voxel in front
+            if (k > 0) // if the voxel is not a boundary
+            {
+                Voxel voxelToUpdate = _voxels[i, j, k - 1].GetComponent<Voxel>();
+
+                if (voxelToUpdate.IsVisible) // if the voxel is visible to the player, then update its hint
+                {
+                    voxelToUpdate.Hints[(int) VoxelSide.Rear].SetHintText(
+                        _frontClues[i, j].VoxelCount,
+                        _frontClues[i, j].GapCount);
+                }
+                else
+                {
+                    voxelToUpdate.Hints[(int) VoxelSide.Rear].ClearHintText();
+                }
+            }
+
+            // Update voxel in rear
+            if (k < width - 1) // if the voxel is not a boundary
+            {
+                Voxel voxelToUpdate = _voxels[i, j, k + 1].GetComponent<Voxel>();
+
+                if (voxelToUpdate.IsVisible) // if the voxel is visible to the player, then update its hint
+                {
+                    voxelToUpdate.Hints[(int) VoxelSide.Front].SetHintText(
+                        _frontClues[i, j].VoxelCount,
+                        _frontClues[i, j].GapCount);
+                }
+                else
+                {
+                    voxelToUpdate.Hints[(int) VoxelSide.Front].ClearHintText();
+                }
+            }
+        }
+        
+        if (!_sideClues[k, j].Blank) // if the clues in the line aren't blank
+        {
+            // Update voxel to the left
+            if (i > 0) // if the voxel is not a boundary
+            {
+                Voxel voxelToUpdate = _voxels[i - 1, j, k].GetComponent<Voxel>();
+
+                if (voxelToUpdate.IsVisible) // if the voxel is visible to the player, then update its hint
+                {
+                    voxelToUpdate.Hints[(int) VoxelSide.RightSide].SetHintText(
+                        _sideClues[k, j].VoxelCount,
+                        _sideClues[k, j].GapCount);
+                }
+                else
+                {
+                    voxelToUpdate.Hints[(int) VoxelSide.RightSide].ClearHintText();
+                }
+            }
+            
+            // Update voxel to the right
+            if (i < length - 1) // if the voxel is not a boundary
+            {
+                Voxel voxelToUpdate = _voxels[i + 1, j, k].GetComponent<Voxel>();
+
+                if (voxelToUpdate.IsVisible) // if the voxel is visible to the player, then update its hint
+                {
+                    voxelToUpdate.Hints[(int) VoxelSide.LeftSide].SetHintText(
+                        _sideClues[k, j].VoxelCount,
+                        _sideClues[k, j].GapCount);
+                }
+                else
+                {
+                    voxelToUpdate.Hints[(int) VoxelSide.LeftSide].ClearHintText();
+                }
+            }
+        }
+
+        if (!_topClues[i, k].Blank) // if the clues in the line aren't blank
+        {
+            // Update voxel below
+            if (j > 0) // if the voxel is not a boundary
+            {
+                Voxel voxelToUpdate = _voxels[i, j - 1, k].GetComponent<Voxel>();
+
+                if (voxelToUpdate.IsVisible) // if the voxel is visible to the player, then update its hint
+                {
+                    voxelToUpdate.Hints[(int) VoxelSide.Top].SetHintText(
+                        _topClues[i, k].VoxelCount,
+                        _topClues[i, k].GapCount);
+                }
+                else
+                {
+                    voxelToUpdate.Hints[(int) VoxelSide.Top].ClearHintText();
+                }
+            }
+            
+            // Update voxel above
+            if (j < height - 1) // if the voxel is not a boundary
+            {
+                Voxel voxelToUpdate = _voxels[i, j + 1, k].GetComponent<Voxel>();
+
+                if (voxelToUpdate.IsVisible) // if the voxel is visible to the player, then update its hint
+                {
+                    voxelToUpdate.Hints[(int) VoxelSide.Bottom].SetHintText(
+                        _topClues[i, k].VoxelCount,
+                        _topClues[i, k].GapCount);
+                }
+                else
+                {
+                    voxelToUpdate.Hints[(int) VoxelSide.Bottom].ClearHintText();
+                }
+            }
+        }
+    }
+
     private void InitializeVoxels()
     {
         _voxels = new GameObject[length, height, width];
@@ -86,6 +203,7 @@ public class VoxelManager : MonoBehaviour
                         Quaternion.identity, transform);
                     _voxels[i, j, k].GetComponent<Voxel>().IsPuzzleVoxel = _solution[i, j, k];
                     _voxels[i, j, k].GetComponent<Voxel>().Manager = this;
+                    _voxels[i, j, k].GetComponent<Voxel>().IndexPosition = new Vector3(i, j, k);
                 }
             }
         }
@@ -337,8 +455,8 @@ public class VoxelManager : MonoBehaviour
                 }
 
                 _topClues[i, k] = new Clue(blank: false, voxelCount: voxelCount, gapCount: gapCount);
-                _voxels[i, 0, k].GetComponent<Voxel>().SetSideText(VoxelSide.Top, voxelCount, gapCount);
-                _voxels[i, height - 1, k].GetComponent<Voxel>().SetSideText(VoxelSide.Bottom, voxelCount, gapCount);
+                _voxels[i, 0, k].GetComponent<Voxel>().SetSideText(VoxelSide.Bottom, voxelCount, gapCount);
+                _voxels[i, height - 1, k].GetComponent<Voxel>().SetSideText(VoxelSide.Top, voxelCount, gapCount);
             }
         }
 

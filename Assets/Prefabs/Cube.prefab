@@ -1790,10 +1790,10 @@ MonoBehaviour:
   clearColor: {fileID: 2100000, guid: ab71d0cbe67e8f2458f7f1695cae47e8, type: 2}
   frontHint: {fileID: 2712936769909468335}
   rightSideHint: {fileID: 5920578554439465820}
-  topHint: {fileID: 8892446232949199425}
+  topHint: {fileID: 455951167860782246}
   rearHint: {fileID: 2279719118499788103}
   leftSideHint: {fileID: 3879213630739027967}
-  bottomHint: {fileID: 455951167860782246}
+  bottomHint: {fileID: 8892446232949199425}
   _isPuzzleVoxel: 0
 --- !u!1 &7588034269981024287
 GameObject:

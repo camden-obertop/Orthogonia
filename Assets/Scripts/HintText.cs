@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -10,5 +11,11 @@ public class HintText : MonoBehaviour
     {
         voxelCountHintText.text = voxelCount.ToString();
         gapCountHintText.text = gapCount.ToString();
+    }
+
+    public void ClearHintText()
+    {
+        voxelCountHintText.text = String.Empty;
+        gapCountHintText.text = String.Empty;
     }
 }

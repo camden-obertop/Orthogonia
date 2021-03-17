@@ -33,7 +33,6 @@ public class Voxel : MonoBehaviour
     }
 
     private bool _isVisible = true;
-
     public bool IsVisible
     {
         get => _isVisible;
@@ -41,7 +40,6 @@ public class Voxel : MonoBehaviour
     }
 
     private bool _isMarked;
-
     public bool IsMarked
     {
         get => _isMarked;
@@ -49,7 +47,6 @@ public class Voxel : MonoBehaviour
     }
 
     private VoxelManager _manager;
-
     public VoxelManager Manager
     {
         get => _manager;
@@ -57,17 +54,26 @@ public class Voxel : MonoBehaviour
     }
 
     private bool _isHovering;
-
     public bool IsHovering
     {
         get => _isHovering;
         set => _isHovering = value;
     }
 
-    private MeshRenderer _meshRenderer;
+    private Vector3 _indexPosition;
+    public Vector3 IndexPosition
+    {
+        get => _indexPosition;
+        set => _indexPosition = value;
+    }
 
     private HintText[] _hints = new HintText[6];
+    public HintText[] Hints => _hints;
+    
     private bool _hintArraySet;
+    
+    private MeshRenderer _meshRenderer;
+
 
     private void Start()
     {
@@ -101,6 +107,13 @@ public class Voxel : MonoBehaviour
     {
         if (!_isVisible)
         {
+            foreach (HintText hint in _hints)
+            {
+                hint.gameObject.SetActive(true);
+            }
+            
+            _manager.UpdateAdjacentVoxelHints(_indexPosition);
+            
             _isVisible = true;
             _meshRenderer.material = hoverColor;
         }
@@ -147,9 +160,9 @@ public class Voxel : MonoBehaviour
     {
         foreach (HintText hint in _hints)
         {
-            hint.gameObject.SetActive(_isVisible);
+            hint.gameObject.SetActive(!_isVisible);
         }
-
+        
         if (!_isVisible)
         {
             _isVisible = true;
@@ -161,6 +174,8 @@ public class Voxel : MonoBehaviour
             _isVisible = false;
             _isMarked = false;
             _meshRenderer.material = clearColor;
+            
+            _manager.UpdateAdjacentVoxelHints(_indexPosition);
         }
     }
 
