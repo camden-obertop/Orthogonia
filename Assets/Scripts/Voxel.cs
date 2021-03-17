@@ -103,6 +103,11 @@ public class Voxel : MonoBehaviour
     {
         if (_isHovering)
         {
+            foreach (HintText hint in _hints)
+            {
+                hint.gameObject.SetActive(_cleared);
+            }
+            
             if (_cleared)
             {
                 _cleared = false;

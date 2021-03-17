@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4262617953620797728}
   - component: {fileID: 5994583896203523837}
   m_Layer: 0
-  m_Name: Top Gap Hint Text
+  m_Name: Bottom Gap Hint Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '#'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d12c11b37a01c394f9164a6fd92db348, type: 2}
   m_sharedMaterial: {fileID: -4052789242000488640, guid: d12c11b37a01c394f9164a6fd92db348, type: 2}
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '#'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d12c11b37a01c394f9164a6fd92db348, type: 2}
   m_sharedMaterial: {fileID: -4052789242000488640, guid: d12c11b37a01c394f9164a6fd92db348, type: 2}
@@ -333,7 +333,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '#'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d12c11b37a01c394f9164a6fd92db348, type: 2}
   m_sharedMaterial: {fileID: -4052789242000488640, guid: d12c11b37a01c394f9164a6fd92db348, type: 2}
@@ -583,7 +583,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '#'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d12c11b37a01c394f9164a6fd92db348, type: 2}
   m_sharedMaterial: {fileID: -4052789242000488640, guid: d12c11b37a01c394f9164a6fd92db348, type: 2}
@@ -717,7 +717,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '#'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d12c11b37a01c394f9164a6fd92db348, type: 2}
   m_sharedMaterial: {fileID: -4052789242000488640, guid: d12c11b37a01c394f9164a6fd92db348, type: 2}
@@ -798,7 +798,7 @@ GameObject:
   - component: {fileID: 8504734168912711794}
   - component: {fileID: 8998054558720058182}
   m_Layer: 0
-  m_Name: Bottom Voxel Hint Text
+  m_Name: Top Voxel Hint Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -851,7 +851,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '#'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d12c11b37a01c394f9164a6fd92db348, type: 2}
   m_sharedMaterial: {fileID: -4052789242000488640, guid: d12c11b37a01c394f9164a6fd92db348, type: 2}
@@ -932,7 +932,7 @@ GameObject:
   - component: {fileID: 6683671383443425381}
   - component: {fileID: 8766540468372103476}
   m_Layer: 0
-  m_Name: Bottom Gap Hint Text
+  m_Name: Top Gap Hint Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -985,7 +985,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '#'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d12c11b37a01c394f9164a6fd92db348, type: 2}
   m_sharedMaterial: {fileID: -4052789242000488640, guid: d12c11b37a01c394f9164a6fd92db348, type: 2}
@@ -1235,7 +1235,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '#'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d12c11b37a01c394f9164a6fd92db348, type: 2}
   m_sharedMaterial: {fileID: -4052789242000488640, guid: d12c11b37a01c394f9164a6fd92db348, type: 2}
@@ -1369,7 +1369,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '#'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d12c11b37a01c394f9164a6fd92db348, type: 2}
   m_sharedMaterial: {fileID: -4052789242000488640, guid: d12c11b37a01c394f9164a6fd92db348, type: 2}
@@ -1452,7 +1452,7 @@ GameObject:
   - component: {fileID: 6663161716765598163}
   - component: {fileID: 8892446232949199425}
   m_Layer: 0
-  m_Name: Top Canvas
+  m_Name: Bottom Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1472,7 +1472,7 @@ RectTransform:
   - {fileID: 7716077779976315475}
   - {fileID: 3068780271211722180}
   m_Father: {fileID: 6549536629210668782}
-  m_RootOrder: 2
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 90, y: 180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1703,10 +1703,10 @@ Transform:
   m_Children:
   - {fileID: 7073131280403645410}
   - {fileID: 3806032414744781308}
-  - {fileID: 7131572323894768515}
+  - {fileID: 1279886004013610583}
   - {fileID: 4075797733224412098}
   - {fileID: 8265013232038043932}
-  - {fileID: 1279886004013610583}
+  - {fileID: 7131572323894768515}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1794,6 +1794,7 @@ MonoBehaviour:
   rearHint: {fileID: 2279719118499788103}
   leftSideHint: {fileID: 3879213630739027967}
   bottomHint: {fileID: 455951167860782246}
+  _isPuzzleVoxel: 0
 --- !u!1 &7588034269981024287
 GameObject:
   m_ObjectHideFlags: 0
@@ -1808,7 +1809,7 @@ GameObject:
   - component: {fileID: 2283248153477897188}
   - component: {fileID: 455951167860782246}
   m_Layer: 0
-  m_Name: Bottom Canvas
+  m_Name: Top Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1828,7 +1829,7 @@ RectTransform:
   - {fileID: 5144106434236885119}
   - {fileID: 1389611622729088415}
   m_Father: {fileID: 6549536629210668782}
-  m_RootOrder: 5
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 90, y: -180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1975,7 +1976,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '#'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d12c11b37a01c394f9164a6fd92db348, type: 2}
   m_sharedMaterial: {fileID: -4052789242000488640, guid: d12c11b37a01c394f9164a6fd92db348, type: 2}
@@ -2109,7 +2110,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '#'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d12c11b37a01c394f9164a6fd92db348, type: 2}
   m_sharedMaterial: {fileID: -4052789242000488640, guid: d12c11b37a01c394f9164a6fd92db348, type: 2}
@@ -2190,7 +2191,7 @@ GameObject:
   - component: {fileID: 2371544523531375947}
   - component: {fileID: 2113488433376796683}
   m_Layer: 0
-  m_Name: Top Voxel Hint Text
+  m_Name: Bottom Voxel Hint Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2243,7 +2244,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '#'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d12c11b37a01c394f9164a6fd92db348, type: 2}
   m_sharedMaterial: {fileID: -4052789242000488640, guid: d12c11b37a01c394f9164a6fd92db348, type: 2}
