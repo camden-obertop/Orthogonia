@@ -27,6 +27,13 @@ public class VoxelManager : MonoBehaviour
         Mark,
     }
 
+    public enum VoxelState
+    {
+        Unmarked = 0,
+        Marked = 1,
+        Cleared = 2,
+    }
+
     [SerializeField] private int length, height, width; // length = x, height = y, width = z 
     [SerializeField] private float rotateSpeed;
 
