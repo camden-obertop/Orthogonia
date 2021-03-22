@@ -17,11 +17,35 @@ namespace Valve.VR
     public class SteamVR_Input_ActionSet_picross : Valve.VR.SteamVR_ActionSet
     {
         
-        public virtual SteamVR_Action_Boolean NewAction
+        public virtual SteamVR_Action_Boolean RotateUp
         {
             get
             {
-                return SteamVR_Actions.picross_NewAction;
+                return SteamVR_Actions.picross_RotateUp;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean RotateLeft
+        {
+            get
+            {
+                return SteamVR_Actions.picross_RotateLeft;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean RotateRight
+        {
+            get
+            {
+                return SteamVR_Actions.picross_RotateRight;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean RotateDown
+        {
+            get
+            {
+                return SteamVR_Actions.picross_RotateDown;
             }
         }
     }
