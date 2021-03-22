@@ -33,7 +33,6 @@ public class VoxelManager : MonoBehaviour
     [SerializeField] private GameObject mainCamera;
     [SerializeField] private GameObject cube;
 
-    [SerializeField] private Text _modeText;
     [SerializeField] private Material _clearMaterial;
 
     private int _visibleLayersX, _visibleLayersY, _visibleLayersZ;
@@ -69,7 +68,6 @@ public class VoxelManager : MonoBehaviour
         _topClues = new Clue[length, width];
 
         NumberAllVoxels();
-        _modeText.text = "Mode: Mark";
     }
 
     public void UpdateAdjacentVoxelHints(Vector3 indexPosition)
@@ -225,7 +223,6 @@ public class VoxelManager : MonoBehaviour
             if (_currentGameMode != newGameMode)
             {
                 _currentGameMode = newGameMode;
-                _modeText.text = "Mode: Build";
                 MakeBuildable();
             }
         }
@@ -236,7 +233,6 @@ public class VoxelManager : MonoBehaviour
             if (_currentGameMode != newGameMode)
             {
                 _currentGameMode = newGameMode;
-                _modeText.text = "Mode: Destroy";
                 MakeDestroyable();
             }
         }
@@ -247,7 +243,6 @@ public class VoxelManager : MonoBehaviour
             if (_currentGameMode != newGameMode)
             {
                 _currentGameMode = newGameMode;
-                _modeText.text = "Mode: Mark";
                 MakeMarkable();
             }
         }
@@ -654,22 +649,22 @@ public class VoxelManager : MonoBehaviour
     private void ManageRotations()
     {
         float timeSpeed = rotateSpeed * Time.deltaTime;
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.J))
         {
             transform.RotateAround(_target, transform.up, timeSpeed);
         }
 
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.L))
         {
             transform.RotateAround(_target, transform.up, -timeSpeed);
         }
 
-        if (Input.GetKey(KeyCode.W) && _canVerticallyRotate)
+        if (Input.GetKey(KeyCode.I) && _canVerticallyRotate)
         {
             transform.RotateAround(_target, _cameraTransform.right, timeSpeed);
         }
 
-        if (Input.GetKey(KeyCode.S) && _canVerticallyRotate)
+        if (Input.GetKey(KeyCode.K) && _canVerticallyRotate)
         {
             transform.RotateAround(_target, _cameraTransform.right, -timeSpeed);
         }
