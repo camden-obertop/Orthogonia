@@ -11,11 +11,13 @@ public struct Clue
         Blank = blank;
         VoxelCount = voxelCount;
         GapCount = gapCount;
+        Complete = false;
     }
 
     public bool Blank;
     public int VoxelCount;
     public int GapCount;
+    public bool Complete;
 }
 
 public class VoxelManager : MonoBehaviour
