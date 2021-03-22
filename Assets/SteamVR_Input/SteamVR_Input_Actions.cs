@@ -55,13 +55,13 @@ namespace Valve.VR
         
         private static SteamVR_Action_Pose p_mixedreality_ExternalCamera;
         
-        private static SteamVR_Action_Boolean p_picross_RotateUp;
+        private static SteamVR_Action_Vector2 p_picross_Rotate;
         
-        private static SteamVR_Action_Boolean p_picross_RotateLeft;
+        private static SteamVR_Action_Boolean p_picross_SwitchMode;
         
-        private static SteamVR_Action_Boolean p_picross_RotateRight;
+        private static SteamVR_Action_Boolean p_picross_GrabLayer;
         
-        private static SteamVR_Action_Boolean p_picross_RotateDown;
+        private static SteamVR_Action_Boolean p_picross_PerformAction;
         
         public static SteamVR_Action_Boolean default_InteractUI
         {
@@ -215,35 +215,35 @@ namespace Valve.VR
             }
         }
         
-        public static SteamVR_Action_Boolean picross_RotateUp
+        public static SteamVR_Action_Vector2 picross_Rotate
         {
             get
             {
-                return SteamVR_Actions.p_picross_RotateUp.GetCopy<SteamVR_Action_Boolean>();
+                return SteamVR_Actions.p_picross_Rotate.GetCopy<SteamVR_Action_Vector2>();
             }
         }
         
-        public static SteamVR_Action_Boolean picross_RotateLeft
+        public static SteamVR_Action_Boolean picross_SwitchMode
         {
             get
             {
-                return SteamVR_Actions.p_picross_RotateLeft.GetCopy<SteamVR_Action_Boolean>();
+                return SteamVR_Actions.p_picross_SwitchMode.GetCopy<SteamVR_Action_Boolean>();
             }
         }
         
-        public static SteamVR_Action_Boolean picross_RotateRight
+        public static SteamVR_Action_Boolean picross_GrabLayer
         {
             get
             {
-                return SteamVR_Actions.p_picross_RotateRight.GetCopy<SteamVR_Action_Boolean>();
+                return SteamVR_Actions.p_picross_GrabLayer.GetCopy<SteamVR_Action_Boolean>();
             }
         }
         
-        public static SteamVR_Action_Boolean picross_RotateDown
+        public static SteamVR_Action_Boolean picross_PerformAction
         {
             get
             {
-                return SteamVR_Actions.p_picross_RotateDown.GetCopy<SteamVR_Action_Boolean>();
+                return SteamVR_Actions.p_picross_PerformAction.GetCopy<SteamVR_Action_Boolean>();
             }
         }
         
@@ -269,10 +269,10 @@ namespace Valve.VR
                     SteamVR_Actions.buggy_Brake,
                     SteamVR_Actions.buggy_Reset,
                     SteamVR_Actions.mixedreality_ExternalCamera,
-                    SteamVR_Actions.picross_RotateUp,
-                    SteamVR_Actions.picross_RotateLeft,
-                    SteamVR_Actions.picross_RotateRight,
-                    SteamVR_Actions.picross_RotateDown};
+                    SteamVR_Actions.picross_Rotate,
+                    SteamVR_Actions.picross_SwitchMode,
+                    SteamVR_Actions.picross_GrabLayer,
+                    SteamVR_Actions.picross_PerformAction};
             Valve.VR.SteamVR_Input.actionsIn = new Valve.VR.ISteamVR_Action_In[] {
                     SteamVR_Actions.default_InteractUI,
                     SteamVR_Actions.default_Teleport,
@@ -292,10 +292,10 @@ namespace Valve.VR
                     SteamVR_Actions.buggy_Brake,
                     SteamVR_Actions.buggy_Reset,
                     SteamVR_Actions.mixedreality_ExternalCamera,
-                    SteamVR_Actions.picross_RotateUp,
-                    SteamVR_Actions.picross_RotateLeft,
-                    SteamVR_Actions.picross_RotateRight,
-                    SteamVR_Actions.picross_RotateDown};
+                    SteamVR_Actions.picross_Rotate,
+                    SteamVR_Actions.picross_SwitchMode,
+                    SteamVR_Actions.picross_GrabLayer,
+                    SteamVR_Actions.picross_PerformAction};
             Valve.VR.SteamVR_Input.actionsOut = new Valve.VR.ISteamVR_Action_Out[] {
                     SteamVR_Actions.default_Haptic};
             Valve.VR.SteamVR_Input.actionsVibration = new Valve.VR.SteamVR_Action_Vibration[] {
@@ -314,16 +314,16 @@ namespace Valve.VR
                     SteamVR_Actions.platformer_Jump,
                     SteamVR_Actions.buggy_Brake,
                     SteamVR_Actions.buggy_Reset,
-                    SteamVR_Actions.picross_RotateUp,
-                    SteamVR_Actions.picross_RotateLeft,
-                    SteamVR_Actions.picross_RotateRight,
-                    SteamVR_Actions.picross_RotateDown};
+                    SteamVR_Actions.picross_SwitchMode,
+                    SteamVR_Actions.picross_GrabLayer,
+                    SteamVR_Actions.picross_PerformAction};
             Valve.VR.SteamVR_Input.actionsSingle = new Valve.VR.SteamVR_Action_Single[] {
                     SteamVR_Actions.default_Squeeze,
                     SteamVR_Actions.buggy_Throttle};
             Valve.VR.SteamVR_Input.actionsVector2 = new Valve.VR.SteamVR_Action_Vector2[] {
                     SteamVR_Actions.platformer_Move,
-                    SteamVR_Actions.buggy_Steering};
+                    SteamVR_Actions.buggy_Steering,
+                    SteamVR_Actions.picross_Rotate};
             Valve.VR.SteamVR_Input.actionsVector3 = new Valve.VR.SteamVR_Action_Vector3[0];
             Valve.VR.SteamVR_Input.actionsSkeleton = new Valve.VR.SteamVR_Action_Skeleton[] {
                     SteamVR_Actions.default_SkeletonLeftHand,
@@ -343,10 +343,10 @@ namespace Valve.VR
                     SteamVR_Actions.buggy_Throttle,
                     SteamVR_Actions.buggy_Brake,
                     SteamVR_Actions.buggy_Reset,
-                    SteamVR_Actions.picross_RotateUp,
-                    SteamVR_Actions.picross_RotateLeft,
-                    SteamVR_Actions.picross_RotateRight,
-                    SteamVR_Actions.picross_RotateDown};
+                    SteamVR_Actions.picross_Rotate,
+                    SteamVR_Actions.picross_SwitchMode,
+                    SteamVR_Actions.picross_GrabLayer,
+                    SteamVR_Actions.picross_PerformAction};
         }
         
         private static void PreInitActions()
@@ -370,10 +370,10 @@ namespace Valve.VR
             SteamVR_Actions.p_buggy_Brake = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/buggy/in/Brake")));
             SteamVR_Actions.p_buggy_Reset = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/buggy/in/Reset")));
             SteamVR_Actions.p_mixedreality_ExternalCamera = ((SteamVR_Action_Pose)(SteamVR_Action.Create<SteamVR_Action_Pose>("/actions/mixedreality/in/ExternalCamera")));
-            SteamVR_Actions.p_picross_RotateUp = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/picross/in/RotateUp")));
-            SteamVR_Actions.p_picross_RotateLeft = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/picross/in/RotateLeft")));
-            SteamVR_Actions.p_picross_RotateRight = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/picross/in/RotateRight")));
-            SteamVR_Actions.p_picross_RotateDown = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/picross/in/RotateDown")));
+            SteamVR_Actions.p_picross_Rotate = ((SteamVR_Action_Vector2)(SteamVR_Action.Create<SteamVR_Action_Vector2>("/actions/picross/in/Rotate")));
+            SteamVR_Actions.p_picross_SwitchMode = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/picross/in/SwitchMode")));
+            SteamVR_Actions.p_picross_GrabLayer = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/picross/in/GrabLayer")));
+            SteamVR_Actions.p_picross_PerformAction = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/picross/in/PerformAction")));
         }
     }
 }
