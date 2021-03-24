@@ -650,7 +650,16 @@ public class VoxelManager : MonoBehaviour
     private void ManageRotations()
     {
         Vector2 controllerRotation = SteamVR_Actions.picross.Rotate[SteamVR_Input_Sources.Any].axis;
+        Debug.Log(controllerRotation);
+
+        float horizontalMovement = SteamVR_Actions.picross.Rotate[SteamVR_Input_Sources.Any].axis.x;
+        float verticalMovement = SteamVR_Actions.picross.Rotate[SteamVR_Input_Sources.Any].axis.y;
         float timeSpeed = rotateSpeed * Time.deltaTime;
+
+        transform.RotateAround(_target, transform.up, -horizontalMovement * timeSpeed);
+        transform.RotateAround(_target, _cameraTransform.right, verticalMovement * timeSpeed);
+
+
         if (Input.GetKey(KeyCode.J))
         {
             transform.RotateAround(_target, transform.up, timeSpeed);

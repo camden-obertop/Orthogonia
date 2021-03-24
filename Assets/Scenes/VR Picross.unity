@@ -234,6 +234,7 @@ GameObject:
   m_Component:
   - component: {fileID: 318102999}
   - component: {fileID: 318103000}
+  - component: {fileID: 318103001}
   m_Layer: 0
   m_Name: Voxel Manager
   m_TagString: Untagged
@@ -274,6 +275,25 @@ MonoBehaviour:
   mainCamera: {fileID: 44127699}
   cube: {fileID: 6549536629210668778, guid: 0b99d12d87ba2354a89eb9d28c8b62a6, type: 3}
   _clearMaterial: {fileID: 2100000, guid: ab71d0cbe67e8f2458f7f1695cae47e8, type: 2}
+--- !u!114 &318103001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318102998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27991c206a5e66147bb8ee3ef31c8bac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionSet:
+    actionSetPath: /actions/picross
+  forSources: 0
+  disableAllOtherActionSets: 1
+  activateOnStart: 1
+  deactivateOnDestroy: 1
+  initialPriority: 0
 --- !u!1 &1265750314
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,7 +424,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 447954, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -11.45
+      value: -8
       objectReference: {fileID: 0}
     - target: {fileID: 447954, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
       propertyPath: m_LocalRotation.w
