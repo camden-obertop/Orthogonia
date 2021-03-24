@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 public static class Validator
 {
     public static bool IsValid(VoxelManager.VoxelState[,,] solution, Clue[,] frontClues, Clue[,] sideClues, Clue[,] topClues)
@@ -35,6 +33,13 @@ public static class Validator
         }
 
         return false;
+    }
+
+    private static void LineSolverDriver(ref VoxelManager.VoxelState[] line, ref Clue lineClue)
+    {
+        // run all the methods and check if the line is complete in-between
+
+
     }
 
     #region Line solver methods
@@ -80,6 +85,20 @@ public static class Validator
             int rightOverlapIndex = lineClue.VoxelCount - 1;
             int leftOverlapIndex = line.Length - lineClue.VoxelCount;
 
+            // Find right overlap index
+            int counted = 0;
+            for (int i = 0; i < line.Length; i++)
+            {
+                DeduceOverlapsHelper(ref line, ref lineClue, ref rightOverlapIndex, ref counted, i);
+            }
+
+            // Find left overlap index
+            counted = 0;
+            for (int i = line.Length; i >= 0; i--)
+            {
+                DeduceOverlapsHelper(ref line, ref lineClue, ref leftOverlapIndex, ref counted, i);
+            }
+
             if (rightOverlapIndex >= leftOverlapIndex)
             {
                 for (int i = leftOverlapIndex; i <= rightOverlapIndex; i++)
@@ -87,6 +106,24 @@ public static class Validator
                     line[i] = VoxelManager.VoxelState.Marked;
                 }
             }
+        }
+    }
+
+    private static void DeduceOverlapsHelper(ref VoxelManager.VoxelState[] line, ref Clue lineClue, ref int overlapIndex, ref int counted, int index)
+    {
+        if (line[index] == VoxelManager.VoxelState.Unmarked || line[index] == VoxelManager.VoxelState.Marked)
+        {
+            counted++;
+
+            if (counted >= lineClue.VoxelCount)
+            {
+                overlapIndex = index;
+                return;
+            }
+        }
+        else if (line[index] == VoxelManager.VoxelState.Cleared)
+        {
+            counted = 0;
         }
     }
 
@@ -223,10 +260,38 @@ public static class Validator
         }
     }
 
-    // update overlaps to account for spaces between clears (no gaps tho)
+    private static void DeduceGapEdgeMarks(ref VoxelManager.VoxelState[] line, ref Clue lineClue)
+    {
+        if (lineClue.VoxelCount + lineClue.GapCount == line.Length && lineClue.VoxelCount - lineClue.GapCount > 1)
+        {
+            line[0] = VoxelManager.VoxelState.Marked;
+            line[line.Length - 1] = VoxelManager.VoxelState.Marked;
+        }
+    }
 
-    // gap edge checker
+    private static bool CheckLineCompletion(VoxelManager.VoxelState[] line, VoxelManager.VoxelState[] solutionLine, ref Clue lineClue)
+    {
+        if (!lineClue.Complete)
+        {
+            bool correct = true;
 
-    // Make clear checker
+            for (int i = 0; i < line.Length; i++)
+            {
+                if (line[i] != solutionLine[i])
+                {
+                    correct = false;
+                }
+            }
+
+            if (correct)
+            {
+                lineClue.Complete = true;
+            }
+
+            return correct;
+        }
+
+        return true;
+    }
     #endregion
 }
