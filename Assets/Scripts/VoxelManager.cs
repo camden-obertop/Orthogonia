@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using UnityEngine.UI;
+using Valve.VR;
 
 public struct Clue
 {
@@ -648,6 +649,7 @@ public class VoxelManager : MonoBehaviour
 
     private void ManageRotations()
     {
+        Vector2 controllerRotation = SteamVR_Actions.picross.Rotate[SteamVR_Input_Sources.Any].axis;
         float timeSpeed = rotateSpeed * Time.deltaTime;
         if (Input.GetKey(KeyCode.J))
         {
