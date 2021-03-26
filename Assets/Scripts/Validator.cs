@@ -1,6 +1,6 @@
 public static class Validator
 {
-    public static bool IsValid(VoxelManager.VoxelState[,,] solution, Clue[,] frontClues, Clue[,] sideClues, Clue[,] topClues)
+    public static VoxelManager.VoxelState[,,] IsValid(VoxelManager.VoxelState[,,] solution, Clue[,] frontClues, Clue[,] sideClues, Clue[,] topClues)
     {
         int length = solution.GetLength(0);
         int height = solution.GetLength(1);
@@ -13,6 +13,18 @@ public static class Validator
         {
             for (int i = 0; i < length; i++)
             {
+                VoxelManager.VoxelState[] line = new VoxelManager.VoxelState[width];
+                VoxelManager.VoxelState[] solutionLine = new VoxelManager.VoxelState[width];
+
+                for (int k = 0; k < width; k++)
+                {
+                    line[k] = workingSolution[i, j, k];
+                    solutionLine[k] = solution[i, j, k];
+                }
+
+                Clue lineClue = frontClues[i, j];
+
+                LineSolverDriver(ref line, ref lineClue, solutionLine);
             }
         }
 
@@ -21,6 +33,18 @@ public static class Validator
         {
             for (int k = 0; k < width; k++)
             {
+                VoxelManager.VoxelState[] line = new VoxelManager.VoxelState[width];
+                VoxelManager.VoxelState[] solutionLine = new VoxelManager.VoxelState[width];
+
+                for (int i = 0; i < length; i++)
+                {
+                    line[i] = workingSolution[i, j, k];
+                    solutionLine[i] = solution[i, j, k];
+                }
+
+                Clue lineClue = sideClues[k, j];
+
+                LineSolverDriver(ref line, ref lineClue, solutionLine);
             }
         }
 
@@ -29,17 +53,66 @@ public static class Validator
         {
             for (int i = 0; i < length; i++)
             {
+                VoxelManager.VoxelState[] line = new VoxelManager.VoxelState[width];
+                VoxelManager.VoxelState[] solutionLine = new VoxelManager.VoxelState[width];
+
+                for (int j = 0; j < length; j++)
+                {
+                    line[j] = workingSolution[i, j, k];
+                    solutionLine[j] = solution[i, j, k];
+                }
+
+                Clue lineClue = topClues[i, k];
+
+                LineSolverDriver(ref line, ref lineClue, solutionLine);
             }
         }
 
-        return false;
+        return workingSolution;
     }
 
-    private static void LineSolverDriver(ref VoxelManager.VoxelState[] line, ref Clue lineClue)
+    private static void LineSolverDriver(ref VoxelManager.VoxelState[] line, ref Clue lineClue, VoxelManager.VoxelState[] solutionLine)
     {
-        // run all the methods and check if the line is complete in-between
-
-
+        LineEmptyCheck(ref line, ref lineClue);
+        if (lineClue.Complete)
+        {
+            return;
+        }
+        LineFullCheck(ref line, ref lineClue);
+        if (lineClue.Complete)
+        {
+            return;
+        }
+        DeduceOverlaps(ref line, ref lineClue);
+        if (lineClue.Complete)
+        {
+            return;
+        }
+        CheckLineCompletion(line, solutionLine, ref lineClue);
+        if (lineClue.Complete)
+        {
+            return;
+        }
+        DeduceByTracing(ref line, ref lineClue);
+        CheckLineCompletion(line, solutionLine, ref lineClue);
+        if (lineClue.Complete)
+        {
+            return;
+        }
+        DeduceClears(ref line, ref lineClue);
+        CheckLineCompletion(line, solutionLine, ref lineClue);
+        if (lineClue.Complete)
+        {
+            return;
+        }
+        DeduceJoins(ref line, ref lineClue);
+        CheckLineCompletion(line, solutionLine, ref lineClue);
+        if (lineClue.Complete)
+        {
+            return;
+        }
+        DeduceGapEdgeMarks(ref line, ref lineClue);
+        CheckLineCompletion(line, solutionLine, ref lineClue);
     }
 
     #region Line solver methods
@@ -94,7 +167,7 @@ public static class Validator
 
             // Find left overlap index
             counted = 0;
-            for (int i = line.Length; i >= 0; i--)
+            for (int i = line.Length - 1; i >= 0; i--)
             {
                 DeduceOverlapsHelper(ref line, ref lineClue, ref leftOverlapIndex, ref counted, i);
             }
@@ -147,7 +220,7 @@ public static class Validator
             // Trace right side
             started = false;
             counted = 0;
-            for (int i = line.Length; i >= 0; i--)
+            for (int i = line.Length - 1; i >= 0; i--)
             {
                 DeduceByTracingHelper(ref line, ref lineClue, ref started, ref counted, i);
 
@@ -194,7 +267,7 @@ public static class Validator
 
             started = false;
             counted = 0;
-            for (int i = line.Length; i >= 0; i--)
+            for (int i = line.Length - 1; i >= 0; i--)
             {
                 DeduceClearsHelper(ref line, ref lineClue, ref started, ref counted, i);
             }

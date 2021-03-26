@@ -48,7 +48,7 @@ public class VoxelManager : MonoBehaviour
     private int _visibleLayersX, _visibleLayersY, _visibleLayersZ;
     private GameObject[,,] _voxels;
     private Clue[,] _frontClues, _sideClues, _topClues;
-    private bool[,,] _solution;
+    private VoxelState[,,] _solution;
     private Vector3 _target = Vector3.zero;
     private Transform _cameraTransform;
     private bool _coroutineFinished = true;
@@ -78,6 +78,12 @@ public class VoxelManager : MonoBehaviour
         _topClues = new Clue[length, width];
 
         NumberAllVoxels();
+
+        VoxelState[,,] calculatedSolution = Validator.IsValid(_solution, _frontClues, _sideClues, _topClues);
+
+        Debug.Log("Calculated Sol:");
+        PrintSolution(calculatedSolution);
+
         _modeText.text = "Mode: Mark";
     }
 
@@ -210,7 +216,7 @@ public class VoxelManager : MonoBehaviour
                 {
                     _voxels[i, j, k] = Instantiate(cube, new Vector3(i - length / 2, j - height / 2, k - width / 2),
                         Quaternion.identity, transform);
-                    _voxels[i, j, k].GetComponent<Voxel>().IsPuzzleVoxel = _solution[i, j, k];
+                    _voxels[i, j, k].GetComponent<Voxel>().IsPuzzleVoxel = _solution[i, j, k] == VoxelState.Marked;
                     _voxels[i, j, k].GetComponent<Voxel>().Manager = this;
                     _voxels[i, j, k].GetComponent<Voxel>().IndexPosition = new Vector3(i, j, k);
                 }
@@ -322,7 +328,7 @@ public class VoxelManager : MonoBehaviour
 
     private void CreateSolution()
     {
-        _solution = new bool[length, height, width];
+        _solution = new VoxelState[length, height, width];
 
         for (int i = 0; i < length; i++)
         {
@@ -330,15 +336,16 @@ public class VoxelManager : MonoBehaviour
             {
                 for (int k = 0; k < width; k++)
                 {
-                    _solution[i, j, k] = Convert.ToBoolean(Random.Range(0, 2));
+                    _solution[i, j, k] = Convert.ToBoolean(Random.Range(0, 2)) ? VoxelState.Cleared : VoxelState.Marked;
                 }
             }
         }
 
-        PrintSolution();
+        Debug.Log("Actual Sol:");
+        PrintSolution(_solution);
     }
 
-    private void PrintSolution()
+    private void PrintSolution(VoxelState[,,] solution)
     {
         string matrices = "Solution:";
         for (int k = width - 1; k >= 0; k--)
@@ -349,7 +356,7 @@ public class VoxelManager : MonoBehaviour
                 matrices += "| ";
                 for (int i = 0; i < length; i++)
                 {
-                    matrices += $"{(_solution[i, j, k] ? 1 : 0)} ";
+                    matrices += $"{(solution[i, j, k] == VoxelState.Marked ? 1 : 0)} ";
                 }
 
                 matrices += "|\n";
@@ -372,7 +379,7 @@ public class VoxelManager : MonoBehaviour
 
                 for (int k = 0; k < width; k++)
                 {
-                    if (_solution[i, j, k])
+                    if (_solution[i, j, k] == VoxelState.Marked)
                     {
                         voxelCount++;
                         previousWasGap = false;
@@ -406,7 +413,7 @@ public class VoxelManager : MonoBehaviour
 
                 for (int i = 0; i < length; i++)
                 {
-                    if (_solution[i, j, k])
+                    if (_solution[i, j, k] == VoxelState.Marked)
                     {
                         voxelCount++;
                         previousWasGap = false;
@@ -441,7 +448,7 @@ public class VoxelManager : MonoBehaviour
 
                 for (int j = 0; j < height; j++)
                 {
-                    if (_solution[i, j, k])
+                    if (_solution[i, j, k] == VoxelState.Marked)
                     {
                         voxelCount++;
                         if (previousWasGap)
