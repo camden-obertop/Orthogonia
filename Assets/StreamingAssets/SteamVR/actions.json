@@ -83,10 +83,6 @@
       "requirement": "optional"
     },
     {
-      "name": "/actions/picross/in/Rotate",
-      "type": "vector2"
-    },
-    {
       "name": "/actions/picross/in/SwitchMode",
       "type": "boolean"
     },
@@ -97,6 +93,10 @@
     {
       "name": "/actions/picross/in/PerformAction",
       "type": "boolean"
+    },
+    {
+      "name": "/actions/picross/in/Rotate",
+      "type": "vector2"
     }
   ],
   "action_sets": [
@@ -190,10 +190,10 @@
       "/actions/platformer/in/Jump": "Jump",
       "/actions/default/in/SnapTurnLeft": "Snap Turn (Left)",
       "/actions/default/in/SnapTurnRight": "Snap Turn (Right)",
-      "/actions/picross/in/Rotate": "Rotate",
       "/actions/picross/in/SwitchMode": "Switch Mode",
       "/actions/picross/in/GrabLayer": "Grab Layer",
-      "/actions/picross/in/PerformAction": "Perform Action"
+      "/actions/picross/in/PerformAction": "Perform Action",
+      "/actions/picross/in/Rotate": "Rotate"
     }
   ]
 }

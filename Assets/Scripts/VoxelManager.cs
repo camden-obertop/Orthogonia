@@ -40,7 +40,7 @@ public class VoxelManager : MonoBehaviour
     private GameObject[,,] _voxels;
     private Clue[,] _frontClues, _sideClues, _topClues;
     private bool[,,] _solution;
-    private Vector3 _target = Vector3.zero;
+    private Vector3 _target;
     private Transform _cameraTransform;
     private bool _coroutineFinished = true;
     private bool _canVerticallyRotate = true;
@@ -55,6 +55,8 @@ public class VoxelManager : MonoBehaviour
 
     private void Start()
     {
+        _target = transform.position;
+        
         _visibleLayersX = length - 1;
         _visibleLayersY = height - 1;
         _visibleLayersZ = width - 1;
@@ -198,7 +200,7 @@ public class VoxelManager : MonoBehaviour
             {
                 for (int k = 0; k < width; k++)
                 {
-                    _voxels[i, j, k] = Instantiate(cube, new Vector3(i - length / 2, j - height / 2, k - width / 2),
+                    _voxels[i, j, k] = Instantiate(cube, transform.position + new Vector3((i - length/2) * cube.transform.localScale.x, (j - height/2) * cube.transform.localScale.y, (k - width/2) * cube.transform.localScale.z),
                         Quaternion.identity, transform);
                     _voxels[i, j, k].GetComponent<Voxel>().IsPuzzleVoxel = _solution[i, j, k];
                     _voxels[i, j, k].GetComponent<Voxel>().Manager = this;
@@ -654,28 +656,47 @@ public class VoxelManager : MonoBehaviour
 
         float horizontalMovement = SteamVR_Actions.picross.Rotate[SteamVR_Input_Sources.Any].axis.x;
         float verticalMovement = SteamVR_Actions.picross.Rotate[SteamVR_Input_Sources.Any].axis.y;
+
+        bool rotateRight = false;
+        bool rotateLeft = false;
+        bool rotateUp = false;
+        bool rotateDown = false;
+
+        if (horizontalMovement >= .9f)
+        {
+            rotateRight = true;
+        }
+        if (horizontalMovement <= -.9f)
+        {
+            rotateLeft = true;
+        }
+        if (verticalMovement >= .9f)
+        {
+            rotateUp = true;
+        }
+        if (verticalMovement <= -.9f)
+        {
+            rotateDown = true;
+        }
+
         float timeSpeed = rotateSpeed * Time.deltaTime;
 
-        transform.RotateAround(_target, transform.up, -horizontalMovement * timeSpeed);
-        transform.RotateAround(_target, _cameraTransform.right, verticalMovement * timeSpeed);
-
-
-        if (Input.GetKey(KeyCode.J))
+        if (Input.GetKey(KeyCode.J) || rotateLeft)
         {
             transform.RotateAround(_target, transform.up, timeSpeed);
         }
 
-        if (Input.GetKey(KeyCode.L))
+        if (Input.GetKey(KeyCode.L) || rotateRight)
         {
             transform.RotateAround(_target, transform.up, -timeSpeed);
         }
 
-        if (Input.GetKey(KeyCode.I) && _canVerticallyRotate)
+        if (Input.GetKey(KeyCode.I) || rotateUp && _canVerticallyRotate)
         {
             transform.RotateAround(_target, _cameraTransform.right, timeSpeed);
         }
 
-        if (Input.GetKey(KeyCode.K) && _canVerticallyRotate)
+        if (Input.GetKey(KeyCode.K) || rotateDown && _canVerticallyRotate)
         {
             transform.RotateAround(_target, _cameraTransform.right, -timeSpeed);
         }

@@ -17,14 +17,6 @@ namespace Valve.VR
     public class SteamVR_Input_ActionSet_picross : Valve.VR.SteamVR_ActionSet
     {
         
-        public virtual SteamVR_Action_Vector2 Rotate
-        {
-            get
-            {
-                return SteamVR_Actions.picross_Rotate;
-            }
-        }
-        
         public virtual SteamVR_Action_Boolean SwitchMode
         {
             get
@@ -46,6 +38,14 @@ namespace Valve.VR
             get
             {
                 return SteamVR_Actions.picross_PerformAction;
+            }
+        }
+        
+        public virtual SteamVR_Action_Vector2 Rotate
+        {
+            get
+            {
+                return SteamVR_Actions.picross_Rotate;
             }
         }
     }
