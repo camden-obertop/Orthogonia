@@ -1,4 +1,6 @@
-public static class Validator
+using UnityEngine;
+
+public class Validator : MonoBehaviour
 {
     public static VoxelManager.VoxelState[,,] IsValid(VoxelManager.VoxelState[,,] solution, Clue[,] frontClues, Clue[,] sideClues, Clue[,] topClues)
     {
@@ -8,63 +10,115 @@ public static class Validator
 
         VoxelManager.VoxelState[,,] workingSolution = new VoxelManager.VoxelState[length, height, width];
 
-        // for every front line
-        for (int j = 0; j < height; j++)
+        bool noWorkDone = false;
+        while (!noWorkDone)
         {
-            for (int i = 0; i < length; i++)
+            // for every front line
+            bool frontDidWork = false;
+            for (int j = 0; j < height; j++)
             {
-                VoxelManager.VoxelState[] line = new VoxelManager.VoxelState[width];
-                VoxelManager.VoxelState[] solutionLine = new VoxelManager.VoxelState[width];
-
-                for (int k = 0; k < width; k++)
-                {
-                    line[k] = workingSolution[i, j, k];
-                    solutionLine[k] = solution[i, j, k];
-                }
-
-                Clue lineClue = frontClues[i, j];
-
-                LineSolverDriver(ref line, ref lineClue, solutionLine);
-            }
-        }
-
-        // for every side line
-        for (int j = 0; j < height; j++)
-        {
-            for (int k = 0; k < width; k++)
-            {
-                VoxelManager.VoxelState[] line = new VoxelManager.VoxelState[width];
-                VoxelManager.VoxelState[] solutionLine = new VoxelManager.VoxelState[width];
-
                 for (int i = 0; i < length; i++)
                 {
-                    line[i] = workingSolution[i, j, k];
-                    solutionLine[i] = solution[i, j, k];
+                    VoxelManager.VoxelState[] line = new VoxelManager.VoxelState[width];
+                    VoxelManager.VoxelState[] solutionLine = new VoxelManager.VoxelState[width];
+
+                    for (int k = 0; k < width; k++)
+                    {
+                        line[k] = workingSolution[i, j, k];
+                        solutionLine[k] = solution[i, j, k];
+                    }
+
+                    Clue lineClue = frontClues[i, j];
+
+                    VoxelManager.VoxelState[] lineCopy = (VoxelManager.VoxelState[]) line.Clone();
+
+                    LineSolverDriver(ref line, ref lineClue, solutionLine);
+
+                    for (int state = 0; state < line.Length; state++)
+                    {
+                        if (line[state] != lineCopy[state])
+                            frontDidWork = true;
+                    }
+
+                    for (int k = 0; k < width; k++)
+                    {
+                        workingSolution[i, j, k] = line[k];
+                    }
                 }
-
-                Clue lineClue = sideClues[k, j];
-
-                LineSolverDriver(ref line, ref lineClue, solutionLine);
             }
-        }
 
-        // for every top line
-        for (int k = 0; k < width; k++)
-        {
-            for (int i = 0; i < length; i++)
+            // for every side line
+            bool sideDidWork = false;
+            for (int j = 0; j < height; j++)
             {
-                VoxelManager.VoxelState[] line = new VoxelManager.VoxelState[width];
-                VoxelManager.VoxelState[] solutionLine = new VoxelManager.VoxelState[width];
-
-                for (int j = 0; j < length; j++)
+                for (int k = 0; k < width; k++)
                 {
-                    line[j] = workingSolution[i, j, k];
-                    solutionLine[j] = solution[i, j, k];
+                    VoxelManager.VoxelState[] line = new VoxelManager.VoxelState[width];
+                    VoxelManager.VoxelState[] solutionLine = new VoxelManager.VoxelState[width];
+
+                    for (int i = 0; i < length; i++)
+                    {
+                        line[i] = workingSolution[i, j, k];
+                        solutionLine[i] = solution[i, j, k];
+                    }
+
+                    Clue lineClue = sideClues[k, j];
+
+                    VoxelManager.VoxelState[] lineCopy = (VoxelManager.VoxelState[])line.Clone();
+
+                    LineSolverDriver(ref line, ref lineClue, solutionLine);
+
+                    for (int state = 0; state < line.Length; state++)
+                    {
+                        if (line[state] != lineCopy[state])
+                            sideDidWork = true;
+                    }
+
+                    for (int i = 0; i < length; i++)
+                    {
+                        workingSolution[i, j, k] = line[i];
+                    }
                 }
+            }
 
-                Clue lineClue = topClues[i, k];
+            // for every top line
+            bool topDidWork = false;
+            for (int k = 0; k < width; k++)
+            {
+                for (int i = 0; i < length; i++)
+                {
+                    VoxelManager.VoxelState[] line = new VoxelManager.VoxelState[width];
+                    VoxelManager.VoxelState[] solutionLine = new VoxelManager.VoxelState[width];
 
-                LineSolverDriver(ref line, ref lineClue, solutionLine);
+                    for (int j = 0; j < length; j++)
+                    {
+                        line[j] = workingSolution[i, j, k];
+                        solutionLine[j] = solution[i, j, k];
+                    }
+
+                    Clue lineClue = topClues[i, k];
+
+                    VoxelManager.VoxelState[] lineCopy = (VoxelManager.VoxelState[])line.Clone();
+
+                    LineSolverDriver(ref line, ref lineClue, solutionLine);
+
+                    for (int state = 0; state < line.Length; state++)
+                    {
+                        if (line[state] != lineCopy[state])
+                            topDidWork = true;
+                    }
+
+                    for (int j = 0; j < length; j++)
+                    {
+                        workingSolution[i, j, k] = line[j];
+                    }
+                }
+            }
+
+            if (!frontDidWork && !sideDidWork && !topDidWork)
+            {
+                noWorkDone = true;
+                break;
             }
         }
 
@@ -162,14 +216,16 @@ public static class Validator
             int counted = 0;
             for (int i = 0; i < line.Length; i++)
             {
-                DeduceOverlapsHelper(ref line, ref lineClue, ref rightOverlapIndex, ref counted, i);
+                if (DeduceOverlapsHelper(ref line, ref lineClue, ref rightOverlapIndex, ref counted, i))
+                    break;
             }
 
             // Find left overlap index
             counted = 0;
             for (int i = line.Length - 1; i >= 0; i--)
             {
-                DeduceOverlapsHelper(ref line, ref lineClue, ref leftOverlapIndex, ref counted, i);
+                if (DeduceOverlapsHelper(ref line, ref lineClue, ref leftOverlapIndex, ref counted, i))
+                    break;
             }
 
             if (rightOverlapIndex >= leftOverlapIndex)
@@ -182,7 +238,7 @@ public static class Validator
         }
     }
 
-    private static void DeduceOverlapsHelper(ref VoxelManager.VoxelState[] line, ref Clue lineClue, ref int overlapIndex, ref int counted, int index)
+    private static bool DeduceOverlapsHelper(ref VoxelManager.VoxelState[] line, ref Clue lineClue, ref int overlapIndex, ref int counted, int index)
     {
         if (line[index] == VoxelManager.VoxelState.Unmarked || line[index] == VoxelManager.VoxelState.Marked)
         {
@@ -191,13 +247,15 @@ public static class Validator
             if (counted >= lineClue.VoxelCount)
             {
                 overlapIndex = index;
-                return;
+                return true;
             }
         }
         else if (line[index] == VoxelManager.VoxelState.Cleared)
         {
             counted = 0;
         }
+
+        return false;
     }
 
     private static void DeduceByTracing(ref VoxelManager.VoxelState[] line, ref Clue lineClue)

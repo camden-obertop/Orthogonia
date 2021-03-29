@@ -356,7 +356,10 @@ public class VoxelManager : MonoBehaviour
                 matrices += "| ";
                 for (int i = 0; i < length; i++)
                 {
-                    matrices += $"{(solution[i, j, k] == VoxelState.Marked ? 1 : 0)} ";
+                    char toAdd = 'u';
+                    if (solution[i, j, k] != VoxelState.Unmarked)
+                        toAdd = solution[i, j, k] == VoxelState.Marked ? '1' : '0';
+                    matrices += $"{toAdd} ";
                 }
 
                 matrices += "|\n";
