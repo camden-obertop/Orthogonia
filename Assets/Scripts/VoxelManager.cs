@@ -662,22 +662,32 @@ public class VoxelManager : MonoBehaviour
         bool rotateUp = false;
         bool rotateDown = false;
 
-        if (horizontalMovement >= .9f)
+        if (horizontalMovement >= .8f)
         {
             rotateRight = true;
         }
-        if (horizontalMovement <= -.9f)
+        if (horizontalMovement <= -.8f)
         {
             rotateLeft = true;
         }
-        if (verticalMovement >= .9f)
+        if (verticalMovement >= .8f)
         {
             rotateUp = true;
         }
-        if (verticalMovement <= -.9f)
+        if (verticalMovement <= -.8f)
         {
             rotateDown = true;
         }
+
+        bool switchMode = SteamVR_Actions.picross.SwitchMode[SteamVR_Input_Sources.Any].stateDown;
+        Debug.Log(switchMode);
+
+        bool performAction = SteamVR_Actions.picross.PerformAction[SteamVR_Input_Sources.Any].stateDown;
+        Debug.Log(performAction);
+
+        bool grabLayer = SteamVR_Actions.picross.GrabLayer[SteamVR_Input_Sources.Any].stateDown;
+        Debug.Log(grabLayer);
+
 
         float timeSpeed = rotateSpeed * Time.deltaTime;
 

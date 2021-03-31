@@ -25,8 +25,8 @@ MonoBehaviour:
   legacyMixedRealityCamera: 1
   mixedRealityCameraPose:
     actionPath: /actions/mixedreality/in/ExternalCamera
-    needsReinit: 0
+    needsReinit: 1
   mixedRealityCameraInputSource: 11
   mixedRealityActionSetAutoEnable: 1
-  previewHandLeft: {fileID: 0}
-  previewHandRight: {fileID: 0}
+  previewHandLeft: {fileID: 1000013275439980, guid: 78cacad1b5fb93349a980d2189b52b89, type: 3}
+  previewHandRight: {fileID: 1000013261032168, guid: a2330dd3e2bcb44428f727270af1d625, type: 3}

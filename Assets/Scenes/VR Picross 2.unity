@@ -189,7 +189,7 @@ MonoBehaviour:
   actionSet:
     actionSetPath: /actions/picross
   forSources: 0
-  disableAllOtherActionSets: 1
+  disableAllOtherActionSets: 0
   activateOnStart: 1
   deactivateOnDestroy: 1
   initialPriority: -5

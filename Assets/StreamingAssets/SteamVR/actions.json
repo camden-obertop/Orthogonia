@@ -5,10 +5,6 @@
       "type": "boolean"
     },
     {
-      "name": "/actions/default/in/Teleport",
-      "type": "boolean"
-    },
-    {
       "name": "/actions/default/in/GrabPinch",
       "type": "boolean"
     },
@@ -41,46 +37,8 @@
       "requirement": "optional"
     },
     {
-      "name": "/actions/default/in/SnapTurnLeft",
-      "type": "boolean",
-      "requirement": "suggested"
-    },
-    {
-      "name": "/actions/default/in/SnapTurnRight",
-      "type": "boolean"
-    },
-    {
       "name": "/actions/default/out/Haptic",
       "type": "vibration"
-    },
-    {
-      "name": "/actions/platformer/in/Move",
-      "type": "vector2"
-    },
-    {
-      "name": "/actions/platformer/in/Jump",
-      "type": "boolean"
-    },
-    {
-      "name": "/actions/buggy/in/Steering",
-      "type": "vector2"
-    },
-    {
-      "name": "/actions/buggy/in/Throttle",
-      "type": "vector1"
-    },
-    {
-      "name": "/actions/buggy/in/Brake",
-      "type": "boolean"
-    },
-    {
-      "name": "/actions/buggy/in/Reset",
-      "type": "boolean"
-    },
-    {
-      "name": "/actions/mixedreality/in/ExternalCamera",
-      "type": "pose",
-      "requirement": "optional"
     },
     {
       "name": "/actions/picross/in/SwitchMode",
@@ -97,6 +55,18 @@
     {
       "name": "/actions/picross/in/Rotate",
       "type": "vector2"
+    },
+    {
+      "name": "/actions/overworld/in/Teleport",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/overworld/in/SnapTurnLeft",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/overworld/in/SnapTurnRight",
+      "type": "boolean"
     }
   ],
   "action_sets": [
@@ -105,20 +75,12 @@
       "usage": "single"
     },
     {
-      "name": "/actions/platformer",
-      "usage": "single"
-    },
-    {
-      "name": "/actions/buggy",
-      "usage": "single"
-    },
-    {
-      "name": "/actions/mixedreality",
-      "usage": "single"
-    },
-    {
       "name": "/actions/picross",
-      "usage": "leftright"
+      "usage": "single"
+    },
+    {
+      "name": "/actions/overworld",
+      "usage": "single"
     }
   ],
   "default_bindings": [
@@ -185,15 +147,14 @@
       "/actions/default/in/Pose": "Pose",
       "/actions/default/in/SkeletonLeftHand": "Skeleton (Left)",
       "/actions/default/in/SkeletonRightHand": "Skeleton (Right)",
-      "/actions/default/in/Teleport": "Teleport",
       "/actions/default/out/Haptic": "Haptic",
-      "/actions/platformer/in/Jump": "Jump",
-      "/actions/default/in/SnapTurnLeft": "Snap Turn (Left)",
-      "/actions/default/in/SnapTurnRight": "Snap Turn (Right)",
       "/actions/picross/in/SwitchMode": "Switch Mode",
       "/actions/picross/in/GrabLayer": "Grab Layer",
       "/actions/picross/in/PerformAction": "Perform Action",
-      "/actions/picross/in/Rotate": "Rotate"
+      "/actions/picross/in/Rotate": "Rotate",
+      "/actions/overworld/in/Teleport": "Teleport",
+      "/actions/overworld/in/SnapTurnLeft": "Snap Turn (Left)",
+      "/actions/overworld/in/SnapTurnRight": "Snap Turn (Right)"
     }
   ]
 }

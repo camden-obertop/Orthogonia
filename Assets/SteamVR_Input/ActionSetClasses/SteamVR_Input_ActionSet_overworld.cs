@@ -14,38 +14,30 @@ namespace Valve.VR
     using UnityEngine;
     
     
-    public class SteamVR_Input_ActionSet_buggy : Valve.VR.SteamVR_ActionSet
+    public class SteamVR_Input_ActionSet_overworld : Valve.VR.SteamVR_ActionSet
     {
         
-        public virtual SteamVR_Action_Vector2 Steering
+        public virtual SteamVR_Action_Boolean Teleport
         {
             get
             {
-                return SteamVR_Actions.buggy_Steering;
+                return SteamVR_Actions.overworld_Teleport;
             }
         }
         
-        public virtual SteamVR_Action_Single Throttle
+        public virtual SteamVR_Action_Boolean SnapTurnLeft
         {
             get
             {
-                return SteamVR_Actions.buggy_Throttle;
+                return SteamVR_Actions.overworld_SnapTurnLeft;
             }
         }
         
-        public virtual SteamVR_Action_Boolean Brake
+        public virtual SteamVR_Action_Boolean SnapTurnRight
         {
             get
             {
-                return SteamVR_Actions.buggy_Brake;
-            }
-        }
-        
-        public virtual SteamVR_Action_Boolean Reset
-        {
-            get
-            {
-                return SteamVR_Actions.buggy_Reset;
+                return SteamVR_Actions.overworld_SnapTurnRight;
             }
         }
     }
