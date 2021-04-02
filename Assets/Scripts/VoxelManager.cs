@@ -20,6 +20,20 @@ public struct Clue
     public bool Complete;
 }
 
+public struct VoxelInfo
+{
+    public VoxelInfo(VoxelManager.VoxelState voxelState, Color voxelColor, Vector3Int position)
+    {
+        VoxelState = voxelState;
+        VoxelColor = voxelColor;
+        Position = position;
+    }
+
+    public VoxelManager.VoxelState VoxelState;
+    public Color VoxelColor;
+    public Vector3Int Position;
+}
+
 public class VoxelManager : MonoBehaviour
 {
     public enum GameMode
