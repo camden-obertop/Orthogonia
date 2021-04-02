@@ -46,6 +46,7 @@ public class VoxelManager : MonoBehaviour
     private bool _canVerticallyRotate = true;
 
     private GameMode _currentGameMode = GameMode.Mark;
+    [SerializeField] private Text _modeText;
 
     public GameMode CurrentGameMode
     {
@@ -71,6 +72,8 @@ public class VoxelManager : MonoBehaviour
         _topClues = new Clue[length, width];
 
         NumberAllVoxels();
+
+        _modeText.text = "Mark";
     }
 
     public void UpdateAdjacentVoxelHints(Vector3 indexPosition)
@@ -215,10 +218,35 @@ public class VoxelManager : MonoBehaviour
         ManageRotations();
         ManageVisibleLayers();
         ManageMode();
+
+        // TEMP TEMP TEMP
+        bool performAction = SteamVR_Actions.picross.PerformAction[SteamVR_Input_Sources.Any].stateDown;
+
+        bool grabLayer = SteamVR_Actions.picross.GrabLayer[SteamVR_Input_Sources.Any].stateDown;
     }
 
     private void ManageMode()
     {
+
+        bool switchMode = SteamVR_Actions.picross.SwitchMode[SteamVR_Input_Sources.Any].stateDown;
+
+        if (switchMode && _currentGameMode == GameMode.Mark)
+        {
+            _currentGameMode = GameMode.Build;
+            MakeBuildable();
+            _modeText.text = "Build";
+        } else if (switchMode && _currentGameMode == GameMode.Build)
+        {
+            _currentGameMode = GameMode.Destroy;
+            MakeDestroyable();
+            _modeText.text = "Destroy";
+        } else if (switchMode && _currentGameMode == GameMode.Destroy)
+        {
+            _currentGameMode = GameMode.Mark;
+            MakeMarkable();
+            _modeText.text = "Mark";
+        }
+ 
         GameMode newGameMode;
         if (Input.GetKeyDown(KeyCode.Z))
         {
@@ -652,7 +680,6 @@ public class VoxelManager : MonoBehaviour
     private void ManageRotations()
     {
         Vector2 controllerRotation = SteamVR_Actions.picross.Rotate[SteamVR_Input_Sources.Any].axis;
-        Debug.Log(controllerRotation);
 
         float horizontalMovement = SteamVR_Actions.picross.Rotate[SteamVR_Input_Sources.Any].axis.x;
         float verticalMovement = SteamVR_Actions.picross.Rotate[SteamVR_Input_Sources.Any].axis.y;
@@ -678,15 +705,6 @@ public class VoxelManager : MonoBehaviour
         {
             rotateDown = true;
         }
-
-        bool switchMode = SteamVR_Actions.picross.SwitchMode[SteamVR_Input_Sources.Any].stateDown;
-        Debug.Log(switchMode);
-
-        bool performAction = SteamVR_Actions.picross.PerformAction[SteamVR_Input_Sources.Any].stateDown;
-        Debug.Log(performAction);
-
-        bool grabLayer = SteamVR_Actions.picross.GrabLayer[SteamVR_Input_Sources.Any].stateDown;
-        Debug.Log(grabLayer);
 
 
         float timeSpeed = rotateSpeed * Time.deltaTime;
