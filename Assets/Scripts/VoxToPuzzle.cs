@@ -1,36 +1,54 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using CsharpVoxReader;
 using CsharpVoxReader.Chunks;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public class VoxToPuzzle : MonoBehaviour
 {
+    [SerializeField] private string newPuzzleName = "New Puzzle";
+    [SerializeField] private string nameOfVoxFile = "Fox2Test.vox";
+
     private void Start()
     {
         Loader loader = new Loader();
-        VoxReader reader = new VoxReader(@"C:\Users\jgoter2\Documents\GitHub\vr-nonogram\Assets\Puzzles\Vox\Grass.vox", loader);
+        string path = Application.dataPath + "\\Puzzles\\Vox\\" + nameOfVoxFile;
+        VoxReader reader = new VoxReader(@path, loader);
         reader.Read();
+
+        GameObject newPuzzle = new GameObject();
+        newPuzzle.name = newPuzzleName;
+        newPuzzle.AddComponent<Puzzle>().SetPuzzleVoxels(loader.Palette, loader.Data, loader.SizeX, loader.SizeY, loader.SizeZ);
+
+#if UNITY_EDITOR
+        PrefabUtility.SaveAsPrefabAsset(newPuzzle, "Assets/Puzzles/" + newPuzzle.name + ".prefab");
+#endif
     }
 }
 
 public class Loader : IVoxLoader
 {
+    public byte[,,] Data;
+    public UInt32[] Palette;
+    public Int32 SizeX;
+    public Int32 SizeY;
+    public Int32 SizeZ;
+
     public void LoadModel(Int32 sizeX, Int32 sizeY, Int32 sizeZ, byte[,,] data)
     {
-        bool loaded = true;
-        // Create a model
+        SizeX = sizeX;
+        SizeY = sizeY;
+        SizeZ = sizeZ;
+        Data = data;
     }
 
     public void LoadPalette(UInt32[] palette)
     {
-        // Set palette
-        bool howdy = true;
-
-        // You can use extension method ToARGB from namespace CsharpVoxReader
-        // To get rgba values
-        // ie: palette[1].ToARGB(out a, out r, out g, out b)
+        Palette = palette;
     }
 
     public void NewGroupNode(int id, Dictionary<string, byte[]> attributes, int[] childrenIds)
