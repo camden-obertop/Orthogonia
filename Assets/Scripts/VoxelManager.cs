@@ -12,11 +12,13 @@ public struct Clue
         Blank = blank;
         VoxelCount = voxelCount;
         GapCount = gapCount;
+        Complete = false;
     }
 
     public bool Blank;
     public int VoxelCount;
     public int GapCount;
+    public bool Complete;
 }
 
 public class VoxelManager : MonoBehaviour
@@ -26,6 +28,13 @@ public class VoxelManager : MonoBehaviour
         Build,
         Destroy,
         Mark,
+    }
+
+    public enum VoxelState
+    {
+        Unmarked = 0,
+        Marked = 1,
+        Cleared = 2,
     }
 
     [SerializeField] private int length, height, width; // length = x, height = y, width = z 
@@ -39,8 +48,8 @@ public class VoxelManager : MonoBehaviour
     private int _visibleLayersX, _visibleLayersY, _visibleLayersZ;
     private GameObject[,,] _voxels;
     private Clue[,] _frontClues, _sideClues, _topClues;
-    private bool[,,] _solution;
-    private Vector3 _target;
+    private VoxelState[,,] _solution;
+    private Vector3 _target = Vector3.zero;
     private Transform _cameraTransform;
     private bool _coroutineFinished = true;
     private bool _canVerticallyRotate = true;
@@ -72,6 +81,11 @@ public class VoxelManager : MonoBehaviour
         _topClues = new Clue[length, width];
 
         NumberAllVoxels();
+
+        VoxelState[,,] calculatedSolution = Validator.IsValid(_solution, _frontClues, _sideClues, _topClues);
+
+        Debug.Log("Calculated Sol:");
+        PrintSolution(calculatedSolution);
 
         _modeText.text = "Mark";
     }
@@ -205,7 +219,7 @@ public class VoxelManager : MonoBehaviour
                 {
                     _voxels[i, j, k] = Instantiate(cube, transform.position + new Vector3((i - length/2) * cube.transform.localScale.x, (j - height/2) * cube.transform.localScale.y, (k - width/2) * cube.transform.localScale.z),
                         Quaternion.identity, transform);
-                    _voxels[i, j, k].GetComponent<Voxel>().IsPuzzleVoxel = _solution[i, j, k];
+                    _voxels[i, j, k].GetComponent<Voxel>().IsPuzzleVoxel = _solution[i, j, k] == VoxelState.Marked;
                     _voxels[i, j, k].GetComponent<Voxel>().Manager = this;
                     _voxels[i, j, k].GetComponent<Voxel>().IndexPosition = new Vector3(i, j, k);
                 }
@@ -339,7 +353,7 @@ public class VoxelManager : MonoBehaviour
 
     private void CreateSolution()
     {
-        _solution = new bool[length, height, width];
+        _solution = new VoxelState[length, height, width];
 
         for (int i = 0; i < length; i++)
         {
@@ -347,15 +361,16 @@ public class VoxelManager : MonoBehaviour
             {
                 for (int k = 0; k < width; k++)
                 {
-                    _solution[i, j, k] = Convert.ToBoolean(Random.Range(0, 2));
+                    _solution[i, j, k] = Convert.ToBoolean(Random.Range(0, 2)) ? VoxelState.Cleared : VoxelState.Marked;
                 }
             }
         }
 
-        PrintSolution();
+        Debug.Log("Actual Sol:");
+        PrintSolution(_solution);
     }
 
-    private void PrintSolution()
+    private void PrintSolution(VoxelState[,,] solution)
     {
         string matrices = "Solution:";
         for (int k = width - 1; k >= 0; k--)
@@ -366,7 +381,10 @@ public class VoxelManager : MonoBehaviour
                 matrices += "| ";
                 for (int i = 0; i < length; i++)
                 {
-                    matrices += $"{(_solution[i, j, k] ? 1 : 0)} ";
+                    char toAdd = 'u';
+                    if (solution[i, j, k] != VoxelState.Unmarked)
+                        toAdd = solution[i, j, k] == VoxelState.Marked ? '1' : '0';
+                    matrices += $"{toAdd} ";
                 }
 
                 matrices += "|\n";
@@ -389,7 +407,7 @@ public class VoxelManager : MonoBehaviour
 
                 for (int k = 0; k < width; k++)
                 {
-                    if (_solution[i, j, k])
+                    if (_solution[i, j, k] == VoxelState.Marked)
                     {
                         voxelCount++;
                         previousWasGap = false;
@@ -423,7 +441,7 @@ public class VoxelManager : MonoBehaviour
 
                 for (int i = 0; i < length; i++)
                 {
-                    if (_solution[i, j, k])
+                    if (_solution[i, j, k] == VoxelState.Marked)
                     {
                         voxelCount++;
                         previousWasGap = false;
@@ -458,7 +476,7 @@ public class VoxelManager : MonoBehaviour
 
                 for (int j = 0; j < height; j++)
                 {
-                    if (_solution[i, j, k])
+                    if (_solution[i, j, k] == VoxelState.Marked)
                     {
                         voxelCount++;
                         if (previousWasGap)
