@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using UnityEngine.UI;
@@ -53,6 +54,8 @@ public class VoxelManager : MonoBehaviour
     private Transform _cameraTransform;
     private bool _coroutineFinished = true;
     private bool _canVerticallyRotate = true;
+    private Dictionary<string, Vector3> _cubeFaceCenterCoords;
+    private string _nearestFace;
 
     private GameMode _currentGameMode = GameMode.Mark;
     [SerializeField] private Text _modeText;
@@ -88,6 +91,10 @@ public class VoxelManager : MonoBehaviour
         PrintSolution(calculatedSolution);
 
         _modeText.text = "Mark";
+
+        _cubeFaceCenterCoords = new Dictionary<string, Vector3>();
+        _nearestFace = "";
+        InitializeCubeFaceCenterCoords();
     }
 
     public void UpdateAdjacentVoxelHints(Vector3 indexPosition)
@@ -227,16 +234,89 @@ public class VoxelManager : MonoBehaviour
         }
     }
 
+    private void InitializeCubeFaceCenterCoords()
+    {
+        _cubeFaceCenterCoords.Add("positiveX", Vector3.zero);
+        _cubeFaceCenterCoords.Add("negativeX", Vector3.zero);
+        _cubeFaceCenterCoords.Add("positiveY", Vector3.zero);
+        _cubeFaceCenterCoords.Add("negativeY", Vector3.zero);
+        _cubeFaceCenterCoords.Add("positiveZ", Vector3.zero);
+        _cubeFaceCenterCoords.Add("negativeZ", Vector3.zero);
+
+    }
+
     private void Update()
     {
         ManageRotations();
         ManageVisibleLayers();
         ManageMode();
+        GetNearestFace();
 
         // TEMP TEMP TEMP
         bool performAction = SteamVR_Actions.picross.PerformAction[SteamVR_Input_Sources.Any].stateDown;
 
         bool grabLayer = SteamVR_Actions.picross.GrabLayer[SteamVR_Input_Sources.Any].stateDown;
+    }
+
+    private void GetNearestFace()
+    {
+        CalculateFaceCenters();
+        float positiveXDistance = Vector3.Distance(mainCamera.transform.position, _cubeFaceCenterCoords["positiveX"]);
+        float negativeXDistance = Vector3.Distance(mainCamera.transform.position, _cubeFaceCenterCoords["negativeX"]);
+        float positiveYDistance = Vector3.Distance(mainCamera.transform.position, _cubeFaceCenterCoords["positiveY"]);
+        float negativeYDistance = Vector3.Distance(mainCamera.transform.position, _cubeFaceCenterCoords["negativeY"]);
+        float positiveZDistance = Vector3.Distance(mainCamera.transform.position, _cubeFaceCenterCoords["positiveZ"]);
+        float negativeZDistance = Vector3.Distance(mainCamera.transform.position, _cubeFaceCenterCoords["negativeZ"]);
+
+        float minimumDistance = 1000f;
+        if (positiveXDistance < minimumDistance)
+        {
+            minimumDistance = positiveXDistance;
+            _nearestFace = "positiveX";
+        }
+        if (negativeXDistance < minimumDistance)
+        {
+            minimumDistance = negativeXDistance;
+            _nearestFace = "negativeX";
+        }
+        if (positiveYDistance < minimumDistance)
+        {
+            minimumDistance = positiveYDistance;
+            _nearestFace = "positiveY";
+        }
+        if (negativeYDistance < minimumDistance)
+        {
+            minimumDistance = negativeYDistance;
+            _nearestFace = "negativeY";
+        }
+        if (positiveZDistance < minimumDistance)
+        {
+            minimumDistance = positiveZDistance;
+            _nearestFace = "positiveZ";
+        }
+        if (negativeZDistance < minimumDistance)
+        {
+            minimumDistance = negativeZDistance;
+            _nearestFace = "negativeZ";
+        }
+        Debug.Log(_nearestFace);
+    }
+
+    private void CalculateFaceCenters()
+    {
+        _cubeFaceCenterCoords["positiveX"] = transform.position + transform.forward * (length * cube.transform.localScale.x / 2);
+        _cubeFaceCenterCoords["negativeX"] = transform.position + transform.forward * (-length * cube.transform.localScale.x / 2);
+        _cubeFaceCenterCoords["positiveY"] = transform.position + transform.up * (height * cube.transform.localScale.y / 2);
+        _cubeFaceCenterCoords["negativeY"] = transform.position + transform.up * (-height * cube.transform.localScale.y / 2);
+        _cubeFaceCenterCoords["positiveZ"] = transform.position + transform.right * (width * cube.transform.localScale.z / 2);
+        _cubeFaceCenterCoords["negativeZ"] = transform.position + transform.right * (-width * cube.transform.localScale.z / 2);
+
+        Debug.DrawLine(mainCamera.transform.position, _cubeFaceCenterCoords["positiveX"], Color.red);
+        Debug.DrawLine(mainCamera.transform.position, _cubeFaceCenterCoords["negativeX"], Color.red);
+        Debug.DrawLine(mainCamera.transform.position, _cubeFaceCenterCoords["positiveY"], Color.red);
+        Debug.DrawLine(mainCamera.transform.position, _cubeFaceCenterCoords["negativeY"], Color.red);
+        Debug.DrawLine(mainCamera.transform.position, _cubeFaceCenterCoords["positiveZ"], Color.red);
+        Debug.DrawLine(mainCamera.transform.position, _cubeFaceCenterCoords["negativeZ"], Color.red);
     }
 
     private void ManageMode()
