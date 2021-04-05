@@ -1,4 +1,5 @@
 using UnityEngine;
+using Valve.VR;
 
 public enum VoxelSide
 {
@@ -73,6 +74,8 @@ public class Voxel : MonoBehaviour
     private bool _hintArraySet;
     
     private MeshRenderer _meshRenderer;
+    private bool performAction;
+
 
 
     private void Start()
@@ -84,7 +87,8 @@ public class Voxel : MonoBehaviour
 
     private void Update()
     {
-        if (_isHovering && Input.GetMouseButtonDown(0))
+        performAction = SteamVR_Actions.picross.PerformAction[SteamVR_Input_Sources.Any].stateDown;
+        if (_isHovering && (Input.GetMouseButtonDown(0) || performAction))
         {
             if (_manager.CurrentGameMode == VoxelManager.GameMode.Build)
             {
@@ -199,6 +203,36 @@ public class Voxel : MonoBehaviour
         else
         {
             _meshRenderer.material = defaultColor;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log(other);
+        if (other.gameObject.CompareTag("Interactor"))
+        {
+            _isHovering = true;
+            _meshRenderer.material = hoverColor;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Interactor"))
+        {
+            _isHovering = false;
+            if (!_isVisible)
+            {
+                _meshRenderer.material = clearColor;
+            }
+            else if (_isMarked)
+            {
+                _meshRenderer.material = markedColor;
+            }
+            else
+            {
+                _meshRenderer.material = defaultColor;
+            }
         }
     }
 }

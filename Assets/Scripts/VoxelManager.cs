@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using UnityEngine.UI;
+using Valve.VR;
 
 public struct Clue
 {
@@ -56,7 +57,6 @@ public class VoxelManager : MonoBehaviour
     [SerializeField] private GameObject mainCamera;
     [SerializeField] private GameObject cube;
 
-    [SerializeField] private Text _modeText;
     [SerializeField] private Material _clearMaterial;
 
     private int _visibleLayersX, _visibleLayersY, _visibleLayersZ;
@@ -69,6 +69,7 @@ public class VoxelManager : MonoBehaviour
     private bool _canVerticallyRotate = true;
 
     private GameMode _currentGameMode = GameMode.Mark;
+    [SerializeField] private Text _modeText;
 
     public GameMode CurrentGameMode
     {
@@ -78,6 +79,8 @@ public class VoxelManager : MonoBehaviour
 
     private void Start()
     {
+        _target = transform.position;
+        
         _visibleLayersX = length - 1;
         _visibleLayersY = height - 1;
         _visibleLayersZ = width - 1;
@@ -98,7 +101,7 @@ public class VoxelManager : MonoBehaviour
         Debug.Log("Calculated Sol:");
         PrintSolution(calculatedSolution);
 
-        _modeText.text = "Mode: Mark";
+        _modeText.text = "Mark";
     }
 
     public void UpdateAdjacentVoxelHints(Vector3 indexPosition)
@@ -228,7 +231,7 @@ public class VoxelManager : MonoBehaviour
             {
                 for (int k = 0; k < width; k++)
                 {
-                    _voxels[i, j, k] = Instantiate(cube, new Vector3(i - length / 2, j - height / 2, k - width / 2),
+                    _voxels[i, j, k] = Instantiate(cube, transform.position + new Vector3((i - length/2) * cube.transform.localScale.x, (j - height/2) * cube.transform.localScale.y, (k - width/2) * cube.transform.localScale.z),
                         Quaternion.identity, transform);
                     _voxels[i, j, k].GetComponent<Voxel>().IsPuzzleVoxel = _solution[i, j, k] == VoxelState.Marked;
                     _voxels[i, j, k].GetComponent<Voxel>().Manager = this;
@@ -243,10 +246,35 @@ public class VoxelManager : MonoBehaviour
         ManageRotations();
         ManageVisibleLayers();
         ManageMode();
+
+        // TEMP TEMP TEMP
+        bool performAction = SteamVR_Actions.picross.PerformAction[SteamVR_Input_Sources.Any].stateDown;
+
+        bool grabLayer = SteamVR_Actions.picross.GrabLayer[SteamVR_Input_Sources.Any].stateDown;
     }
 
     private void ManageMode()
     {
+
+        bool switchMode = SteamVR_Actions.picross.SwitchMode[SteamVR_Input_Sources.Any].stateDown;
+
+        if (switchMode && _currentGameMode == GameMode.Mark)
+        {
+            _currentGameMode = GameMode.Build;
+            MakeBuildable();
+            _modeText.text = "Build";
+        } else if (switchMode && _currentGameMode == GameMode.Build)
+        {
+            _currentGameMode = GameMode.Destroy;
+            MakeDestroyable();
+            _modeText.text = "Destroy";
+        } else if (switchMode && _currentGameMode == GameMode.Destroy)
+        {
+            _currentGameMode = GameMode.Mark;
+            MakeMarkable();
+            _modeText.text = "Mark";
+        }
+ 
         GameMode newGameMode;
         if (Input.GetKeyDown(KeyCode.Z))
         {
@@ -254,7 +282,6 @@ public class VoxelManager : MonoBehaviour
             if (_currentGameMode != newGameMode)
             {
                 _currentGameMode = newGameMode;
-                _modeText.text = "Mode: Build";
                 MakeBuildable();
             }
         }
@@ -265,7 +292,6 @@ public class VoxelManager : MonoBehaviour
             if (_currentGameMode != newGameMode)
             {
                 _currentGameMode = newGameMode;
-                _modeText.text = "Mode: Destroy";
                 MakeDestroyable();
             }
         }
@@ -276,7 +302,6 @@ public class VoxelManager : MonoBehaviour
             if (_currentGameMode != newGameMode)
             {
                 _currentGameMode = newGameMode;
-                _modeText.text = "Mode: Mark";
                 MakeMarkable();
             }
         }
@@ -686,23 +711,52 @@ public class VoxelManager : MonoBehaviour
 
     private void ManageRotations()
     {
+        Vector2 controllerRotation = SteamVR_Actions.picross.Rotate[SteamVR_Input_Sources.Any].axis;
+
+        float horizontalMovement = SteamVR_Actions.picross.Rotate[SteamVR_Input_Sources.Any].axis.x;
+        float verticalMovement = SteamVR_Actions.picross.Rotate[SteamVR_Input_Sources.Any].axis.y;
+
+        bool rotateRight = false;
+        bool rotateLeft = false;
+        bool rotateUp = false;
+        bool rotateDown = false;
+
+        if (horizontalMovement >= .8f)
+        {
+            rotateRight = true;
+        }
+        if (horizontalMovement <= -.8f)
+        {
+            rotateLeft = true;
+        }
+        if (verticalMovement >= .8f)
+        {
+            rotateUp = true;
+        }
+        if (verticalMovement <= -.8f)
+        {
+            rotateDown = true;
+        }
+
+
         float timeSpeed = rotateSpeed * Time.deltaTime;
-        if (Input.GetKey(KeyCode.A))
+
+        if (Input.GetKey(KeyCode.J) || rotateLeft)
         {
             transform.RotateAround(_target, transform.up, timeSpeed);
         }
 
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.L) || rotateRight)
         {
             transform.RotateAround(_target, transform.up, -timeSpeed);
         }
 
-        if (Input.GetKey(KeyCode.W) && _canVerticallyRotate)
+        if (Input.GetKey(KeyCode.I) || rotateUp && _canVerticallyRotate)
         {
             transform.RotateAround(_target, _cameraTransform.right, timeSpeed);
         }
 
-        if (Input.GetKey(KeyCode.S) && _canVerticallyRotate)
+        if (Input.GetKey(KeyCode.K) || rotateDown && _canVerticallyRotate)
         {
             transform.RotateAround(_target, _cameraTransform.right, -timeSpeed);
         }
