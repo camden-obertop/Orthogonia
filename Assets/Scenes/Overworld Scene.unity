@@ -216,6 +216,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &251119408 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 107946, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
+  m_PrefabInstance: {fileID: 1315815364}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &644232903
 GameObject:
   m_ObjectHideFlags: 0
@@ -860,7 +865,7 @@ GameObject:
   - component: {fileID: 6162578405631519953}
   - component: {fileID: 6162578405631519958}
   m_Layer: 0
-  m_Name: Button_FoxPicross
+  m_Name: Button_SunPicross
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -970,7 +975,7 @@ GameObject:
   - component: {fileID: 6162578405651485418}
   - component: {fileID: 6162578405651485419}
   m_Layer: 0
-  m_Name: HintCanvas
+  m_Name: Scene Transition Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1057,7 +1062,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Fox
+  m_Text: Sun
 --- !u!1 &6162578405828385924
 GameObject:
   m_ObjectHideFlags: 0
@@ -1236,6 +1241,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7333203874298190773, guid: 64e8043846b58a844a05cfbc6404f819, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 251119408}
+    - target: {fileID: 7333203874298190773, guid: 64e8043846b58a844a05cfbc6404f819, type: 3}
+      propertyPath: puzzle
+      value: 
+      objectReference: {fileID: 11400000, guid: 52e1b62732fcbe64f9d27133eaf40610, type: 2}
+    - target: {fileID: 7333203874298190773, guid: 64e8043846b58a844a05cfbc6404f819, type: 3}
+      propertyPath: controlScheme
+      value: 
+      objectReference: {fileID: 1299388752}
     - target: {fileID: 7333203874298190775, guid: 64e8043846b58a844a05cfbc6404f819, type: 3}
       propertyPath: m_Name
       value: PicrossPuzzleLoader

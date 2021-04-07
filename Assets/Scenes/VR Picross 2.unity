@@ -332,6 +332,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00eb7e37a0b883244860050cf6ed6394, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  puzzleObject: {fileID: 0}
+  generateRandomPuzzle: 0
   length: 3
   height: 3
   width: 3
@@ -622,6 +624,14 @@ PrefabInstance:
     - target: {fileID: 4617765055166170386, guid: 4a2872932c4fb7c4e92dab1442685ef2, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4617765055166170386, guid: 4a2872932c4fb7c4e92dab1442685ef2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4617765055172908134, guid: 4a2872932c4fb7c4e92dab1442685ef2, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4719942499092213634, guid: 4a2872932c4fb7c4e92dab1442685ef2, type: 3}
       propertyPath: handColliderPrefab

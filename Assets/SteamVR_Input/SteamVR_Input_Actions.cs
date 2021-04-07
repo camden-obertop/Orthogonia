@@ -43,6 +43,8 @@ namespace Valve.VR
         
         private static SteamVR_Action_Vector2 p_picross_Rotate;
         
+        private static SteamVR_Action_Single p_picross_PullPerformAction;
+        
         private static SteamVR_Action_Boolean p_overworld_Teleport;
         
         private static SteamVR_Action_Boolean p_overworld_SnapTurnLeft;
@@ -153,6 +155,14 @@ namespace Valve.VR
             }
         }
         
+        public static SteamVR_Action_Single picross_PullPerformAction
+        {
+            get
+            {
+                return SteamVR_Actions.p_picross_PullPerformAction.GetCopy<SteamVR_Action_Single>();
+            }
+        }
+        
         public static SteamVR_Action_Boolean overworld_Teleport
         {
             get
@@ -193,6 +203,7 @@ namespace Valve.VR
                     SteamVR_Actions.picross_GrabLayer,
                     SteamVR_Actions.picross_PerformAction,
                     SteamVR_Actions.picross_Rotate,
+                    SteamVR_Actions.picross_PullPerformAction,
                     SteamVR_Actions.overworld_Teleport,
                     SteamVR_Actions.overworld_SnapTurnLeft,
                     SteamVR_Actions.overworld_SnapTurnRight};
@@ -209,6 +220,7 @@ namespace Valve.VR
                     SteamVR_Actions.picross_GrabLayer,
                     SteamVR_Actions.picross_PerformAction,
                     SteamVR_Actions.picross_Rotate,
+                    SteamVR_Actions.picross_PullPerformAction,
                     SteamVR_Actions.overworld_Teleport,
                     SteamVR_Actions.overworld_SnapTurnLeft,
                     SteamVR_Actions.overworld_SnapTurnRight};
@@ -230,7 +242,8 @@ namespace Valve.VR
                     SteamVR_Actions.overworld_SnapTurnLeft,
                     SteamVR_Actions.overworld_SnapTurnRight};
             Valve.VR.SteamVR_Input.actionsSingle = new Valve.VR.SteamVR_Action_Single[] {
-                    SteamVR_Actions.default_Squeeze};
+                    SteamVR_Actions.default_Squeeze,
+                    SteamVR_Actions.picross_PullPerformAction};
             Valve.VR.SteamVR_Input.actionsVector2 = new Valve.VR.SteamVR_Action_Vector2[] {
                     SteamVR_Actions.picross_Rotate};
             Valve.VR.SteamVR_Input.actionsVector3 = new Valve.VR.SteamVR_Action_Vector3[0];
@@ -247,6 +260,7 @@ namespace Valve.VR
                     SteamVR_Actions.picross_GrabLayer,
                     SteamVR_Actions.picross_PerformAction,
                     SteamVR_Actions.picross_Rotate,
+                    SteamVR_Actions.picross_PullPerformAction,
                     SteamVR_Actions.overworld_Teleport,
                     SteamVR_Actions.overworld_SnapTurnLeft,
                     SteamVR_Actions.overworld_SnapTurnRight};
@@ -267,6 +281,7 @@ namespace Valve.VR
             SteamVR_Actions.p_picross_GrabLayer = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/picross/in/GrabLayer")));
             SteamVR_Actions.p_picross_PerformAction = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/picross/in/PerformAction")));
             SteamVR_Actions.p_picross_Rotate = ((SteamVR_Action_Vector2)(SteamVR_Action.Create<SteamVR_Action_Vector2>("/actions/picross/in/Rotate")));
+            SteamVR_Actions.p_picross_PullPerformAction = ((SteamVR_Action_Single)(SteamVR_Action.Create<SteamVR_Action_Single>("/actions/picross/in/PullPerformAction")));
             SteamVR_Actions.p_overworld_Teleport = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/overworld/in/Teleport")));
             SteamVR_Actions.p_overworld_SnapTurnLeft = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/overworld/in/SnapTurnLeft")));
             SteamVR_Actions.p_overworld_SnapTurnRight = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/overworld/in/SnapTurnRight")));

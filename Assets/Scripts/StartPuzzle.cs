@@ -6,6 +6,8 @@ public class StartPuzzle : MonoBehaviour
     public Puzzle PuzzleObject => puzzle;
     
     [SerializeField] private GameObject levelLoader;
+    [SerializeField] private GameObject controlScheme;
+    [SerializeField] private GameObject player;
 
     private void Start()
     {
@@ -15,6 +17,8 @@ public class StartPuzzle : MonoBehaviour
     
     public void GoToPuzzle()
     {
+        Destroy(controlScheme);
+        Destroy(player);
         levelLoader.SetActive(true);
     }
 }

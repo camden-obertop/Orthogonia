@@ -48,5 +48,13 @@ namespace Valve.VR
                 return SteamVR_Actions.picross_Rotate;
             }
         }
+        
+        public virtual SteamVR_Action_Single PullPerformAction
+        {
+            get
+            {
+                return SteamVR_Actions.picross_PullPerformAction;
+            }
+        }
     }
 }

@@ -44,8 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61adae24bf43c114c8f2224f3486bac4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puzzle: {fileID: 11400000, guid: cdcdc0044ea305742a0e9b6b76fb5325, type: 2}
+  puzzle: {fileID: 11400000, guid: 52e1b62732fcbe64f9d27133eaf40610, type: 2}
   levelLoader: {fileID: 7333203875932612647}
+  controlScheme: {fileID: 0}
+  player: {fileID: 0}
 --- !u!1 &7333203875932612647
 GameObject:
   m_ObjectHideFlags: 0

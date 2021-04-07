@@ -57,6 +57,10 @@
       "type": "vector2"
     },
     {
+      "name": "/actions/picross/in/PullPerformAction",
+      "type": "vector1"
+    },
+    {
       "name": "/actions/overworld/in/Teleport",
       "type": "boolean"
     },
@@ -154,7 +158,8 @@
       "/actions/picross/in/Rotate": "Rotate",
       "/actions/overworld/in/Teleport": "Teleport",
       "/actions/overworld/in/SnapTurnLeft": "Snap Turn (Left)",
-      "/actions/overworld/in/SnapTurnRight": "Snap Turn (Right)"
+      "/actions/overworld/in/SnapTurnRight": "Snap Turn (Right)",
+      "/actions/picross/in/PullPerformAction": "Pull Perform Action"
     }
   ]
 }

@@ -753,19 +753,19 @@ public class VoxelManager : MonoBehaviour
         bool rotateUp = false;
         bool rotateDown = false;
 
-        if (horizontalMovement >= .8f)
+        if (horizontalMovement >= .65f)
         {
             rotateRight = true;
         }
-        if (horizontalMovement <= -.8f)
+        if (horizontalMovement <= -.65f)
         {
             rotateLeft = true;
         }
-        if (verticalMovement >= .8f)
+        if (verticalMovement >= .65f)
         {
             rotateUp = true;
         }
-        if (verticalMovement <= -.8f)
+        if (verticalMovement <= -.65f)
         {
             rotateDown = true;
         }
