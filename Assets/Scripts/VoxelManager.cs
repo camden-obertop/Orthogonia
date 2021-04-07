@@ -95,6 +95,12 @@ public class VoxelManager : MonoBehaviour
         _visibleLayersY = height - 1;
         _visibleLayersZ = width - 1;
 
+        GameObject loadedPuzzle = GameObject.FindGameObjectWithTag("PuzzleLoader");
+        if (loadedPuzzle != null)
+        {
+            puzzleObject = loadedPuzzle.GetComponent<StartPuzzle>().PuzzleObject;
+        }
+        
         if (generateRandomPuzzle || puzzleObject == null)
         {
             CreateSolution();
@@ -122,10 +128,10 @@ public class VoxelManager : MonoBehaviour
 
         NumberAllVoxels();
 
-        VoxelState[,,] calculatedSolution = Validator.IsValid(_solution, _frontClues, _sideClues, _topClues);
-
-        Debug.Log("Calculated Sol:");
-        PrintSolution(calculatedSolution);
+        // VoxelState[,,] calculatedSolution = Validator.IsValid(_solution, _frontClues, _sideClues, _topClues);
+        //
+        // Debug.Log("Calculated Sol:");
+        // PrintSolution(calculatedSolution);
 
         _modeText.text = "Mark";
     }
