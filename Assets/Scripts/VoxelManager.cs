@@ -369,18 +369,19 @@ public class VoxelManager : MonoBehaviour
     {
 
         bool switchMode = SteamVR_Actions.picross.SwitchMode[SteamVR_Input_Sources.Any].stateDown;
+        bool switchModeDesktop = Input.GetKeyDown(KeyCode.Space);
 
-        if (switchMode && _currentGameMode == GameMode.Mark)
+        if ((switchMode || switchModeDesktop) && _currentGameMode == GameMode.Mark)
         {
             _currentGameMode = GameMode.Build;
             MakeBuildable();
             _modeText.text = "Build";
-        } else if (switchMode && _currentGameMode == GameMode.Build)
+        } else if ((switchMode || switchModeDesktop) && _currentGameMode == GameMode.Build)
         {
             _currentGameMode = GameMode.Destroy;
             MakeDestroyable();
             _modeText.text = "Destroy";
-        } else if (switchMode && _currentGameMode == GameMode.Destroy)
+        } else if ((switchMode || switchModeDesktop) && _currentGameMode == GameMode.Destroy)
         {
             _currentGameMode = GameMode.Mark;
             MakeMarkable();
@@ -529,19 +530,16 @@ public class VoxelManager : MonoBehaviour
             {
                 int voxelCount = 0;
                 int gapCount = 0;
-                bool previousWasGap = false;
 
                 for (int k = 0; k < width; k++)
                 {
                     if (_solution[i, j, k] == VoxelState.Marked)
                     {
                         voxelCount++;
-                        previousWasGap = false;
                     }
-                    else if (k != width - 1 && voxelCount > 0 && !previousWasGap && _solution[i, j, k - 1] == VoxelState.Cleared)
+                    else if (k != width - 1 && voxelCount > 0 && _solution[i, j, k] == VoxelState.Cleared && _solution[i, j, k + 1] == VoxelState.Marked)
                     {
                         gapCount++;
-                        previousWasGap = true;
                     }
 
                     if (k == width - 1 && voxelCount <= 1)
@@ -563,19 +561,16 @@ public class VoxelManager : MonoBehaviour
             {
                 int voxelCount = 0;
                 int gapCount = 0;
-                bool previousWasGap = false;
 
                 for (int i = 0; i < length; i++)
                 {
                     if (_solution[i, j, k] == VoxelState.Marked)
                     {
                         voxelCount++;
-                        previousWasGap = false;
                     }
-                    else if (i != length - 1 && voxelCount > 0 && !previousWasGap)
+                    else if (i != length - 1 && voxelCount > 0 && _solution[i, j, k] == VoxelState.Cleared && _solution[i + 1, j, k] == VoxelState.Marked)
                     {
                         gapCount++;
-                        previousWasGap = true;
                     }
 
                     if (i == length - 1 && voxelCount <= 1)
@@ -597,28 +592,19 @@ public class VoxelManager : MonoBehaviour
             {
                 int voxelCount = 0;
                 int gapCount = 0;
-                bool previousWasGap = false;
-                bool gap = false;
 
                 for (int j = 0; j < height; j++)
                 {
                     if (_solution[i, j, k] == VoxelState.Marked)
                     {
                         voxelCount++;
-                        if (previousWasGap)
-                        {
-                            gap = true;
-                        }
-
-                        previousWasGap = false;
                     }
-                    else if (j != height - 1 && voxelCount > 0 && !previousWasGap)
+                    else if (j != height - 1 && voxelCount > 0 && _solution[i, j, k] == VoxelState.Cleared && _solution[i, j + 1, k] == VoxelState.Marked)
                     {
                         gapCount++;
-                        previousWasGap = true;
                     }
 
-                    if (j == height - 1 && !gap)
+                    if (j == height - 1 && voxelCount <= 1)
                     {
                         gapCount = 0;
                     }
