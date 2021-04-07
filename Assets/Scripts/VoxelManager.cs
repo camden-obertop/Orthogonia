@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using CsharpVoxReader;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using UnityEngine.UI;
@@ -21,6 +22,7 @@ public struct Clue
     public bool Complete;
 }
 
+[Serializable]
 public struct VoxelInfo
 {
     public VoxelInfo(VoxelManager.VoxelState voxelState, Color voxelColor, Vector3Int position)
@@ -51,9 +53,16 @@ public class VoxelManager : MonoBehaviour
         Cleared = 2,
     }
 
+    [SerializeField] private Puzzle puzzleObject;
+
+    [Header("Random Generation")] 
+    [SerializeField] private bool generateRandomPuzzle;
     [SerializeField] private int length, height, width; // length = x, height = y, width = z 
+    
+    [Header("Settings")]
     [SerializeField] private float rotateSpeed;
 
+    [Header("Dependencies")]
     [SerializeField] private GameObject mainCamera;
     [SerializeField] private GameObject cube;
 
@@ -67,6 +76,7 @@ public class VoxelManager : MonoBehaviour
     private Transform _cameraTransform;
     private bool _coroutineFinished = true;
     private bool _canVerticallyRotate = true;
+    private VoxelInfo[,,] _puzzle;
 
     private GameMode _currentGameMode = GameMode.Mark;
     [SerializeField] private Text _modeText;
@@ -85,7 +95,23 @@ public class VoxelManager : MonoBehaviour
         _visibleLayersY = height - 1;
         _visibleLayersZ = width - 1;
 
-        CreateSolution();
+        if (generateRandomPuzzle || puzzleObject == null)
+        {
+            CreateSolution();
+        }
+        else
+        {
+            _puzzle = SetPuzzleVoxels(
+                puzzleObject.Palette, 
+                puzzleObject.Data, 
+                puzzleObject.SizeX, 
+                puzzleObject.SizeY, 
+                puzzleObject.SizeZ);
+            _solution = GetSolutionVoxelStates(_puzzle);
+            length = _solution.GetLength(0);
+            height = _solution.GetLength(1);
+            width = _solution.GetLength(2);
+        }
         InitializeVoxels();
 
         _cameraTransform = mainCamera.transform;
@@ -765,5 +791,73 @@ public class VoxelManager : MonoBehaviour
         {
             transform.rotation = Quaternion.identity;
         }
+    }
+    
+    private VoxelInfo[,,] SetPuzzleVoxels(UInt32[] palette, byte[] flatData, Int32 sizeX, Int32 sizeY, Int32 sizeZ)
+    {
+        VoxelInfo[,,] solution = new VoxelInfo[sizeX, sizeY, sizeZ];
+        Color[] colorPalette = new Color[palette.Length];
+
+        // Parse colors
+        byte a, r, g, b;
+        for (int i = 0; i < palette.Length; i++)
+        {
+            palette[i].ToARGB(out a, out r, out g, out b);
+            colorPalette[i] = new Color(r / 255.0f, g / 255.0f, b / 255.0f, a / 255.0f);
+        }
+        
+        // Convert 1D array to 3D
+        byte[,,] data = new byte[sizeX, sizeY, sizeZ];
+        for (int i = 0; i < sizeX; i++)
+        {
+            for (int j = 0; j < sizeY; j++)
+            {
+                for (int k = 0; k < sizeZ; k++)
+                {
+                    data[i, j, k] = flatData[k + j * sizeZ + i * sizeY * sizeZ];
+                }
+            }
+        }
+
+        // Parse puzzle structure
+        for (int i = 0; i < sizeX; i++)
+        {
+            for (int j = 0; j < sizeY; j++)
+            {
+                for (int k = 0; k < sizeZ; k++)
+                {
+                    bool partOfSolution = data[i, j, k] != 0;
+
+                    solution[i, j, k] = new VoxelInfo(
+                        partOfSolution ? VoxelState.Marked : VoxelState.Cleared,
+                        colorPalette[data[i, j, k]],
+                        new Vector3Int(i, j, k));
+                }
+            }
+        }
+
+        return solution;
+    }
+    
+    private VoxelState[,,] GetSolutionVoxelStates(VoxelInfo[,,] voxelInfoSolution)
+    {
+        int sizeX = voxelInfoSolution.GetLength(0);
+        int sizeY = voxelInfoSolution.GetLength(1);
+        int sizeZ = voxelInfoSolution.GetLength(2);
+
+        VoxelState[,,] _states = new VoxelState[sizeX, sizeY, sizeZ];
+
+        for (int i = 0; i < sizeX; i++)
+        {
+            for (int j = 0; j < sizeY; j++)
+            {
+                for (int k = 0; k < sizeZ; k++)
+                {
+                    _states[i, j, k] = voxelInfoSolution[i, j, k].VoxelState;
+                }
+            }
+        }
+
+        return _states;
     }
 }

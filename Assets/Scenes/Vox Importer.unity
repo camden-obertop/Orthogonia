@@ -345,6 +345,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00eb7e37a0b883244860050cf6ed6394, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  puzzleObject: {fileID: 11400000, guid: cdcdc0044ea305742a0e9b6b76fb5325, type: 2}
+  generateRandomPuzzle: 0
   length: 3
   height: 3
   width: 3
@@ -435,7 +437,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &549197388
 MonoBehaviour:
   m_ObjectHideFlags: 0

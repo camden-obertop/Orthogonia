@@ -5,6 +5,8 @@ using CsharpVoxReader.Chunks;
 using UnityEngine;
 
 #if UNITY_EDITOR
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEditor;
 #endif
 
@@ -20,12 +22,30 @@ public class VoxToPuzzle : MonoBehaviour
         VoxReader reader = new VoxReader(@path, loader);
         reader.Read();
 
-        GameObject newPuzzle = new GameObject();
-        newPuzzle.name = newPuzzleName;
-        newPuzzle.AddComponent<Puzzle>().SetPuzzleVoxels(loader.Palette, loader.Data, loader.SizeX, loader.SizeY, loader.SizeZ);
-
 #if UNITY_EDITOR
-        PrefabUtility.SaveAsPrefabAsset(newPuzzle, "Assets/Puzzles/" + newPuzzle.name + ".prefab");
+        Puzzle newPuzzle = ScriptableObject.CreateInstance<Puzzle>();
+        
+        byte[] flatData = new byte[loader.SizeX * loader.SizeY * loader.SizeZ];
+        for (int i = 0; i < loader.SizeX; i++)
+        {
+            for (int j = 0; j < loader.SizeY; j++)
+            {
+                for (int k = 0; k < loader.SizeZ; k++)
+                {
+                    flatData[k + j * loader.SizeZ + i * loader.SizeY * loader.SizeZ] = loader.Data[i, j, k];
+                }
+            }
+        }
+
+        newPuzzle.Palette = loader.Palette;
+        newPuzzle.Data = flatData;
+        newPuzzle.SizeX = loader.SizeX;
+        newPuzzle.SizeY = loader.SizeY;
+        newPuzzle.SizeZ = loader.SizeZ;
+        
+        string name = AssetDatabase.GenerateUniqueAssetPath("Assets/Puzzles/" + newPuzzleName + ".asset");
+        AssetDatabase.CreateAsset(newPuzzle, name);
+        AssetDatabase.SaveAssets();
 #endif
     }
 }
