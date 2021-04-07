@@ -538,7 +538,7 @@ public class VoxelManager : MonoBehaviour
                         voxelCount++;
                         previousWasGap = false;
                     }
-                    else if (k != width - 1 && voxelCount > 0 && !previousWasGap)
+                    else if (k != width - 1 && voxelCount > 0 && !previousWasGap && _solution[i, j, k - 1] == VoxelState.Cleared)
                     {
                         gapCount++;
                         previousWasGap = true;
