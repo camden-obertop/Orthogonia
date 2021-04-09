@@ -61,8 +61,8 @@ public class Voxel : MonoBehaviour
         set => _isHovering = value;
     }
 
-    private Vector3 _indexPosition;
-    public Vector3 IndexPosition
+    private Vector3Int _indexPosition;
+    public Vector3Int IndexPosition
     {
         get => _indexPosition;
         set => _indexPosition = value;
@@ -117,6 +117,7 @@ public class Voxel : MonoBehaviour
             }
             
             _manager.UpdateAdjacentVoxelHints(_indexPosition);
+            _manager.UpdateVoxelState(_indexPosition, _isMarked ? VoxelManager.VoxelState.Marked : VoxelManager.VoxelState.Unmarked);
             
             _isVisible = true;
             _meshRenderer.material = hoverColor;
@@ -151,11 +152,13 @@ public class Voxel : MonoBehaviour
             {
                 _isMarked = false;
                 _meshRenderer.material = hoverColor;
+                _manager.UpdateVoxelState(_indexPosition, VoxelManager.VoxelState.Unmarked);
             }
             else
             {
                 _isMarked = true;
                 _meshRenderer.material = markedColor;
+                _manager.UpdateVoxelState(_indexPosition, VoxelManager.VoxelState.Marked);
             }
         }
     }
@@ -180,6 +183,7 @@ public class Voxel : MonoBehaviour
             _meshRenderer.material = clearColor;
             
             _manager.UpdateAdjacentVoxelHints(_indexPosition);
+            _manager.UpdateVoxelState(_indexPosition, VoxelManager.VoxelState.Cleared);
         }
     }
 

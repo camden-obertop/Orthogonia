@@ -69,6 +69,13 @@ public class VoxelManager : MonoBehaviour
 
     [SerializeField] private Material _clearMaterial;
 
+    private VoxelState[,,] _voxelStates;
+    public VoxelState[,,] VoxelStates
+    {
+        get => _voxelStates;
+        set => _voxelStates = value;
+    }
+
     private int _visibleLayersX, _visibleLayersY, _visibleLayersZ;
     private GameObject[,,] _voxels;
     private Clue[,] _frontClues, _sideClues, _topClues;
@@ -80,6 +87,7 @@ public class VoxelManager : MonoBehaviour
     private VoxelInfo[,,] _puzzle;
     private Dictionary<string, Vector3> _cubeFaceCenterCoords;
     private string _nearestFace;
+    private Coroutine _checkSolutionCoroutine;
 
     private GameMode _currentGameMode = GameMode.Mark;
     [SerializeField] private Text _modeText;
@@ -261,9 +269,44 @@ public class VoxelManager : MonoBehaviour
         }
     }
 
+    public void UpdateVoxelState(Vector3Int position, VoxelState state)
+    {
+        _voxelStates[position.x, position.y, position.z] = state;
+
+        if (state != VoxelState.Unmarked)
+        {
+            _checkSolutionCoroutine = StartCoroutine(IsCurrentStateCorrect(_voxelStates, _solution));
+        }
+    }
+
+    private IEnumerator IsCurrentStateCorrect(VoxelManager.VoxelState[,,] voxelStates, VoxelManager.VoxelState[,,] solution)
+    {
+        bool correct = true;
+
+        for (int i = 0; i < voxelStates.GetLength(0); i++)
+        {
+            for (int j = 0; j < voxelStates.GetLength(1); j++)
+            {
+                for (int k = 0; k < voxelStates.GetLength(2); k++)
+                {
+                    if (voxelStates[i, j, k] != solution[i, j, k])
+                        correct = false;
+                }
+            }
+        }
+
+        if (correct)
+        {
+            print("congrats moron");
+        }
+        yield return correct;
+    }
+
     private void InitializeVoxels()
     {
         _voxels = new GameObject[length, height, width];
+        _voxelStates = new VoxelState[length, height, width];
+
         for (int i = 0; i < length; i++)
         {
             for (int j = 0; j < height; j++)
@@ -274,7 +317,9 @@ public class VoxelManager : MonoBehaviour
                         Quaternion.identity, transform);
                     _voxels[i, j, k].GetComponent<Voxel>().IsPuzzleVoxel = _solution[i, j, k] == VoxelState.Marked;
                     _voxels[i, j, k].GetComponent<Voxel>().Manager = this;
-                    _voxels[i, j, k].GetComponent<Voxel>().IndexPosition = new Vector3(i, j, k);
+                    _voxels[i, j, k].GetComponent<Voxel>().IndexPosition = new Vector3Int(i, j, k);
+
+                    _voxelStates[i, j, k] = VoxelState.Unmarked;
                 }
             }
         }
@@ -367,7 +412,6 @@ public class VoxelManager : MonoBehaviour
 
     private void ManageMode()
     {
-
         bool switchMode = SteamVR_Actions.picross.SwitchMode[SteamVR_Input_Sources.Any].stateDown;
         bool switchModeDesktop = Input.GetKeyDown(KeyCode.Space);
 
