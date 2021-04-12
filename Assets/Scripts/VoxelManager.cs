@@ -76,6 +76,9 @@ public class VoxelManager : MonoBehaviour
         set => _voxelStates = value;
     }
 
+    private bool _canEditPuzzle = true;
+    public bool CanEditPuzzle => _canEditPuzzle;
+
     private int _visibleLayersX, _visibleLayersY, _visibleLayersZ;
     private GameObject[,,] _voxels;
     private Clue[,] _frontClues, _sideClues, _topClues;
@@ -297,7 +300,18 @@ public class VoxelManager : MonoBehaviour
 
         if (correct)
         {
-            print("congrats moron");
+            _canEditPuzzle = false;
+
+            for (int i = 0; i < voxelStates.GetLength(0); i++)
+            {
+                for (int j = 0; j < voxelStates.GetLength(1); j++)
+                {
+                    for (int k = 0; k < voxelStates.GetLength(2); k++)
+                    {
+                        _voxels[i, j, k].GetComponent<Voxel>().ClearedPuzzle(_puzzle[i, j, k].VoxelColor);
+                    }
+                }
+            }
         }
         yield return correct;
     }
@@ -883,29 +897,44 @@ public class VoxelManager : MonoBehaviour
 
         float timeSpeed = rotateSpeed * Time.deltaTime;
 
-        if (Input.GetKey(KeyCode.J) || rotateLeft)
+        if (_canEditPuzzle)
         {
-            transform.RotateAround(_target, transform.up, timeSpeed);
-        }
+            if (Input.GetKey(KeyCode.J) || rotateLeft)
+            {
+                transform.RotateAround(_target, transform.up, timeSpeed);
+            }
 
-        if (Input.GetKey(KeyCode.L) || rotateRight)
-        {
-            transform.RotateAround(_target, transform.up, -timeSpeed);
-        }
+            if (Input.GetKey(KeyCode.L) || rotateRight)
+            {
+                transform.RotateAround(_target, transform.up, -timeSpeed);
+            }
 
-        if (Input.GetKey(KeyCode.I) || rotateUp && _canVerticallyRotate)
-        {
-            transform.RotateAround(_target, _cameraTransform.right, timeSpeed);
-        }
+            if (Input.GetKey(KeyCode.I) || rotateUp && _canVerticallyRotate)
+            {
+                transform.RotateAround(_target, _cameraTransform.right, timeSpeed);
+            }
 
-        if (Input.GetKey(KeyCode.K) || rotateDown && _canVerticallyRotate)
-        {
-            transform.RotateAround(_target, _cameraTransform.right, -timeSpeed);
-        }
+            if (Input.GetKey(KeyCode.K) || rotateDown && _canVerticallyRotate)
+            {
+                transform.RotateAround(_target, _cameraTransform.right, -timeSpeed);
+            }
 
-        if (Input.GetKeyDown(KeyCode.R))
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                transform.rotation = Quaternion.identity;
+            }
+        }
+        else
         {
-            transform.rotation = Quaternion.identity;
+            if ((transform.rotation.eulerAngles.x > 2 && transform.rotation.eulerAngles.x < 358) || 
+                (transform.rotation.eulerAngles.z > 1 && transform.rotation.eulerAngles.z < 358))
+            {
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.identity, timeSpeed / 3);
+            }
+            else
+            {
+                transform.RotateAround(_target, transform.up, timeSpeed / 3);
+            }
         }
     }
     

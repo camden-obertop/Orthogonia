@@ -1789,6 +1789,7 @@ MonoBehaviour:
   hoverColor: {fileID: 2100000, guid: 658428a2558ba464daebaa73f9473fb3, type: 2}
   markedColor: {fileID: 2100000, guid: 741448c2d7cfd4e4499e681230988c8d, type: 2}
   clearColor: {fileID: 2100000, guid: ab71d0cbe67e8f2458f7f1695cae47e8, type: 2}
+  whiteColor: {fileID: 2100000, guid: 8dd7898e8ad3e054b80f746e25edcb98, type: 2}
   frontHint: {fileID: 2712936769909468335}
   rightSideHint: {fileID: 5920578554439465820}
   topHint: {fileID: 455951167860782246}
