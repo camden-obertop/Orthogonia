@@ -70,6 +70,10 @@ public class VoxelManager : MonoBehaviour
     [SerializeField] private Material _clearMaterial;
 
     private int _visibleLayersX, _visibleLayersY, _visibleLayersZ;
+    private Stack<GameObject> _hiddenVoxels;
+    private bool _faceVisibilityChanged;
+    private int _currentLayerPosX, _currentLayerNegX, _currentLayerPosY, _currentLayerNegY, _currentLayerPosZ, _currentLayerNegZ;
+
     private GameObject[,,] _voxels;
     private Clue[,] _frontClues, _sideClues, _topClues;
     private VoxelState[,,] _solution;
@@ -97,6 +101,11 @@ public class VoxelManager : MonoBehaviour
         _visibleLayersX = length - 1;
         _visibleLayersY = height - 1;
         _visibleLayersZ = width - 1;
+
+        _hiddenVoxels = new Stack<GameObject>();
+        _faceVisibilityChanged = false;
+
+        InitializeCurrentLayers();
 
         GameObject loadedPuzzle = GameObject.FindGameObjectWithTag("PuzzleLoader");
         if (loadedPuzzle != null)
@@ -297,11 +306,123 @@ public class VoxelManager : MonoBehaviour
         ManageVisibleLayers();
         ManageMode();
         GetNearestFace();
+        ManageNearestLayer();
 
         // TEMP TEMP TEMP
         bool performAction = SteamVR_Actions.picross.PerformAction[SteamVR_Input_Sources.Any].stateDown;
 
         bool grabLayer = SteamVR_Actions.picross.GrabLayer[SteamVR_Input_Sources.Any].stateDown;
+    }
+
+    private void InitializeCurrentLayers() {
+        _currentLayerPosX = length - 1;
+        _currentLayerNegX = 0;
+        _currentLayerPosY = height - 1;
+        _currentLayerNegY = 0;
+        _currentLayerPosZ = width - 1;
+        _currentLayerNegZ = 0;
+    }
+
+    private void CheckIfFaceChanged() {
+        if (_nearestFace != "positiveX" && _currentLayerPosX != length - 1) {
+            _faceVisibilityChanged = true;
+        } else if (_nearestFace != "negativeX" && _currentLayerNegX != 0) {
+            _faceVisibilityChanged = true;
+        } else if (_nearestFace != "positiveY" && _currentLayerPosY != height - 1) {
+            _faceVisibilityChanged = true;
+        } else if (_nearestFace != "negativeY" && _currentLayerNegY != 0) {
+            _faceVisibilityChanged = true;
+        } else if (_nearestFace != "positiveZ" && _currentLayerPosZ != width - 1) {
+            _faceVisibilityChanged = true;
+        } else if (_nearestFace != "negativeZ" && _currentLayerNegZ != 0) {
+            _faceVisibilityChanged = true;
+        }
+
+        if (_faceVisibilityChanged) {
+            InitializeCurrentLayers();
+            while (_hiddenVoxels.Count > 0) {
+                GameObject tempVoxel = _hiddenVoxels.Pop();
+                ChangeVoxelVisible(tempVoxel, true);
+            }
+            _faceVisibilityChanged = false;
+        }
+    }
+
+    private void ManageNearestLayer() {
+        if (_coroutineFinished) {
+            switch (_nearestFace) {
+                case "positiveX":
+                    if (Input.GetKeyDown(KeyCode.Alpha9) && _currentLayerPosX > 0) {
+                        CheckIfFaceChanged();
+                        Debug.Log("Hide positiveX");
+                        for (int i = 0; i < height; i++) {
+                            for (int j = 0; j < width; j++) {
+                                _hiddenVoxels.Push(_voxels[_currentLayerPosX, i, j]);
+                                ChangeVoxelVisible(_voxels[_currentLayerPosX, i, j], false);
+                            }
+                        }
+                        _currentLayerPosX--;
+                    } 
+                    if (Input.GetKeyDown(KeyCode.Alpha0) && _hiddenVoxels.Count > 0) {
+                        Debug.Log("Show positiveX");
+                        for (int i = 0; i < 9; i++) {
+                            GameObject tempVoxel = _hiddenVoxels.Pop();
+                            ChangeVoxelVisible(tempVoxel, true);
+                        }
+                        _currentLayerPosX++;
+                    }
+                    break;
+                case "negativeX":
+                    if (Input.GetKeyDown(KeyCode.Alpha9) && _currentLayerNegX < length - 1) {
+                        CheckIfFaceChanged();
+                        Debug.Log("Hide positiveX");
+                        for (int i = 0; i < height; i++) {
+                            for (int j = 0; j < width; j++) {
+                                _hiddenVoxels.Push(_voxels[_currentLayerNegX, i, j]);
+                                ChangeVoxelVisible(_voxels[_currentLayerNegX, i, j], false);
+                            }
+                        }
+                        _currentLayerPosX++;
+                    }
+                    if (Input.GetKeyDown(KeyCode.Alpha0) && _hiddenVoxels.Count > 0) {
+                        Debug.Log("Show positiveX");
+                        for (int i = 0; i < 9; i++) {
+                            GameObject tempVoxel = _hiddenVoxels.Pop();
+                            ChangeVoxelVisible(tempVoxel, true);
+                        }
+                        _currentLayerPosX--;
+                    }
+                    break;
+                case "positiveY":
+                    if (Input.GetKeyDown(KeyCode.Alpha9)) {
+                        Debug.Log("Hide positiveY");
+                    } else if (Input.GetKeyDown(KeyCode.Alpha0)) {
+                        Debug.Log("Show positiveY");
+                    }
+                    break;
+                case "negativeY":
+                    if (Input.GetKeyDown(KeyCode.Alpha9)) {
+                        Debug.Log("Hide negativeY");
+                    } else if (Input.GetKeyDown(KeyCode.Alpha0)) {
+                        Debug.Log("Show negativeY");
+                    }
+                    break;
+                case "positiveZ":
+                    if (Input.GetKeyDown(KeyCode.Alpha9)) {
+                        Debug.Log("Hide positiveZ");
+                    } else if (Input.GetKeyDown(KeyCode.Alpha0)) {
+                        Debug.Log("Show positiveZ");
+                    }
+                    break;
+                case "negativeZ":
+                    if (Input.GetKeyDown(KeyCode.Alpha9)) {
+                        Debug.Log("Hide negativeZ");
+                    } else if (Input.GetKeyDown(KeyCode.Alpha0)) {
+                        Debug.Log("Show negativeZ");
+                    }
+                    break;
+            }
+        }
     }
 
     private void GetNearestFace()
@@ -345,17 +466,16 @@ public class VoxelManager : MonoBehaviour
             minimumDistance = negativeZDistance;
             _nearestFace = "negativeZ";
         }
-        Debug.Log(_nearestFace);
     }
 
     private void CalculateFaceCenters()
     {
-        _cubeFaceCenterCoords["positiveX"] = transform.position + transform.forward * (length * cube.transform.localScale.x / 2);
-        _cubeFaceCenterCoords["negativeX"] = transform.position + transform.forward * (-length * cube.transform.localScale.x / 2);
+        _cubeFaceCenterCoords["positiveX"] = transform.position + transform.right * (length * cube.transform.localScale.x / 2);
+        _cubeFaceCenterCoords["negativeX"] = transform.position + transform.right * (-length * cube.transform.localScale.x / 2);
         _cubeFaceCenterCoords["positiveY"] = transform.position + transform.up * (height * cube.transform.localScale.y / 2);
         _cubeFaceCenterCoords["negativeY"] = transform.position + transform.up * (-height * cube.transform.localScale.y / 2);
-        _cubeFaceCenterCoords["positiveZ"] = transform.position + transform.right * (width * cube.transform.localScale.z / 2);
-        _cubeFaceCenterCoords["negativeZ"] = transform.position + transform.right * (-width * cube.transform.localScale.z / 2);
+        _cubeFaceCenterCoords["positiveZ"] = transform.position + transform.forward * (width * cube.transform.localScale.z / 2);
+        _cubeFaceCenterCoords["negativeZ"] = transform.position + transform.forward * (-width * cube.transform.localScale.z / 2);
 
         Debug.DrawLine(mainCamera.transform.position, _cubeFaceCenterCoords["positiveX"], Color.red);
         Debug.DrawLine(mainCamera.transform.position, _cubeFaceCenterCoords["negativeX"], Color.red);
@@ -779,11 +899,11 @@ public class VoxelManager : MonoBehaviour
         bool grow = true;
         while (grow)
         {
-            Vector3 normalSize = Vector3.one;
+            Vector3 normalSize = cube.transform.localScale;
             voxel.SetActive(true);
             if (voxel.transform.localScale != normalSize)
             {
-                voxel.transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
+                voxel.transform.localScale += new Vector3(0.025f, 0.025f, 0.025f);
             }
             else
             {
@@ -803,10 +923,10 @@ public class VoxelManager : MonoBehaviour
         bool shrink = true;
         while (shrink)
         {
-            Vector3 smallSize = new Vector3(0.1f, 0.1f, 0.1f);
+            Vector3 smallSize = Vector3.zero;
             if (voxel.transform.localScale != smallSize)
             {
-                voxel.transform.localScale -= new Vector3(0.1f, 0.1f, 0.1f);
+                voxel.transform.localScale -= new Vector3(0.025f, 0.025f, 0.025f);
             }
             else
             {
