@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Valve.VR;
 
 public struct Clue
@@ -312,7 +313,18 @@ public class VoxelManager : MonoBehaviour
                     }
                 }
             }
+
+            yield return new WaitForSeconds(4f);
+
+            while (transform.localScale.x > 0.1f)
+            {
+                transform.localScale -= Vector3.one * 0.02f;
+                yield return new WaitForSeconds(0.01f);
+            }
+
+            SceneManager.LoadSceneAsync("Overworld Scene");
         }
+
         yield return correct;
     }
 
