@@ -323,28 +323,38 @@ public class VoxelManager : MonoBehaviour
         _currentLayerNegZ = 0;
     }
 
-    private void CheckIfFaceChanged() {
-        if (_nearestFace != "positiveX" && _currentLayerPosX != length - 1) {
-            _faceVisibilityChanged = true;
-        } else if (_nearestFace != "negativeX" && _currentLayerNegX != 0) {
-            _faceVisibilityChanged = true;
-        } else if (_nearestFace != "positiveY" && _currentLayerPosY != height - 1) {
-            _faceVisibilityChanged = true;
-        } else if (_nearestFace != "negativeY" && _currentLayerNegY != 0) {
-            _faceVisibilityChanged = true;
-        } else if (_nearestFace != "positiveZ" && _currentLayerPosZ != width - 1) {
-            _faceVisibilityChanged = true;
-        } else if (_nearestFace != "negativeZ" && _currentLayerNegZ != 0) {
-            _faceVisibilityChanged = true;
+    private bool CheckIfFaceChanged(string currentFace) {
+        bool faceChanged = false;
+
+        bool posXmod = _currentLayerPosX != length - 1;
+        bool negXmod = _currentLayerNegX != 0;
+        bool posYmod = _currentLayerPosY != height - 1;
+        bool negYmod = _currentLayerNegY != 0;
+        bool posZmod = _currentLayerPosZ != width - 1;
+        bool negZmod = _currentLayerNegZ != 0;
+
+        if (currentFace == "posX" && (negXmod || posYmod || negYmod || posZmod || negZmod)) {
+            faceChanged = true;
+        } else if (currentFace == "negX" && (posXmod || posYmod || negYmod || posZmod || negZmod)) {
+            faceChanged = true;
+        } else if (currentFace == "posY" && (posXmod || negXmod || negYmod || posZmod || negZmod)) {
+            faceChanged = true;
+        } else if (currentFace == "negY" && (posXmod || negXmod || posYmod || posZmod || negZmod)) {
+            faceChanged = true;
+        } else if (currentFace == "posZ" && (posXmod || negXmod || posYmod || negYmod || negZmod)) {
+            faceChanged = true;
+        } else if (currentFace == "negZ" && (posXmod || negXmod || posYmod || negYmod || posZmod)) {
+            faceChanged = true;
         }
 
-        if (_faceVisibilityChanged) {
-            InitializeCurrentLayers();
-            while (_hiddenVoxels.Count > 0) {
-                GameObject tempVoxel = _hiddenVoxels.Pop();
-                ChangeVoxelVisible(tempVoxel, true);
-            }
-            _faceVisibilityChanged = false;
+        return faceChanged;
+    }
+
+    private void ResetAllLayers() {
+        InitializeCurrentLayers();
+        while (_hiddenVoxels.Count > 0) {
+            GameObject tempVoxel = _hiddenVoxels.Pop();
+            ChangeVoxelVisible(tempVoxel, true);
         }
     }
 
@@ -353,72 +363,164 @@ public class VoxelManager : MonoBehaviour
             switch (_nearestFace) {
                 case "positiveX":
                     if (Input.GetKeyDown(KeyCode.Alpha9) && _currentLayerPosX > 0) {
-                        CheckIfFaceChanged();
-                        Debug.Log("Hide positiveX");
-                        for (int i = 0; i < height; i++) {
-                            for (int j = 0; j < width; j++) {
-                                _hiddenVoxels.Push(_voxels[_currentLayerPosX, i, j]);
-                                ChangeVoxelVisible(_voxels[_currentLayerPosX, i, j], false);
+                        if (CheckIfFaceChanged("posX")) {
+                            ResetAllLayers();
+                        } else {
+                            Debug.Log("Hide positiveX");
+                            for (int i = 0; i < height; i++) {
+                                for (int j = 0; j < width; j++) {
+                                    _hiddenVoxels.Push(_voxels[_currentLayerPosX, i, j]);
+                                    ChangeVoxelVisible(_voxels[_currentLayerPosX, i, j], false);
+                                }
                             }
+                            _currentLayerPosX--;
                         }
-                        _currentLayerPosX--;
-                    } 
-                    if (Input.GetKeyDown(KeyCode.Alpha0) && _hiddenVoxels.Count > 0) {
-                        Debug.Log("Show positiveX");
-                        for (int i = 0; i < 9; i++) {
-                            GameObject tempVoxel = _hiddenVoxels.Pop();
-                            ChangeVoxelVisible(tempVoxel, true);
+                    } else if (Input.GetKeyDown(KeyCode.Alpha0) && _hiddenVoxels.Count > 0) {
+                        if (CheckIfFaceChanged("posX")) {
+                            ResetAllLayers();
+                        } else {
+                            Debug.Log("Show positiveX");
+                            for (int i = 0; i < 9; i++) {
+                                GameObject tempVoxel = _hiddenVoxels.Pop();
+                                ChangeVoxelVisible(tempVoxel, true);
+                            }
+                            _currentLayerPosX++;
                         }
-                        _currentLayerPosX++;
                     }
                     break;
                 case "negativeX":
                     if (Input.GetKeyDown(KeyCode.Alpha9) && _currentLayerNegX < length - 1) {
-                        CheckIfFaceChanged();
-                        Debug.Log("Hide positiveX");
-                        for (int i = 0; i < height; i++) {
-                            for (int j = 0; j < width; j++) {
-                                _hiddenVoxels.Push(_voxels[_currentLayerNegX, i, j]);
-                                ChangeVoxelVisible(_voxels[_currentLayerNegX, i, j], false);
+                        if (CheckIfFaceChanged("negX")) {
+                            ResetAllLayers();
+                        } else {
+                            Debug.Log("Hide positiveX");
+                            for (int i = 0; i < height; i++) {
+                                for (int j = 0; j < width; j++) {
+                                    _hiddenVoxels.Push(_voxels[_currentLayerNegX, i, j]);
+                                    ChangeVoxelVisible(_voxels[_currentLayerNegX, i, j], false);
+                                }
                             }
+                            _currentLayerNegX++;
                         }
-                        _currentLayerPosX++;
-                    }
-                    if (Input.GetKeyDown(KeyCode.Alpha0) && _hiddenVoxels.Count > 0) {
-                        Debug.Log("Show positiveX");
-                        for (int i = 0; i < 9; i++) {
-                            GameObject tempVoxel = _hiddenVoxels.Pop();
-                            ChangeVoxelVisible(tempVoxel, true);
+                    } else if (Input.GetKeyDown(KeyCode.Alpha0) && _hiddenVoxels.Count > 0) {
+                        if (CheckIfFaceChanged("negX")) {
+                            ResetAllLayers();
+                        } else {
+                            Debug.Log("Show positiveX");
+                            for (int i = 0; i < 9; i++) {
+                                GameObject tempVoxel = _hiddenVoxels.Pop();
+                                ChangeVoxelVisible(tempVoxel, true);
+                            }
+                            _currentLayerNegX--;
                         }
-                        _currentLayerPosX--;
                     }
                     break;
                 case "positiveY":
-                    if (Input.GetKeyDown(KeyCode.Alpha9)) {
-                        Debug.Log("Hide positiveY");
-                    } else if (Input.GetKeyDown(KeyCode.Alpha0)) {
-                        Debug.Log("Show positiveY");
+                    if (Input.GetKeyDown(KeyCode.Alpha9) && _currentLayerPosY > 0) {
+                        if (CheckIfFaceChanged("posY")) {
+                            ResetAllLayers();
+                        } else {
+                            Debug.Log("Hide positiveY");
+                            for (int i = 0; i < length; i++) {
+                                for (int j = 0; j < width; j++) {
+                                    _hiddenVoxels.Push(_voxels[i, _currentLayerPosY, j]);
+                                    ChangeVoxelVisible(_voxels[i, _currentLayerPosY, j], false);
+                                }
+                            }
+                            _currentLayerPosY--;
+                        }
+                    } else if (Input.GetKeyDown(KeyCode.Alpha0) && _hiddenVoxels.Count > 0) {
+                        if (CheckIfFaceChanged("posY")) {
+                            ResetAllLayers();
+                        } else {
+                            Debug.Log("Show positiveY");
+                            for (int i = 0; i < 9; i++) {
+                                GameObject tempVoxel = _hiddenVoxels.Pop();
+                                ChangeVoxelVisible(tempVoxel, true);
+                            }
+                            _currentLayerPosY++;
+                        }
                     }
                     break;
                 case "negativeY":
-                    if (Input.GetKeyDown(KeyCode.Alpha9)) {
-                        Debug.Log("Hide negativeY");
-                    } else if (Input.GetKeyDown(KeyCode.Alpha0)) {
-                        Debug.Log("Show negativeY");
+                    if (Input.GetKeyDown(KeyCode.Alpha9) && _currentLayerNegY < height - 1) {
+                        if (CheckIfFaceChanged("negY")) {
+                            ResetAllLayers();
+                        } else {
+                            Debug.Log("Hide negativeY");
+                            for (int i = 0; i < length; i++) {
+                                for (int j = 0; j < width; j++) {
+                                    _hiddenVoxels.Push(_voxels[i, _currentLayerNegY, j]);
+                                    ChangeVoxelVisible(_voxels[i, _currentLayerNegY, j], false);
+                                }
+                            }
+                            _currentLayerNegY++;
+                        }
+                    } else if (Input.GetKeyDown(KeyCode.Alpha0) && _hiddenVoxels.Count > 0) {
+                        if (CheckIfFaceChanged("negY")) {
+                            ResetAllLayers();
+                        } else {
+                            Debug.Log("Show negativeY");
+                            for (int i = 0; i < 9; i++) {
+                                GameObject tempVoxel = _hiddenVoxels.Pop();
+                                ChangeVoxelVisible(tempVoxel, true);
+                            }
+                            _currentLayerNegY--;
+                        }
                     }
                     break;
                 case "positiveZ":
-                    if (Input.GetKeyDown(KeyCode.Alpha9)) {
-                        Debug.Log("Hide positiveZ");
-                    } else if (Input.GetKeyDown(KeyCode.Alpha0)) {
-                        Debug.Log("Show positiveZ");
+                    if (Input.GetKeyDown(KeyCode.Alpha9) && _currentLayerPosZ > 0) {
+                        if (CheckIfFaceChanged("posZ")) {
+                            ResetAllLayers();
+                        } else {
+                            Debug.Log("Hide positiveZ");
+                            for (int i = 0; i < length; i++) {
+                                for (int j = 0; j < height; j++) {
+                                    _hiddenVoxels.Push(_voxels[i, j, _currentLayerPosZ]);
+                                    ChangeVoxelVisible(_voxels[i, j, _currentLayerPosZ], false);
+                                }
+                            }
+                            _currentLayerPosZ--;
+                        }
+                    } else if (Input.GetKeyDown(KeyCode.Alpha0) && _hiddenVoxels.Count > 0) {
+                        if (CheckIfFaceChanged("posZ")) {
+                            ResetAllLayers();
+                        } else {
+                            Debug.Log("Show positiveY");
+                            for (int i = 0; i < 9; i++) {
+                                GameObject tempVoxel = _hiddenVoxels.Pop();
+                                ChangeVoxelVisible(tempVoxel, true);
+                            }
+                            _currentLayerPosZ++;
+                        }
                     }
                     break;
                 case "negativeZ":
-                    if (Input.GetKeyDown(KeyCode.Alpha9)) {
-                        Debug.Log("Hide negativeZ");
-                    } else if (Input.GetKeyDown(KeyCode.Alpha0)) {
-                        Debug.Log("Show negativeZ");
+                    if (Input.GetKeyDown(KeyCode.Alpha9) && _currentLayerNegZ < width - 1) {
+                        if (CheckIfFaceChanged("negZ")) {
+                            ResetAllLayers();
+                        } else {
+                            Debug.Log("Hide negitiveZ");
+                            for (int i = 0; i < length; i++) {
+                                for (int j = 0; j < height; j++) {
+                                    _hiddenVoxels.Push(_voxels[i, j, _currentLayerNegZ]);
+                                    ChangeVoxelVisible(_voxels[i, j, _currentLayerNegZ], false);
+                                }
+                            }
+                            _currentLayerNegZ++;
+                        }
+                    } else if (Input.GetKeyDown(KeyCode.Alpha0) && _hiddenVoxels.Count > 0) {
+                        if (CheckIfFaceChanged("negZ")) {
+                            ResetAllLayers();
+                        } else {
+                            Debug.Log("Show negitiveY");
+                            for (int i = 0; i < 9; i++) {
+                                GameObject tempVoxel = _hiddenVoxels.Pop();
+                                ChangeVoxelVisible(tempVoxel, true);
+                            }
+                            _currentLayerNegZ--;
+                        }
                     }
                     break;
             }
