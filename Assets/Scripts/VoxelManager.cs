@@ -67,6 +67,7 @@ public class VoxelManager : MonoBehaviour
     [Header("Dependencies")]
     [SerializeField] private GameObject mainCamera;
     [SerializeField] private GameObject cube;
+    [SerializeField] private GameObject completedPuzzle;
 
     [SerializeField] private Material _clearMaterial;
 
@@ -114,6 +115,7 @@ public class VoxelManager : MonoBehaviour
         if (loadedPuzzle != null)
         {
             puzzleObject = loadedPuzzle.GetComponent<StartPuzzle>().PuzzleObject;
+            Destroy(loadedPuzzle);
         }
         
         if (generateRandomPuzzle || puzzleObject == null)
@@ -322,6 +324,8 @@ public class VoxelManager : MonoBehaviour
                 yield return new WaitForSeconds(0.01f);
             }
 
+            GameObject completedPuzzleInstance = Instantiate(completedPuzzle);
+            completedPuzzleInstance.GetComponent<CompletedPuzzle>().PuzzleType = puzzleObject.PuzzleType;
             SceneManager.LoadSceneAsync("Overworld Scene");
         }
 

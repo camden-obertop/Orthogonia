@@ -9,4 +9,5 @@ public class Puzzle : ScriptableObject
     public Int32 SizeX;
     public Int32 SizeY;
     public Int32 SizeZ;
+    public CompletedPuzzle.Puzzle PuzzleType;
 }
