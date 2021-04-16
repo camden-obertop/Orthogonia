@@ -187,7 +187,11 @@ public class Voxel : MonoBehaviour
     private void OnMouseEnter()
     {
         _isHovering = true;
-        _meshRenderer.material = hoverColor;
+        if (_manager.CurrentGameMode == VoxelManager.GameMode.Destroy) {
+            _meshRenderer.material = hoverDestroyColor;
+        } else {
+            _meshRenderer.material = hoverColor;
+        }
     }
 
     private void OnMouseExit()

@@ -307,11 +307,6 @@ public class VoxelManager : MonoBehaviour
         ManageMode();
         GetNearestFace();
         ManageNearestLayer();
-
-        // TEMP TEMP TEMP
-        bool performAction = SteamVR_Actions.picross.PerformAction[SteamVR_Input_Sources.Any].stateDown;
-
-        bool grabLayer = SteamVR_Actions.picross.GrabLayer[SteamVR_Input_Sources.Any].stateDown;
     }
 
     private void InitializeCurrentLayers() {
@@ -359,10 +354,12 @@ public class VoxelManager : MonoBehaviour
     }
 
     private void ManageNearestLayer() {
+        bool vrHideLayer = SteamVR_Actions.picross.HideLayer[SteamVR_Input_Sources.Any].stateDown;
+        bool vrShowLayer = SteamVR_Actions.picross.ShowLayer[SteamVR_Input_Sources.Any].stateDown;
         if (_coroutineFinished) {
             switch (_nearestFace) {
                 case "positiveX":
-                    if (Input.GetKeyDown(KeyCode.Alpha9) && _currentLayerPosX > 0) {
+                    if ((vrHideLayer || Input.GetKeyDown(KeyCode.Alpha9)) && _currentLayerPosX > 0) {
                         if (CheckIfFaceChanged("posX")) {
                             ResetAllLayers();
                         } else {
@@ -375,7 +372,7 @@ public class VoxelManager : MonoBehaviour
                             }
                             _currentLayerPosX--;
                         }
-                    } else if (Input.GetKeyDown(KeyCode.Alpha0) && _hiddenVoxels.Count > 0) {
+                    } else if ((vrShowLayer || Input.GetKeyDown(KeyCode.Alpha0)) && _hiddenVoxels.Count > 0) {
                         if (CheckIfFaceChanged("posX")) {
                             ResetAllLayers();
                         } else {
@@ -389,7 +386,7 @@ public class VoxelManager : MonoBehaviour
                     }
                     break;
                 case "negativeX":
-                    if (Input.GetKeyDown(KeyCode.Alpha9) && _currentLayerNegX < length - 1) {
+                    if ((vrHideLayer || Input.GetKeyDown(KeyCode.Alpha9)) && _currentLayerNegX < length - 1) {
                         if (CheckIfFaceChanged("negX")) {
                             ResetAllLayers();
                         } else {
@@ -402,7 +399,7 @@ public class VoxelManager : MonoBehaviour
                             }
                             _currentLayerNegX++;
                         }
-                    } else if (Input.GetKeyDown(KeyCode.Alpha0) && _hiddenVoxels.Count > 0) {
+                    } else if ((vrShowLayer || Input.GetKeyDown(KeyCode.Alpha0)) && _hiddenVoxels.Count > 0) {
                         if (CheckIfFaceChanged("negX")) {
                             ResetAllLayers();
                         } else {
@@ -416,7 +413,7 @@ public class VoxelManager : MonoBehaviour
                     }
                     break;
                 case "positiveY":
-                    if (Input.GetKeyDown(KeyCode.Alpha9) && _currentLayerPosY > 0) {
+                    if ((vrHideLayer || Input.GetKeyDown(KeyCode.Alpha9)) && _currentLayerPosY > 0) {
                         if (CheckIfFaceChanged("posY")) {
                             ResetAllLayers();
                         } else {
@@ -429,7 +426,7 @@ public class VoxelManager : MonoBehaviour
                             }
                             _currentLayerPosY--;
                         }
-                    } else if (Input.GetKeyDown(KeyCode.Alpha0) && _hiddenVoxels.Count > 0) {
+                    } else if ((vrShowLayer || Input.GetKeyDown(KeyCode.Alpha0)) && _hiddenVoxels.Count > 0) {
                         if (CheckIfFaceChanged("posY")) {
                             ResetAllLayers();
                         } else {
@@ -443,7 +440,7 @@ public class VoxelManager : MonoBehaviour
                     }
                     break;
                 case "negativeY":
-                    if (Input.GetKeyDown(KeyCode.Alpha9) && _currentLayerNegY < height - 1) {
+                    if ((vrHideLayer || Input.GetKeyDown(KeyCode.Alpha9)) && _currentLayerNegY < height - 1) {
                         if (CheckIfFaceChanged("negY")) {
                             ResetAllLayers();
                         } else {
@@ -456,7 +453,7 @@ public class VoxelManager : MonoBehaviour
                             }
                             _currentLayerNegY++;
                         }
-                    } else if (Input.GetKeyDown(KeyCode.Alpha0) && _hiddenVoxels.Count > 0) {
+                    } else if ((vrShowLayer || Input.GetKeyDown(KeyCode.Alpha0)) && _hiddenVoxels.Count > 0) {
                         if (CheckIfFaceChanged("negY")) {
                             ResetAllLayers();
                         } else {
@@ -470,7 +467,7 @@ public class VoxelManager : MonoBehaviour
                     }
                     break;
                 case "positiveZ":
-                    if (Input.GetKeyDown(KeyCode.Alpha9) && _currentLayerPosZ > 0) {
+                    if ((vrHideLayer || Input.GetKeyDown(KeyCode.Alpha9)) && _currentLayerPosZ > 0) {
                         if (CheckIfFaceChanged("posZ")) {
                             ResetAllLayers();
                         } else {
@@ -483,7 +480,7 @@ public class VoxelManager : MonoBehaviour
                             }
                             _currentLayerPosZ--;
                         }
-                    } else if (Input.GetKeyDown(KeyCode.Alpha0) && _hiddenVoxels.Count > 0) {
+                    } else if ((vrShowLayer || Input.GetKeyDown(KeyCode.Alpha0)) && _hiddenVoxels.Count > 0) {
                         if (CheckIfFaceChanged("posZ")) {
                             ResetAllLayers();
                         } else {
@@ -497,7 +494,7 @@ public class VoxelManager : MonoBehaviour
                     }
                     break;
                 case "negativeZ":
-                    if (Input.GetKeyDown(KeyCode.Alpha9) && _currentLayerNegZ < width - 1) {
+                    if ((vrHideLayer || Input.GetKeyDown(KeyCode.Alpha9)) && _currentLayerNegZ < width - 1) {
                         if (CheckIfFaceChanged("negZ")) {
                             ResetAllLayers();
                         } else {
@@ -510,7 +507,7 @@ public class VoxelManager : MonoBehaviour
                             }
                             _currentLayerNegZ++;
                         }
-                    } else if (Input.GetKeyDown(KeyCode.Alpha0) && _hiddenVoxels.Count > 0) {
+                    } else if ((vrShowLayer || Input.GetKeyDown(KeyCode.Alpha0)) && _hiddenVoxels.Count > 0) {
                         if (CheckIfFaceChanged("negZ")) {
                             ResetAllLayers();
                         } else {
@@ -591,18 +588,19 @@ public class VoxelManager : MonoBehaviour
     {
 
         bool switchMode = SteamVR_Actions.picross.SwitchMode[SteamVR_Input_Sources.Any].stateDown;
+        bool keyboardSwitchMode = Input.GetKeyDown(KeyCode.O);
 
-        if (switchMode && _currentGameMode == GameMode.Mark)
+        if ((keyboardSwitchMode || switchMode) && _currentGameMode == GameMode.Mark)
         {
             _currentGameMode = GameMode.Build;
             MakeBuildable();
             _modeText.text = "Build";
-        } else if (switchMode && _currentGameMode == GameMode.Build)
+        } else if ((keyboardSwitchMode || switchMode) && _currentGameMode == GameMode.Build)
         {
             _currentGameMode = GameMode.Destroy;
             MakeDestroyable();
             _modeText.text = "Destroy";
-        } else if (switchMode && _currentGameMode == GameMode.Destroy)
+        } else if ((keyboardSwitchMode || switchMode) && _currentGameMode == GameMode.Destroy)
         {
             _currentGameMode = GameMode.Mark;
             MakeMarkable();
