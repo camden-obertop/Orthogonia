@@ -15,6 +15,7 @@ public class Voxel : MonoBehaviour
 {
     [Header("Materials")] [SerializeField] private Material defaultColor;
     [SerializeField] private Material hoverColor;
+    [SerializeField] private Material hoverDestroyColor;
     [SerializeField] private Material markedColor;
     [SerializeField] private Material clearColor;
 
@@ -212,7 +213,11 @@ public class Voxel : MonoBehaviour
         if (other.gameObject.CompareTag("Interactor"))
         {
             _isHovering = true;
-            _meshRenderer.material = hoverColor;
+            if (_manager.CurrentGameMode == VoxelManager.GameMode.Destroy) {
+                _meshRenderer.material = hoverDestroyColor;
+            } else {
+                _meshRenderer.material = hoverColor;
+            }
         }
     }
 

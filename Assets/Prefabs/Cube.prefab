@@ -1787,6 +1787,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultColor: {fileID: 2100000, guid: 4aa46fa10d358184f8007578c5875326, type: 2}
   hoverColor: {fileID: 2100000, guid: 658428a2558ba464daebaa73f9473fb3, type: 2}
+  hoverDestroyColor: {fileID: 2100000, guid: c1cf4206f9974c2409aff8a687603882, type: 2}
   markedColor: {fileID: 2100000, guid: 741448c2d7cfd4e4499e681230988c8d, type: 2}
   clearColor: {fileID: 2100000, guid: ab71d0cbe67e8f2458f7f1695cae47e8, type: 2}
   frontHint: {fileID: 2712936769909468335}
