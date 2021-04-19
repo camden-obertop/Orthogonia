@@ -996,11 +996,19 @@ public class VoxelManager : MonoBehaviour
 
     IEnumerator GrowVoxel(GameObject voxel)
     {
+        Voxel voxelVoxel = voxel.GetComponent<Voxel>();
         bool grow = true;
+        Vector3 normalSize = cube.transform.localScale;
+        if (voxelVoxel.IsVisible)
+        {
+            Debug.Log("It's visible!");
+        }
+        if (voxelVoxel.IsVisible)
+        {
+            voxel.SetActive(true);
+        }
         while (grow)
         {
-            Vector3 normalSize = cube.transform.localScale;
-            voxel.SetActive(true);
             if (voxel.transform.localScale != normalSize)
             {
                 voxel.transform.localScale += new Vector3(0.025f, 0.025f, 0.025f);
@@ -1021,9 +1029,9 @@ public class VoxelManager : MonoBehaviour
     {
         _coroutineFinished = false;
         bool shrink = true;
+        Vector3 smallSize = Vector3.zero;
         while (shrink)
         {
-            Vector3 smallSize = Vector3.zero;
             if (voxel.transform.localScale != smallSize)
             {
                 voxel.transform.localScale -= new Vector3(0.025f, 0.025f, 0.025f);
