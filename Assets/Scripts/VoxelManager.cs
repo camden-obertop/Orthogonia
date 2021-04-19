@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Valve.VR;
 
 public struct Clue
@@ -66,8 +67,19 @@ public class VoxelManager : MonoBehaviour
     [Header("Dependencies")]
     [SerializeField] private GameObject mainCamera;
     [SerializeField] private GameObject cube;
+    [SerializeField] private GameObject completedPuzzle;
 
     [SerializeField] private Material _clearMaterial;
+
+    private VoxelState[,,] _voxelStates;
+    public VoxelState[,,] VoxelStates
+    {
+        get => _voxelStates;
+        set => _voxelStates = value;
+    }
+
+    private bool _canEditPuzzle = true;
+    public bool CanEditPuzzle => _canEditPuzzle;
 
     private int _visibleLayersX, _visibleLayersY, _visibleLayersZ;
     private Stack<GameObject> _hiddenVoxels;
@@ -84,6 +96,7 @@ public class VoxelManager : MonoBehaviour
     private VoxelInfo[,,] _puzzle;
     private Dictionary<string, Vector3> _cubeFaceCenterCoords;
     private string _nearestFace;
+    private Coroutine _checkSolutionCoroutine;
 
     private GameMode _currentGameMode = GameMode.Mark;
     [SerializeField] private Text _modeText;
@@ -111,6 +124,7 @@ public class VoxelManager : MonoBehaviour
         if (loadedPuzzle != null)
         {
             puzzleObject = loadedPuzzle.GetComponent<StartPuzzle>().PuzzleObject;
+            Destroy(loadedPuzzle);
         }
         
         if (generateRandomPuzzle || puzzleObject == null)
@@ -270,9 +284,68 @@ public class VoxelManager : MonoBehaviour
         }
     }
 
+    public void UpdateVoxelState(Vector3Int position, VoxelState state)
+    {
+        _voxelStates[position.x, position.y, position.z] = state;
+
+        if (state != VoxelState.Unmarked)
+        {
+            _checkSolutionCoroutine = StartCoroutine(IsCurrentStateCorrect(_voxelStates, _solution));
+        }
+    }
+
+    private IEnumerator IsCurrentStateCorrect(VoxelManager.VoxelState[,,] voxelStates, VoxelManager.VoxelState[,,] solution)
+    {
+        bool correct = true;
+
+        for (int i = 0; i < voxelStates.GetLength(0); i++)
+        {
+            for (int j = 0; j < voxelStates.GetLength(1); j++)
+            {
+                for (int k = 0; k < voxelStates.GetLength(2); k++)
+                {
+                    if (voxelStates[i, j, k] != solution[i, j, k])
+                        correct = false;
+                }
+            }
+        }
+
+        if (correct)
+        {
+            _canEditPuzzle = false;
+
+            for (int i = 0; i < voxelStates.GetLength(0); i++)
+            {
+                for (int j = 0; j < voxelStates.GetLength(1); j++)
+                {
+                    for (int k = 0; k < voxelStates.GetLength(2); k++)
+                    {
+                        _voxels[i, j, k].GetComponent<Voxel>().ClearedPuzzle(_puzzle[i, j, k].VoxelColor);
+                    }
+                }
+            }
+
+            yield return new WaitForSeconds(4f);
+
+            while (transform.localScale.x > 0.1f)
+            {
+                transform.localScale -= Vector3.one * 0.02f;
+                yield return new WaitForSeconds(0.01f);
+            }
+
+            GameObject completedPuzzleInstance = Instantiate(completedPuzzle);
+            completedPuzzleInstance.GetComponent<CompletedPuzzle>().PuzzleType = puzzleObject.PuzzleType;
+            SceneManager.LoadSceneAsync("Overworld Scene");
+        }
+
+        yield return correct;
+    }
+
     private void InitializeVoxels()
     {
         _voxels = new GameObject[length, height, width];
+        _voxelStates = new VoxelState[length, height, width];
+
         for (int i = 0; i < length; i++)
         {
             for (int j = 0; j < height; j++)
@@ -283,7 +356,9 @@ public class VoxelManager : MonoBehaviour
                         Quaternion.identity, transform);
                     _voxels[i, j, k].GetComponent<Voxel>().IsPuzzleVoxel = _solution[i, j, k] == VoxelState.Marked;
                     _voxels[i, j, k].GetComponent<Voxel>().Manager = this;
-                    _voxels[i, j, k].GetComponent<Voxel>().IndexPosition = new Vector3(i, j, k);
+                    _voxels[i, j, k].GetComponent<Voxel>().IndexPosition = new Vector3Int(i, j, k);
+
+                    _voxelStates[i, j, k] = VoxelState.Unmarked;
                 }
             }
         }
@@ -586,21 +661,22 @@ public class VoxelManager : MonoBehaviour
 
     private void ManageMode()
     {
-
         bool switchMode = SteamVR_Actions.picross.SwitchMode[SteamVR_Input_Sources.Any].stateDown;
-        bool keyboardSwitchMode = Input.GetKeyDown(KeyCode.O);
+        bool switchModeDesktop = Input.GetKeyDown(KeyCode.Space);
 
-        if ((keyboardSwitchMode || switchMode) && _currentGameMode == GameMode.Mark)
+        if ((switchMode || switchModeDesktop) && _currentGameMode == GameMode.Mark)
         {
             _currentGameMode = GameMode.Build;
             MakeBuildable();
             _modeText.text = "Build";
-        } else if ((keyboardSwitchMode || switchMode) && _currentGameMode == GameMode.Build)
+        } 
+        else if ((switchMode || switchModeDesktop) && _currentGameMode == GameMode.Build)
         {
             _currentGameMode = GameMode.Destroy;
             MakeDestroyable();
             _modeText.text = "Destroy";
-        } else if ((keyboardSwitchMode || switchMode) && _currentGameMode == GameMode.Destroy)
+        } 
+        else if ((switchMode || switchModeDesktop) && _currentGameMode == GameMode.Destroy)
         {
             _currentGameMode = GameMode.Mark;
             MakeMarkable();
@@ -749,19 +825,16 @@ public class VoxelManager : MonoBehaviour
             {
                 int voxelCount = 0;
                 int gapCount = 0;
-                bool previousWasGap = false;
 
                 for (int k = 0; k < width; k++)
                 {
                     if (_solution[i, j, k] == VoxelState.Marked)
                     {
                         voxelCount++;
-                        previousWasGap = false;
                     }
-                    else if (k != width - 1 && voxelCount > 0 && !previousWasGap)
+                    else if (k != width - 1 && voxelCount > 0 && _solution[i, j, k] == VoxelState.Cleared && _solution[i, j, k + 1] == VoxelState.Marked)
                     {
                         gapCount++;
-                        previousWasGap = true;
                     }
 
                     if (k == width - 1 && voxelCount <= 1)
@@ -783,19 +856,16 @@ public class VoxelManager : MonoBehaviour
             {
                 int voxelCount = 0;
                 int gapCount = 0;
-                bool previousWasGap = false;
 
                 for (int i = 0; i < length; i++)
                 {
                     if (_solution[i, j, k] == VoxelState.Marked)
                     {
                         voxelCount++;
-                        previousWasGap = false;
                     }
-                    else if (i != length - 1 && voxelCount > 0 && !previousWasGap)
+                    else if (i != length - 1 && voxelCount > 0 && _solution[i, j, k] == VoxelState.Cleared && _solution[i + 1, j, k] == VoxelState.Marked)
                     {
                         gapCount++;
-                        previousWasGap = true;
                     }
 
                     if (i == length - 1 && voxelCount <= 1)
@@ -817,28 +887,19 @@ public class VoxelManager : MonoBehaviour
             {
                 int voxelCount = 0;
                 int gapCount = 0;
-                bool previousWasGap = false;
-                bool gap = false;
 
                 for (int j = 0; j < height; j++)
                 {
                     if (_solution[i, j, k] == VoxelState.Marked)
                     {
                         voxelCount++;
-                        if (previousWasGap)
-                        {
-                            gap = true;
-                        }
-
-                        previousWasGap = false;
                     }
-                    else if (j != height - 1 && voxelCount > 0 && !previousWasGap)
+                    else if (j != height - 1 && voxelCount > 0 && _solution[i, j, k] == VoxelState.Cleared && _solution[i, j + 1, k] == VoxelState.Marked)
                     {
                         gapCount++;
-                        previousWasGap = true;
                     }
 
-                    if (j == height - 1 && !gap)
+                    if (j == height - 1 && voxelCount <= 1)
                     {
                         gapCount = 0;
                     }
@@ -1081,29 +1142,44 @@ public class VoxelManager : MonoBehaviour
 
         float timeSpeed = rotateSpeed * Time.deltaTime;
 
-        if (Input.GetKey(KeyCode.J) || rotateLeft)
+        if (_canEditPuzzle)
         {
-            transform.RotateAround(_target, transform.up, timeSpeed);
-        }
+            if (Input.GetKey(KeyCode.J) || rotateLeft)
+            {
+                transform.RotateAround(_target, transform.up, timeSpeed);
+            }
 
-        if (Input.GetKey(KeyCode.L) || rotateRight)
-        {
-            transform.RotateAround(_target, transform.up, -timeSpeed);
-        }
+            if (Input.GetKey(KeyCode.L) || rotateRight)
+            {
+                transform.RotateAround(_target, transform.up, -timeSpeed);
+            }
 
-        if (Input.GetKey(KeyCode.I) || rotateUp && _canVerticallyRotate)
-        {
-            transform.RotateAround(_target, _cameraTransform.right, timeSpeed);
-        }
+            if (Input.GetKey(KeyCode.I) || rotateUp && _canVerticallyRotate)
+            {
+                transform.RotateAround(_target, _cameraTransform.right, timeSpeed);
+            }
 
-        if (Input.GetKey(KeyCode.K) || rotateDown && _canVerticallyRotate)
-        {
-            transform.RotateAround(_target, _cameraTransform.right, -timeSpeed);
-        }
+            if (Input.GetKey(KeyCode.K) || rotateDown && _canVerticallyRotate)
+            {
+                transform.RotateAround(_target, _cameraTransform.right, -timeSpeed);
+            }
 
-        if (Input.GetKeyDown(KeyCode.R))
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                transform.rotation = Quaternion.identity;
+            }
+        }
+        else
         {
-            transform.rotation = Quaternion.identity;
+            if ((transform.rotation.eulerAngles.x > 2 && transform.rotation.eulerAngles.x < 358) || 
+                (transform.rotation.eulerAngles.z > 1 && transform.rotation.eulerAngles.z < 358))
+            {
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.identity, timeSpeed / 3);
+            }
+            else
+            {
+                transform.RotateAround(_target, transform.up, timeSpeed / 3);
+            }
         }
     }
     
