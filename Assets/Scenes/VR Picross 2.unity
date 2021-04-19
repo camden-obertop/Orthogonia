@@ -340,6 +340,7 @@ MonoBehaviour:
   rotateSpeed: 100
   mainCamera: {fileID: 1252437462}
   cube: {fileID: 6549536629210668778, guid: 0b99d12d87ba2354a89eb9d28c8b62a6, type: 3}
+  completedPuzzle: {fileID: 6031440201314962155, guid: af03b89316225334db7f5924fb83d223, type: 3}
   _clearMaterial: {fileID: 2100000, guid: ab71d0cbe67e8f2458f7f1695cae47e8, type: 2}
   _modeText: {fileID: 1924175863}
 --- !u!114 &318103001

@@ -452,7 +452,7 @@ public class VoxelManager : MonoBehaviour
                             ResetAllLayers();
                         } else {
                             Debug.Log("Show positiveX");
-                            for (int i = 0; i < 9; i++) {
+                            for (int i = 0; i < height * width; i++) {
                                 GameObject tempVoxel = _hiddenVoxels.Pop();
                                 ChangeVoxelVisible(tempVoxel, true);
                             }
@@ -479,7 +479,7 @@ public class VoxelManager : MonoBehaviour
                             ResetAllLayers();
                         } else {
                             Debug.Log("Show positiveX");
-                            for (int i = 0; i < 9; i++) {
+                            for (int i = 0; i < height * width; i++) {
                                 GameObject tempVoxel = _hiddenVoxels.Pop();
                                 ChangeVoxelVisible(tempVoxel, true);
                             }
@@ -506,7 +506,7 @@ public class VoxelManager : MonoBehaviour
                             ResetAllLayers();
                         } else {
                             Debug.Log("Show positiveY");
-                            for (int i = 0; i < 9; i++) {
+                            for (int i = 0; i < length * width; i++) {
                                 GameObject tempVoxel = _hiddenVoxels.Pop();
                                 ChangeVoxelVisible(tempVoxel, true);
                             }
@@ -533,7 +533,7 @@ public class VoxelManager : MonoBehaviour
                             ResetAllLayers();
                         } else {
                             Debug.Log("Show negativeY");
-                            for (int i = 0; i < 9; i++) {
+                            for (int i = 0; i < length * width; i++) {
                                 GameObject tempVoxel = _hiddenVoxels.Pop();
                                 ChangeVoxelVisible(tempVoxel, true);
                             }
@@ -560,7 +560,7 @@ public class VoxelManager : MonoBehaviour
                             ResetAllLayers();
                         } else {
                             Debug.Log("Show positiveY");
-                            for (int i = 0; i < 9; i++) {
+                            for (int i = 0; i < length * height; i++) {
                                 GameObject tempVoxel = _hiddenVoxels.Pop();
                                 ChangeVoxelVisible(tempVoxel, true);
                             }
@@ -587,7 +587,7 @@ public class VoxelManager : MonoBehaviour
                             ResetAllLayers();
                         } else {
                             Debug.Log("Show negitiveY");
-                            for (int i = 0; i < 9; i++) {
+                            for (int i = 0; i < length * height; i++) {
                                 GameObject tempVoxel = _hiddenVoxels.Pop();
                                 ChangeVoxelVisible(tempVoxel, true);
                             }
