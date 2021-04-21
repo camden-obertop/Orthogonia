@@ -336,6 +336,11 @@ public class VoxelManager : MonoBehaviour
             GameObject completedPuzzleInstance = Instantiate(completedPuzzle);
             completedPuzzleInstance.GetComponent<CompletedPuzzle>().PuzzleType = puzzleObject.PuzzleType;
             SceneManager.LoadSceneAsync("Overworld Scene");
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+            {
+                Destroy(playerObj);
+            }
         }
 
         yield return correct;

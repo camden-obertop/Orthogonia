@@ -7,6 +7,8 @@ TagManager:
   - Hand
   - Interactor
   - PuzzleLoader
+  - CompletedPuzzle
+  - BGMPlayer
   layers:
   - Default
   - TransparentFX

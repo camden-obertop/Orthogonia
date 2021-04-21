@@ -240,12 +240,15 @@ public class Voxel : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log(other);
-        if (other.gameObject.CompareTag("Interactor"))
+        if (other.gameObject.CompareTag("Interactor") && _manager.CanEditPuzzle)
         {
             _isHovering = true;
-            if (_manager.CurrentGameMode == VoxelManager.GameMode.Destroy) {
+            if (_manager.CurrentGameMode == VoxelManager.GameMode.Destroy)
+            {
                 _meshRenderer.material = hoverDestroyColor;
-            } else {
+            }
+            else
+            {
                 _meshRenderer.material = hoverColor;
             }
         }
@@ -253,7 +256,7 @@ public class Voxel : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Interactor"))
+        if (other.gameObject.CompareTag("Interactor") && _manager.CanEditPuzzle)
         {
             _isHovering = false;
             if (!_isVisible)

@@ -6,8 +6,8 @@ public class ContinuousMusic : MonoBehaviour
 
     private void Start()
     {
-        GameObject existingBGM = GameObject.Find(BGM.name);
-        if (existingBGM == null)
+        GameObject[] existingBGM = GameObject.FindGameObjectsWithTag("BGMPlayer");
+        if (existingBGM.Length == 0)
         {
             GameObject newBGMObject = Instantiate(BGM);
             DontDestroyOnLoad(newBGMObject);
