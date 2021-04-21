@@ -4,8 +4,26 @@ public class CompletedPuzzle : MonoBehaviour
 {
     public enum Puzzle
     {
-        Fox,
+        Air,
+        Earth,
+        Worm,
+        Rock,
         Sun,
+        Ocean,
+        Clouds,
+        River,
+        Grass,
+        Flower,
+        Bee,
+        Tree,
+        Bush,
+        Fruit,
+        Fungus,
+        Fish,
+        Bird,
+        Squirrel,
+        Fox,
+        Human,
     }
 
     private Puzzle _puzzleType = Puzzle.Fox;
