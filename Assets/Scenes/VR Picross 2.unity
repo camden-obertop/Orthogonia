@@ -160,15 +160,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7863445401384461459, guid: bbb25a206d8d02945ad23835eeca1816, type: 3}
       propertyPath: m_Color.b
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7863445401384461459, guid: bbb25a206d8d02945ad23835eeca1816, type: 3}
       propertyPath: m_Color.g
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7863445401384461459, guid: bbb25a206d8d02945ad23835eeca1816, type: 3}
       propertyPath: m_Color.r
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7863445401384461459, guid: bbb25a206d8d02945ad23835eeca1816, type: 3}
       propertyPath: m_FontData.m_FontSize
