@@ -1,10 +1,13 @@
 using System;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class ProgressManager : MonoBehaviour
 {
     // Each of these is called after you beat a level. I.e. the earth transition is enabled when you beat the air puzzle
-    [Header("Air")] [SerializeField] private GameObject earthTransition;
+    [Header("Air")] 
+    [SerializeField] private GameObject airTransition;
+    [SerializeField] private GameObject earthTransition;
 
     [Header("Earth")] [SerializeField] private GameObject earthLandscape;
     [SerializeField] private GameObject airLandscape;
@@ -23,6 +26,7 @@ public class ProgressManager : MonoBehaviour
         if (completedPuzzleObject != null)
         {
             ActivatePuzzleInWorld(completedPuzzleObject.GetComponent<CompletedPuzzle>().PuzzleType);
+            Destroy(completedPuzzleObject);
         }
     }
 
@@ -35,16 +39,17 @@ public class ProgressManager : MonoBehaviour
             // It cycles through each puzzle until it gets to the one you just beat
             // At each it cycles through, it enables its elements and cleans up those of the last puzzle
             // Therefore, the last puzzle it cycles through should have the updated state
-            switch (puzzleType)
+            switch (puzzle)
             {
                 case CompletedPuzzle.Puzzle.Air:
+                    airTransition.SetActive(false);
                     earthTransition.SetActive(true);
                     break;
                 case CompletedPuzzle.Puzzle.Earth:
+                    earthTransition.SetActive(false);
                     earthLandscape.SetActive(true);
                     airLandscape.SetActive(false);
                     wormTransition.SetActive(true);
-                    earthTransition.SetActive(false);
                     break;
                 case CompletedPuzzle.Puzzle.Worm:
                     wormTransition.SetActive(false);
