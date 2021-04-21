@@ -25,14 +25,6 @@ namespace Valve.VR
             }
         }
         
-        public virtual SteamVR_Action_Boolean GrabLayer
-        {
-            get
-            {
-                return SteamVR_Actions.picross_GrabLayer;
-            }
-        }
-        
         public virtual SteamVR_Action_Boolean PerformAction
         {
             get
@@ -49,11 +41,19 @@ namespace Valve.VR
             }
         }
         
-        public virtual SteamVR_Action_Single PullPerformAction
+        public virtual SteamVR_Action_Boolean HideLayer
         {
             get
             {
-                return SteamVR_Actions.picross_PullPerformAction;
+                return SteamVR_Actions.picross_HideLayer;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean ShowLayer
+        {
+            get
+            {
+                return SteamVR_Actions.picross_ShowLayer;
             }
         }
     }

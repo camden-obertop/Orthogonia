@@ -45,10 +45,6 @@
       "type": "boolean"
     },
     {
-      "name": "/actions/picross/in/GrabLayer",
-      "type": "boolean"
-    },
-    {
       "name": "/actions/picross/in/PerformAction",
       "type": "boolean"
     },
@@ -57,8 +53,12 @@
       "type": "vector2"
     },
     {
-      "name": "/actions/picross/in/PullPerformAction",
-      "type": "vector1"
+      "name": "/actions/picross/in/HideLayer",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/picross/in/ShowLayer",
+      "type": "boolean"
     },
     {
       "name": "/actions/overworld/in/Teleport",
@@ -153,13 +153,13 @@
       "/actions/default/in/SkeletonRightHand": "Skeleton (Right)",
       "/actions/default/out/Haptic": "Haptic",
       "/actions/picross/in/SwitchMode": "Switch Mode",
-      "/actions/picross/in/GrabLayer": "Grab Layer",
       "/actions/picross/in/PerformAction": "Perform Action",
       "/actions/picross/in/Rotate": "Rotate",
       "/actions/overworld/in/Teleport": "Teleport",
       "/actions/overworld/in/SnapTurnLeft": "Snap Turn (Left)",
       "/actions/overworld/in/SnapTurnRight": "Snap Turn (Right)",
-      "/actions/picross/in/PullPerformAction": "Pull Perform Action"
+      "/actions/picross/in/HideLayer": "Hide Layer",
+      "/actions/picross/in/ShowLayer": "Show Layer"
     }
   ]
 }

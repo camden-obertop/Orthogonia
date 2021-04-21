@@ -82,6 +82,10 @@ public class VoxelManager : MonoBehaviour
     public bool CanEditPuzzle => _canEditPuzzle;
 
     private int _visibleLayersX, _visibleLayersY, _visibleLayersZ;
+    private Stack<GameObject> _hiddenVoxels;
+    private bool _faceVisibilityChanged;
+    private int _currentLayerPosX, _currentLayerNegX, _currentLayerPosY, _currentLayerNegY, _currentLayerPosZ, _currentLayerNegZ;
+
     private GameObject[,,] _voxels;
     private Clue[,] _frontClues, _sideClues, _topClues;
     private VoxelState[,,] _solution;
@@ -110,6 +114,11 @@ public class VoxelManager : MonoBehaviour
         _visibleLayersX = length - 1;
         _visibleLayersY = height - 1;
         _visibleLayersZ = width - 1;
+
+        _hiddenVoxels = new Stack<GameObject>();
+        _faceVisibilityChanged = false;
+
+        InitializeCurrentLayers();
 
         GameObject loadedPuzzle = GameObject.FindGameObjectWithTag("PuzzleLoader");
         if (loadedPuzzle != null)
@@ -372,11 +381,222 @@ public class VoxelManager : MonoBehaviour
         ManageVisibleLayers();
         ManageMode();
         GetNearestFace();
+        ManageNearestLayer();
+    }
 
-        // TEMP TEMP TEMP
-        bool performAction = SteamVR_Actions.picross.PerformAction[SteamVR_Input_Sources.Any].stateDown;
+    private void InitializeCurrentLayers() {
+        _currentLayerPosX = length - 1;
+        _currentLayerNegX = 0;
+        _currentLayerPosY = height - 1;
+        _currentLayerNegY = 0;
+        _currentLayerPosZ = width - 1;
+        _currentLayerNegZ = 0;
+    }
 
-        bool grabLayer = SteamVR_Actions.picross.GrabLayer[SteamVR_Input_Sources.Any].stateDown;
+    private bool CheckIfFaceChanged(string currentFace) {
+        bool faceChanged = false;
+
+        bool posXmod = _currentLayerPosX != length - 1;
+        bool negXmod = _currentLayerNegX != 0;
+        bool posYmod = _currentLayerPosY != height - 1;
+        bool negYmod = _currentLayerNegY != 0;
+        bool posZmod = _currentLayerPosZ != width - 1;
+        bool negZmod = _currentLayerNegZ != 0;
+
+        if (currentFace == "posX" && (negXmod || posYmod || negYmod || posZmod || negZmod)) {
+            faceChanged = true;
+        } else if (currentFace == "negX" && (posXmod || posYmod || negYmod || posZmod || negZmod)) {
+            faceChanged = true;
+        } else if (currentFace == "posY" && (posXmod || negXmod || negYmod || posZmod || negZmod)) {
+            faceChanged = true;
+        } else if (currentFace == "negY" && (posXmod || negXmod || posYmod || posZmod || negZmod)) {
+            faceChanged = true;
+        } else if (currentFace == "posZ" && (posXmod || negXmod || posYmod || negYmod || negZmod)) {
+            faceChanged = true;
+        } else if (currentFace == "negZ" && (posXmod || negXmod || posYmod || negYmod || posZmod)) {
+            faceChanged = true;
+        }
+
+        return faceChanged;
+    }
+
+    private void ResetAllLayers() {
+        InitializeCurrentLayers();
+        while (_hiddenVoxels.Count > 0) {
+            GameObject tempVoxel = _hiddenVoxels.Pop();
+            ChangeVoxelVisible(tempVoxel, true);
+        }
+    }
+
+    private void ManageNearestLayer() {
+        bool vrHideLayer = SteamVR_Actions.picross.HideLayer[SteamVR_Input_Sources.Any].stateDown;
+        bool vrShowLayer = SteamVR_Actions.picross.ShowLayer[SteamVR_Input_Sources.Any].stateDown;
+        if (_coroutineFinished) {
+            switch (_nearestFace) {
+                case "positiveX":
+                    if ((vrHideLayer || Input.GetKeyDown(KeyCode.Alpha9)) && _currentLayerPosX > 0) {
+                        if (CheckIfFaceChanged("posX")) {
+                            ResetAllLayers();
+                        } else {
+                            Debug.Log("Hide positiveX");
+                            for (int i = 0; i < height; i++) {
+                                for (int j = 0; j < width; j++) {
+                                    _hiddenVoxels.Push(_voxels[_currentLayerPosX, i, j]);
+                                    ChangeVoxelVisible(_voxels[_currentLayerPosX, i, j], false);
+                                }
+                            }
+                            _currentLayerPosX--;
+                        }
+                    } else if ((vrShowLayer || Input.GetKeyDown(KeyCode.Alpha0)) && _hiddenVoxels.Count > 0) {
+                        if (CheckIfFaceChanged("posX")) {
+                            ResetAllLayers();
+                        } else {
+                            Debug.Log("Show positiveX");
+                            for (int i = 0; i < height * width; i++) {
+                                GameObject tempVoxel = _hiddenVoxels.Pop();
+                                ChangeVoxelVisible(tempVoxel, true);
+                            }
+                            _currentLayerPosX++;
+                        }
+                    }
+                    break;
+                case "negativeX":
+                    if ((vrHideLayer || Input.GetKeyDown(KeyCode.Alpha9)) && _currentLayerNegX < length - 1) {
+                        if (CheckIfFaceChanged("negX")) {
+                            ResetAllLayers();
+                        } else {
+                            Debug.Log("Hide positiveX");
+                            for (int i = 0; i < height; i++) {
+                                for (int j = 0; j < width; j++) {
+                                    _hiddenVoxels.Push(_voxels[_currentLayerNegX, i, j]);
+                                    ChangeVoxelVisible(_voxels[_currentLayerNegX, i, j], false);
+                                }
+                            }
+                            _currentLayerNegX++;
+                        }
+                    } else if ((vrShowLayer || Input.GetKeyDown(KeyCode.Alpha0)) && _hiddenVoxels.Count > 0) {
+                        if (CheckIfFaceChanged("negX")) {
+                            ResetAllLayers();
+                        } else {
+                            Debug.Log("Show positiveX");
+                            for (int i = 0; i < height * width; i++) {
+                                GameObject tempVoxel = _hiddenVoxels.Pop();
+                                ChangeVoxelVisible(tempVoxel, true);
+                            }
+                            _currentLayerNegX--;
+                        }
+                    }
+                    break;
+                case "positiveY":
+                    if ((vrHideLayer || Input.GetKeyDown(KeyCode.Alpha9)) && _currentLayerPosY > 0) {
+                        if (CheckIfFaceChanged("posY")) {
+                            ResetAllLayers();
+                        } else {
+                            Debug.Log("Hide positiveY");
+                            for (int i = 0; i < length; i++) {
+                                for (int j = 0; j < width; j++) {
+                                    _hiddenVoxels.Push(_voxels[i, _currentLayerPosY, j]);
+                                    ChangeVoxelVisible(_voxels[i, _currentLayerPosY, j], false);
+                                }
+                            }
+                            _currentLayerPosY--;
+                        }
+                    } else if ((vrShowLayer || Input.GetKeyDown(KeyCode.Alpha0)) && _hiddenVoxels.Count > 0) {
+                        if (CheckIfFaceChanged("posY")) {
+                            ResetAllLayers();
+                        } else {
+                            Debug.Log("Show positiveY");
+                            for (int i = 0; i < length * width; i++) {
+                                GameObject tempVoxel = _hiddenVoxels.Pop();
+                                ChangeVoxelVisible(tempVoxel, true);
+                            }
+                            _currentLayerPosY++;
+                        }
+                    }
+                    break;
+                case "negativeY":
+                    if ((vrHideLayer || Input.GetKeyDown(KeyCode.Alpha9)) && _currentLayerNegY < height - 1) {
+                        if (CheckIfFaceChanged("negY")) {
+                            ResetAllLayers();
+                        } else {
+                            Debug.Log("Hide negativeY");
+                            for (int i = 0; i < length; i++) {
+                                for (int j = 0; j < width; j++) {
+                                    _hiddenVoxels.Push(_voxels[i, _currentLayerNegY, j]);
+                                    ChangeVoxelVisible(_voxels[i, _currentLayerNegY, j], false);
+                                }
+                            }
+                            _currentLayerNegY++;
+                        }
+                    } else if ((vrShowLayer || Input.GetKeyDown(KeyCode.Alpha0)) && _hiddenVoxels.Count > 0) {
+                        if (CheckIfFaceChanged("negY")) {
+                            ResetAllLayers();
+                        } else {
+                            Debug.Log("Show negativeY");
+                            for (int i = 0; i < length * width; i++) {
+                                GameObject tempVoxel = _hiddenVoxels.Pop();
+                                ChangeVoxelVisible(tempVoxel, true);
+                            }
+                            _currentLayerNegY--;
+                        }
+                    }
+                    break;
+                case "positiveZ":
+                    if ((vrHideLayer || Input.GetKeyDown(KeyCode.Alpha9)) && _currentLayerPosZ > 0) {
+                        if (CheckIfFaceChanged("posZ")) {
+                            ResetAllLayers();
+                        } else {
+                            Debug.Log("Hide positiveZ");
+                            for (int i = 0; i < length; i++) {
+                                for (int j = 0; j < height; j++) {
+                                    _hiddenVoxels.Push(_voxels[i, j, _currentLayerPosZ]);
+                                    ChangeVoxelVisible(_voxels[i, j, _currentLayerPosZ], false);
+                                }
+                            }
+                            _currentLayerPosZ--;
+                        }
+                    } else if ((vrShowLayer || Input.GetKeyDown(KeyCode.Alpha0)) && _hiddenVoxels.Count > 0) {
+                        if (CheckIfFaceChanged("posZ")) {
+                            ResetAllLayers();
+                        } else {
+                            Debug.Log("Show positiveY");
+                            for (int i = 0; i < length * height; i++) {
+                                GameObject tempVoxel = _hiddenVoxels.Pop();
+                                ChangeVoxelVisible(tempVoxel, true);
+                            }
+                            _currentLayerPosZ++;
+                        }
+                    }
+                    break;
+                case "negativeZ":
+                    if ((vrHideLayer || Input.GetKeyDown(KeyCode.Alpha9)) && _currentLayerNegZ < width - 1) {
+                        if (CheckIfFaceChanged("negZ")) {
+                            ResetAllLayers();
+                        } else {
+                            Debug.Log("Hide negitiveZ");
+                            for (int i = 0; i < length; i++) {
+                                for (int j = 0; j < height; j++) {
+                                    _hiddenVoxels.Push(_voxels[i, j, _currentLayerNegZ]);
+                                    ChangeVoxelVisible(_voxels[i, j, _currentLayerNegZ], false);
+                                }
+                            }
+                            _currentLayerNegZ++;
+                        }
+                    } else if ((vrShowLayer || Input.GetKeyDown(KeyCode.Alpha0)) && _hiddenVoxels.Count > 0) {
+                        if (CheckIfFaceChanged("negZ")) {
+                            ResetAllLayers();
+                        } else {
+                            Debug.Log("Show negitiveY");
+                            for (int i = 0; i < length * height; i++) {
+                                GameObject tempVoxel = _hiddenVoxels.Pop();
+                                ChangeVoxelVisible(tempVoxel, true);
+                            }
+                            _currentLayerNegZ--;
+                        }
+                    }
+                    break;
+            }
+        }
     }
 
     private void GetNearestFace()
@@ -420,17 +640,16 @@ public class VoxelManager : MonoBehaviour
             minimumDistance = negativeZDistance;
             _nearestFace = "negativeZ";
         }
-        Debug.Log(_nearestFace);
     }
 
     private void CalculateFaceCenters()
     {
-        _cubeFaceCenterCoords["positiveX"] = transform.position + transform.forward * (length * cube.transform.localScale.x / 2);
-        _cubeFaceCenterCoords["negativeX"] = transform.position + transform.forward * (-length * cube.transform.localScale.x / 2);
+        _cubeFaceCenterCoords["positiveX"] = transform.position + transform.right * (length * cube.transform.localScale.x / 2);
+        _cubeFaceCenterCoords["negativeX"] = transform.position + transform.right * (-length * cube.transform.localScale.x / 2);
         _cubeFaceCenterCoords["positiveY"] = transform.position + transform.up * (height * cube.transform.localScale.y / 2);
         _cubeFaceCenterCoords["negativeY"] = transform.position + transform.up * (-height * cube.transform.localScale.y / 2);
-        _cubeFaceCenterCoords["positiveZ"] = transform.position + transform.right * (width * cube.transform.localScale.z / 2);
-        _cubeFaceCenterCoords["negativeZ"] = transform.position + transform.right * (-width * cube.transform.localScale.z / 2);
+        _cubeFaceCenterCoords["positiveZ"] = transform.position + transform.forward * (width * cube.transform.localScale.z / 2);
+        _cubeFaceCenterCoords["negativeZ"] = transform.position + transform.forward * (-width * cube.transform.localScale.z / 2);
 
         Debug.DrawLine(mainCamera.transform.position, _cubeFaceCenterCoords["positiveX"], Color.red);
         Debug.DrawLine(mainCamera.transform.position, _cubeFaceCenterCoords["negativeX"], Color.red);
@@ -450,12 +669,14 @@ public class VoxelManager : MonoBehaviour
             _currentGameMode = GameMode.Build;
             MakeBuildable();
             _modeText.text = "Build";
-        } else if ((switchMode || switchModeDesktop) && _currentGameMode == GameMode.Build)
+        } 
+        else if ((switchMode || switchModeDesktop) && _currentGameMode == GameMode.Build)
         {
             _currentGameMode = GameMode.Destroy;
             MakeDestroyable();
             _modeText.text = "Destroy";
-        } else if ((switchMode || switchModeDesktop) && _currentGameMode == GameMode.Destroy)
+        } 
+        else if ((switchMode || switchModeDesktop) && _currentGameMode == GameMode.Destroy)
         {
             _currentGameMode = GameMode.Mark;
             MakeMarkable();
@@ -836,14 +1057,22 @@ public class VoxelManager : MonoBehaviour
 
     IEnumerator GrowVoxel(GameObject voxel)
     {
+        Voxel voxelVoxel = voxel.GetComponent<Voxel>();
         bool grow = true;
+        Vector3 normalSize = cube.transform.localScale;
+        if (voxelVoxel.IsVisible)
+        {
+            Debug.Log("It's visible!");
+        }
+        if (voxelVoxel.IsVisible)
+        {
+            voxel.SetActive(true);
+        }
         while (grow)
         {
-            Vector3 normalSize = Vector3.one;
-            voxel.SetActive(true);
             if (voxel.transform.localScale != normalSize)
             {
-                voxel.transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
+                voxel.transform.localScale += new Vector3(0.025f, 0.025f, 0.025f);
             }
             else
             {
@@ -861,12 +1090,12 @@ public class VoxelManager : MonoBehaviour
     {
         _coroutineFinished = false;
         bool shrink = true;
+        Vector3 smallSize = Vector3.zero;
         while (shrink)
         {
-            Vector3 smallSize = new Vector3(0.1f, 0.1f, 0.1f);
             if (voxel.transform.localScale != smallSize)
             {
-                voxel.transform.localScale -= new Vector3(0.1f, 0.1f, 0.1f);
+                voxel.transform.localScale -= new Vector3(0.025f, 0.025f, 0.025f);
             }
             else
             {
