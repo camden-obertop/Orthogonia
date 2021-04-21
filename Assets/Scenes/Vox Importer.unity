@@ -345,7 +345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00eb7e37a0b883244860050cf6ed6394, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puzzleObject: {fileID: 11400000, guid: cdcdc0044ea305742a0e9b6b76fb5325, type: 2}
+  puzzleObject: {fileID: 0}
   generateRandomPuzzle: 0
   length: 3
   height: 3
@@ -353,6 +353,7 @@ MonoBehaviour:
   rotateSpeed: 100
   mainCamera: {fileID: 1595101249}
   cube: {fileID: 6549536629210668778, guid: 0b99d12d87ba2354a89eb9d28c8b62a6, type: 3}
+  completedPuzzle: {fileID: 0}
   _clearMaterial: {fileID: 2100000, guid: ab71d0cbe67e8f2458f7f1695cae47e8, type: 2}
   _modeText: {fileID: 234451139}
 --- !u!1 &445049701
@@ -450,8 +451,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b549500aaaf410544b779db156b3c2a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newPuzzleName: Fox Puzzle
-  nameOfVoxFile: Fox2Test.vox
+  newPuzzleName: 1 Air
+  nameOfVoxFile: 1 Air.vox
 --- !u!4 &549197389
 Transform:
   m_ObjectHideFlags: 0
