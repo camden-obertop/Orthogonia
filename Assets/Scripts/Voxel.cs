@@ -77,9 +77,12 @@ public class Voxel : MonoBehaviour
     
     private MeshRenderer _meshRenderer;
     private bool performAction;
+    private float performActionFloat;
+    private bool canPerformAction;
 
     private void Start()
     {
+        canPerformAction = true;
         _meshRenderer = GetComponent<MeshRenderer>();
 
         SetHintArray();
@@ -87,22 +90,27 @@ public class Voxel : MonoBehaviour
 
     private void Update()
     {
-        performAction = SteamVR_Actions.picross.PerformAction[SteamVR_Input_Sources.Any].stateDown;
-        if (_isHovering && (Input.GetMouseButtonDown(0) || performAction))
+        performActionFloat = SteamVR_Actions.picross.PerformActionFloat[SteamVR_Input_Sources.Any].axis;
+        performAction = performActionFloat > 0.8f;
+
+        if (canPerformAction && _isHovering && (Input.GetMouseButtonDown(0) || performAction))
         {
             if (_manager.CurrentGameMode == VoxelManager.GameMode.Build)
             {
                 BuildVoxel();
+                canPerformAction = false;
             }
 
             if (_manager.CurrentGameMode == VoxelManager.GameMode.Destroy)
             {
                 ClearVoxel();
+                canPerformAction = false;
             }
 
             if (_manager.CurrentGameMode == VoxelManager.GameMode.Mark)
             {
                 MarkVoxel();
+                canPerformAction = false;
             }
         }
     }
@@ -221,6 +229,7 @@ public class Voxel : MonoBehaviour
     {
         if (_manager.CanEditPuzzle)
         {
+            canPerformAction = true;
             _isHovering = false;
             if (!_isVisible)
             {
@@ -258,6 +267,7 @@ public class Voxel : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Interactor") && _manager.CanEditPuzzle)
         {
+            canPerformAction = true;
             _isHovering = false;
             if (!_isVisible)
             {

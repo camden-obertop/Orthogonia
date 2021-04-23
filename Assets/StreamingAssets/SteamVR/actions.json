@@ -61,6 +61,14 @@
       "type": "boolean"
     },
     {
+      "name": "/actions/picross/in/PerformActionFloat",
+      "type": "vector1"
+    },
+    {
+      "name": "/actions/picross/in/SwitchModeFloat",
+      "type": "vector1"
+    },
+    {
       "name": "/actions/overworld/in/Teleport",
       "type": "boolean"
     },
@@ -159,7 +167,9 @@
       "/actions/overworld/in/SnapTurnLeft": "Snap Turn (Left)",
       "/actions/overworld/in/SnapTurnRight": "Snap Turn (Right)",
       "/actions/picross/in/HideLayer": "Hide Layer",
-      "/actions/picross/in/ShowLayer": "Show Layer"
+      "/actions/picross/in/ShowLayer": "Show Layer",
+      "/actions/picross/in/PerformActionFloat": "Perform Action Float",
+      "/actions/picross/in/SwitchModeFloat": "Switch Mode Float"
     }
   ]
 }

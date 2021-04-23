@@ -98,6 +98,8 @@ public class VoxelManager : MonoBehaviour
     private string _nearestFace;
     private Coroutine _checkSolutionCoroutine;
 
+    private bool modeSwitchable = true;
+
     private GameMode _currentGameMode = GameMode.Mark;
     [SerializeField] private Text _modeText;
 
@@ -666,26 +668,17 @@ public class VoxelManager : MonoBehaviour
 
     private void ManageMode()
     {
-        bool switchMode = SteamVR_Actions.picross.SwitchMode[SteamVR_Input_Sources.Any].stateDown;
+        float switchModeFloat = SteamVR_Actions.picross.SwitchModeFloat[SteamVR_Input_Sources.Any].axis;
         bool switchModeDesktop = Input.GetKeyDown(KeyCode.Space);
 
-        if ((switchMode || switchModeDesktop) && _currentGameMode == GameMode.Mark)
+        bool switchMode = switchModeFloat > 0.9f;
+
+        if (switchMode || switchModeDesktop)
         {
-            _currentGameMode = GameMode.Build;
-            MakeBuildable();
-            _modeText.text = "Build";
-        } 
-        else if ((switchMode || switchModeDesktop) && _currentGameMode == GameMode.Build)
-        {
-            _currentGameMode = GameMode.Destroy;
-            MakeDestroyable();
-            _modeText.text = "Destroy";
-        } 
-        else if ((switchMode || switchModeDesktop) && _currentGameMode == GameMode.Destroy)
-        {
-            _currentGameMode = GameMode.Mark;
-            MakeMarkable();
-            _modeText.text = "Mark";
+            if (modeSwitchable)
+            {
+                StartCoroutine(SwitchModeCoroutine());
+            }
         }
  
         GameMode newGameMode;
@@ -718,6 +711,31 @@ public class VoxelManager : MonoBehaviour
                 MakeMarkable();
             }
         }
+    }
+
+    IEnumerator SwitchModeCoroutine()
+    {
+        modeSwitchable = false;
+        if (_currentGameMode == GameMode.Mark)
+        {
+            _currentGameMode = GameMode.Build;
+            MakeBuildable();
+            _modeText.text = "Build";
+        }
+        else if (_currentGameMode == GameMode.Build)
+        {
+            _currentGameMode = GameMode.Destroy;
+            MakeDestroyable();
+            _modeText.text = "Destroy";
+        }
+        else if (_currentGameMode == GameMode.Destroy)
+        {
+            _currentGameMode = GameMode.Mark;
+            MakeMarkable();
+            _modeText.text = "Mark";
+        }
+        yield return new WaitForSeconds(0.25f);
+        modeSwitchable = true;
     }
 
     private void MakeBuildable()
