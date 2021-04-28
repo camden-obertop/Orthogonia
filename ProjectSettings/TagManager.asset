@@ -9,6 +9,9 @@ TagManager:
   - PuzzleLoader
   - CompletedPuzzle
   - BGMPlayer
+  - projectile
+  - FxTemporaire
+  - VoxelManager
   layers:
   - Default
   - TransparentFX
