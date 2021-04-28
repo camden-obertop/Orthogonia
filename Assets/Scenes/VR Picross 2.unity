@@ -304,7 +304,7 @@ GameObject:
   - component: {fileID: 288223588}
   m_Layer: 0
   m_Name: Mark
-  m_TagString: Untagged
+  m_TagString: Mark
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -412,6 +412,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentModeSelectButton: 0
+  _unselectedMaterial: {fileID: 2100000, guid: 21399efd84b5c5f45bc2b2e90f1b7142, type: 2}
+  _selectedMaterial: {fileID: 2100000, guid: dad2f0de9ebd9444b9912d54a4c85594, type: 2}
+  _hoverMaterial: {fileID: 2100000, guid: 47f3f092283bef348bab821707d32c70, type: 2}
 --- !u!1 &318102998
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,7 +505,7 @@ GameObject:
   - component: {fileID: 481281713}
   m_Layer: 0
   m_Name: Build
-  m_TagString: Untagged
+  m_TagString: Build
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -610,6 +613,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentModeSelectButton: 2
+  _unselectedMaterial: {fileID: 2100000, guid: 21399efd84b5c5f45bc2b2e90f1b7142, type: 2}
+  _selectedMaterial: {fileID: 2100000, guid: dad2f0de9ebd9444b9912d54a4c85594, type: 2}
+  _hoverMaterial: {fileID: 2100000, guid: 47f3f092283bef348bab821707d32c70, type: 2}
 --- !u!1 &618843922
 GameObject:
   m_ObjectHideFlags: 0
@@ -626,7 +632,7 @@ GameObject:
   - component: {fileID: 618843928}
   m_Layer: 0
   m_Name: Destroy
-  m_TagString: Untagged
+  m_TagString: Destroy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -734,6 +740,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentModeSelectButton: 1
+  _unselectedMaterial: {fileID: 2100000, guid: 21399efd84b5c5f45bc2b2e90f1b7142, type: 2}
+  _selectedMaterial: {fileID: 2100000, guid: dad2f0de9ebd9444b9912d54a4c85594, type: 2}
+  _hoverMaterial: {fileID: 2100000, guid: 47f3f092283bef348bab821707d32c70, type: 2}
 --- !u!1 &1252437462 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4617765055166155956, guid: 4a2872932c4fb7c4e92dab1442685ef2, type: 3}

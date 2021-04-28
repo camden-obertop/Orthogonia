@@ -12,6 +12,9 @@ TagManager:
   - projectile
   - FxTemporaire
   - VoxelManager
+  - Mark
+  - Destroy
+  - Build
   layers:
   - Default
   - TransparentFX
