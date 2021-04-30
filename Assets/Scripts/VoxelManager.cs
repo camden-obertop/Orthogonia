@@ -103,6 +103,9 @@ public class VoxelManager : MonoBehaviour
     private GameMode _currentGameMode = GameMode.Mark;
     [SerializeField] private Text _modeText;
 
+    [SerializeField] private Material _unselectedModeSelectorMat;
+    [SerializeField] private Material _selectedModeSelectorMat;
+
     public GameMode CurrentGameMode
     {
         get => _currentGameMode;
@@ -680,37 +683,6 @@ public class VoxelManager : MonoBehaviour
                 StartCoroutine(SwitchModeCoroutine());
             }
         }
- 
-        GameMode newGameMode;
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            newGameMode = GameMode.Build;
-            if (_currentGameMode != newGameMode)
-            {
-                _currentGameMode = newGameMode;
-                MakeBuildable();
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            newGameMode = GameMode.Destroy;
-            if (_currentGameMode != newGameMode)
-            {
-                _currentGameMode = newGameMode;
-                MakeDestroyable();
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            newGameMode = GameMode.Mark;
-            if (_currentGameMode != newGameMode)
-            {
-                _currentGameMode = newGameMode;
-                MakeMarkable();
-            }
-        }
     }
 
     IEnumerator SwitchModeCoroutine()
@@ -718,27 +690,34 @@ public class VoxelManager : MonoBehaviour
         modeSwitchable = false;
         if (_currentGameMode == GameMode.Mark)
         {
-            _currentGameMode = GameMode.Build;
-            MakeBuildable();
-            _modeText.text = "Build";
-        }
-        else if (_currentGameMode == GameMode.Build)
-        {
+            GameObject.FindGameObjectWithTag("Mark").GetComponent<ChangeModeSelector>().selected = false;
+            GameObject.FindGameObjectWithTag("Destroy").GetComponent<ChangeModeSelector>().selected = true;
+            GameObject.FindGameObjectWithTag("Mark").GetComponent<MeshRenderer>().material = _unselectedModeSelectorMat;
+            GameObject.FindGameObjectWithTag("Destroy").GetComponent<MeshRenderer>().material = _selectedModeSelectorMat;
             _currentGameMode = GameMode.Destroy;
             MakeDestroyable();
-            _modeText.text = "Destroy";
         }
-        else if (_currentGameMode == GameMode.Destroy)
-        {
+        else if (_currentGameMode == GameMode.Destroy) {
+            GameObject.FindGameObjectWithTag("Mark").GetComponent<ChangeModeSelector>().selected = true;
+            GameObject.FindGameObjectWithTag("Destroy").GetComponent<ChangeModeSelector>().selected = false;
+            GameObject.FindGameObjectWithTag("Mark").GetComponent<MeshRenderer>().material = _selectedModeSelectorMat;
+            GameObject.FindGameObjectWithTag("Destroy").GetComponent<MeshRenderer>().material = _unselectedModeSelectorMat;
             _currentGameMode = GameMode.Mark;
             MakeMarkable();
-            _modeText.text = "Mark";
+        } 
+        else if (_currentGameMode == GameMode.Build) {
+            GameObject.FindGameObjectWithTag("Mark").GetComponent<ChangeModeSelector>().selected = true;
+            GameObject.FindGameObjectWithTag("Build").GetComponent<ChangeModeSelector>().selected = false;
+            GameObject.FindGameObjectWithTag("Mark").GetComponent<MeshRenderer>().material = _selectedModeSelectorMat;
+            GameObject.FindGameObjectWithTag("Build").GetComponent<MeshRenderer>().material = _unselectedModeSelectorMat;
+            _currentGameMode = GameMode.Mark;
+            MakeMarkable();
         }
         yield return new WaitForSeconds(0.25f);
         modeSwitchable = true;
     }
 
-    private void MakeBuildable()
+    public void MakeBuildable()
     {
         for (int i = 0; i < length; i++)
         {
@@ -758,7 +737,7 @@ public class VoxelManager : MonoBehaviour
         }
     }
 
-    private void MakeDestroyable()
+    public void MakeDestroyable()
     {
         for (int i = 0; i < length; i++)
         {
@@ -777,7 +756,7 @@ public class VoxelManager : MonoBehaviour
         }
     }
 
-    private void MakeMarkable()
+    public void MakeMarkable()
     {
         for (int i = 0; i < length; i++)
         {

@@ -21,10 +21,15 @@ public class ChangeModeSelector : MonoBehaviour
     [SerializeField] private Material _unselectedMaterial;
     [SerializeField] private Material _selectedMaterial;
     [SerializeField] private Material _hoverMaterial;
-    private bool _selected = false;
+    public bool selected = false;
 
     private void Start() {
         _meshRenderer = GetComponent<MeshRenderer>();
+
+        if (currentModeSelectButton == ModeSelectButton.Mark) {
+            selected = true;
+            _meshRenderer.material = _selectedMaterial;
+        }
     }
 
     private void Update() {
@@ -32,7 +37,7 @@ public class ChangeModeSelector : MonoBehaviour
         performActionFloat = SteamVR_Actions.picross.PerformActionFloat[SteamVR_Input_Sources.Any].axis;
         performAction = performActionFloat > 0.8f;
 
-        if (_hovering && performAction) {
+        if (_hovering && (performAction || Input.GetMouseButtonDown(0))) {
             if (_voxelManagerGameObject == null) {
                 _voxelManagerGameObject = GameObject.FindGameObjectWithTag("VoxelManager");
             }
@@ -45,7 +50,12 @@ public class ChangeModeSelector : MonoBehaviour
                 } else {
                     GameObject.FindGameObjectWithTag("Destroy").GetComponent<MeshRenderer>().material = _unselectedMaterial;
                     GameObject.FindGameObjectWithTag("Build").GetComponent<MeshRenderer>().material = _unselectedMaterial;
+                    GameObject.FindGameObjectWithTag("Destroy").GetComponent<ChangeModeSelector>().selected = false;
+                    GameObject.FindGameObjectWithTag("Build").GetComponent<ChangeModeSelector>().selected = false;
+                    selected = true;
+                    // Change GameMode
                     _voxelManager.CurrentGameMode = VoxelManager.GameMode.Mark;
+                    _voxelManager.MakeMarkable();
                     _meshRenderer.material = _selectedMaterial;
                 }
             }
@@ -56,7 +66,11 @@ public class ChangeModeSelector : MonoBehaviour
                 } else {
                     GameObject.FindGameObjectWithTag("Mark").GetComponent<MeshRenderer>().material = _unselectedMaterial;
                     GameObject.FindGameObjectWithTag("Build").GetComponent<MeshRenderer>().material = _unselectedMaterial;
+                    GameObject.FindGameObjectWithTag("Mark").GetComponent<ChangeModeSelector>().selected = false;
+                    GameObject.FindGameObjectWithTag("Build").GetComponent<ChangeModeSelector>().selected = false;
+                    selected = true;
                     _voxelManager.CurrentGameMode = VoxelManager.GameMode.Destroy;
+                    _voxelManager.MakeDestroyable();
                     _meshRenderer.material = _selectedMaterial;
                 }
             }
@@ -66,11 +80,35 @@ public class ChangeModeSelector : MonoBehaviour
                     Debug.Log("Don't do anything!");
                 } else {
                     GameObject.FindGameObjectWithTag("Destroy").GetComponent<MeshRenderer>().material = _unselectedMaterial;
-                    GameObject.FindGameObjectWithTag("Build").GetComponent<MeshRenderer>().material = _unselectedMaterial;
+                    GameObject.FindGameObjectWithTag("Mark").GetComponent<MeshRenderer>().material = _unselectedMaterial;
+                    GameObject.FindGameObjectWithTag("Destroy").GetComponent<ChangeModeSelector>().selected = false;
+                    GameObject.FindGameObjectWithTag("Mark").GetComponent<ChangeModeSelector>().selected = false;
+                    selected = true;
                     _voxelManager.CurrentGameMode = VoxelManager.GameMode.Build;
+                    _voxelManager.MakeBuildable();
                     _meshRenderer.material = _selectedMaterial;
                 }
             }
+        }
+    }
+
+    public void ChangeModeVisualFromVoxelManager() {
+        if (_voxelManagerGameObject == null) {
+            _voxelManagerGameObject = GameObject.FindGameObjectWithTag("VoxelManager");
+        }
+
+        VoxelManager _voxelManager = _voxelManagerGameObject.GetComponent<VoxelManager>();
+
+        if (_voxelManager.CurrentGameMode == VoxelManager.GameMode.Mark) {
+            GameObject.FindGameObjectWithTag("Mark").GetComponent<MeshRenderer>().material = _unselectedMaterial;
+            GameObject.FindGameObjectWithTag("Mark").GetComponent<ChangeModeSelector>().selected = false;
+            GameObject.FindGameObjectWithTag("Destroy").GetComponent<MeshRenderer>().material = _selectedMaterial;
+            GameObject.FindGameObjectWithTag("Destroy").GetComponent<ChangeModeSelector>().selected = true;
+        } else if (_voxelManager.CurrentGameMode == VoxelManager.GameMode.Destroy) {
+            GameObject.FindGameObjectWithTag("Destroy").GetComponent<MeshRenderer>().material = _unselectedMaterial;
+            GameObject.FindGameObjectWithTag("Destroy").GetComponent<ChangeModeSelector>().selected = false;
+            GameObject.FindGameObjectWithTag("Mark").GetComponent<MeshRenderer>().material = _selectedMaterial;
+            GameObject.FindGameObjectWithTag("Mark").GetComponent<ChangeModeSelector>().selected = true;
         }
     }
 
@@ -84,6 +122,25 @@ public class ChangeModeSelector : MonoBehaviour
     private void OnTriggerExit(Collider other) {
         if (other.gameObject.CompareTag("Interactor")) {
             _hovering = false;
+            if (selected) {
+                _meshRenderer.material = _selectedMaterial;
+            } else {
+                _meshRenderer.material = _unselectedMaterial;
+            }
+        }
+    }
+
+    private void OnMouseOver() {
+        _hovering = true;
+        _meshRenderer.material = _hoverMaterial;
+    }
+
+    private void OnMouseExit() {
+        _hovering = false;
+        if (selected) {
+            _meshRenderer.material = _selectedMaterial;
+        } else {
+            _meshRenderer.material = _unselectedMaterial;
         }
     }
 }
