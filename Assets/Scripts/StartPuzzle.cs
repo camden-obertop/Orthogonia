@@ -4,8 +4,8 @@ public class StartPuzzle : MonoBehaviour
 {
     [SerializeField] private Puzzle puzzle;
     public Puzzle PuzzleObject => puzzle;
-    
-    [SerializeField] private GameObject levelLoader;
+
+    [SerializeField] private VoxelManager voxelManager;
     [SerializeField] private GameObject controlScheme;
     [SerializeField] private GameObject player;
 
@@ -17,8 +17,9 @@ public class StartPuzzle : MonoBehaviour
     
     public void GoToPuzzle()
     {
-        Destroy(controlScheme);
-        Destroy(player);
-        levelLoader.SetActive(true);
+        Instantiate(voxelManager, transform.position + transform.forward * 5f, Quaternion.identity);
+        // Destroy(controlScheme);
+        // Destroy(player);
+        // levelLoader.SetActive(true);
     }
 }
