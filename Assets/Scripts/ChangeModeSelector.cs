@@ -37,7 +37,7 @@ public class ChangeModeSelector : MonoBehaviour
         performActionFloat = SteamVR_Actions.picross.PerformActionFloat[SteamVR_Input_Sources.Any].axis;
         performAction = performActionFloat > 0.8f;
 
-        if (_hovering && (performAction || Input.GetMouseButtonDown(0))) {
+        if (_hovering && !selected) {
             if (_voxelManagerGameObject == null) {
                 _voxelManagerGameObject = GameObject.FindGameObjectWithTag("VoxelManager");
             }
@@ -113,6 +113,7 @@ public class ChangeModeSelector : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
+        Debug.Log(other);
         if (other.gameObject.CompareTag("Interactor")) {
             _hovering = true;
             _meshRenderer.material = _hoverMaterial;

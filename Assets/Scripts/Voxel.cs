@@ -248,7 +248,6 @@ public class Voxel : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other);
         if (other.gameObject.CompareTag("Interactor") && _manager.CanEditPuzzle)
         {
             _isHovering = true;
