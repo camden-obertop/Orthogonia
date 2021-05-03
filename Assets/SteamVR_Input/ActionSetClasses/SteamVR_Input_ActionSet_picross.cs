@@ -56,5 +56,21 @@ namespace Valve.VR
                 return SteamVR_Actions.picross_ShowLayer;
             }
         }
+        
+        public virtual SteamVR_Action_Single PerformActionFloat
+        {
+            get
+            {
+                return SteamVR_Actions.picross_PerformActionFloat;
+            }
+        }
+        
+        public virtual SteamVR_Action_Single SwitchModeFloat
+        {
+            get
+            {
+                return SteamVR_Actions.picross_SwitchModeFloat;
+            }
+        }
     }
 }

@@ -97,7 +97,13 @@ public class VoxelManager : MonoBehaviour
     private Dictionary<string, Vector3> _cubeFaceCenterCoords;
     private string _nearestFace;
     private Coroutine _checkSolutionCoroutine;
+
+    private bool modeSwitchable = true;
+
     private GameMode _currentGameMode = GameMode.Mark;
+
+    [SerializeField] private Material _unselectedModeSelectorMat;
+    [SerializeField] private Material _selectedModeSelectorMat;
 
     public GameMode CurrentGameMode
     {
@@ -660,61 +666,53 @@ public class VoxelManager : MonoBehaviour
 
     private void ManageMode()
     {
-        bool switchMode = SteamVR_Actions.picross.SwitchMode[SteamVR_Input_Sources.Any].stateDown;
+        float switchModeFloat = SteamVR_Actions.picross.SwitchModeFloat[SteamVR_Input_Sources.Any].axis;
         bool switchModeDesktop = Input.GetKeyDown(KeyCode.Space);
 
-        if ((switchMode || switchModeDesktop) && _currentGameMode == GameMode.Mark)
-        {
-            _currentGameMode = GameMode.Build;
-            MakeBuildable();
-            _modeText.text = "Build";
-        } 
-        else if ((switchMode || switchModeDesktop) && _currentGameMode == GameMode.Build)
-        {
-            _currentGameMode = GameMode.Destroy;
-            MakeDestroyable();
-            _modeText.text = "Destroy";
-        } 
-        else if ((switchMode || switchModeDesktop) && _currentGameMode == GameMode.Destroy)
-        {
-            _currentGameMode = GameMode.Mark;
-            MakeMarkable();
-            _modeText.text = "Mark";
-        }
- 
-        GameMode newGameMode;
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            newGameMode = GameMode.Build;
-            if (_currentGameMode != newGameMode)
-            {
-                _currentGameMode = newGameMode;
-                MakeBuildable();
-            }
-        }
+        bool switchMode = switchModeFloat > 0.9f;
 
-        if (Input.GetKeyDown(KeyCode.X))
+        if (switchMode || switchModeDesktop)
         {
-            newGameMode = GameMode.Destroy;
-            if (_currentGameMode != newGameMode)
+            if (modeSwitchable)
             {
-                _currentGameMode = newGameMode;
-                MakeDestroyable();
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            newGameMode = GameMode.Mark;
-            if (_currentGameMode != newGameMode)
-            {
-                _currentGameMode = newGameMode;
-                MakeMarkable();
+                StartCoroutine(SwitchModeCoroutine());
             }
         }
     }
 
-    private void MakeBuildable()
+    IEnumerator SwitchModeCoroutine()
+    {
+        modeSwitchable = false;
+        if (_currentGameMode == GameMode.Mark)
+        {
+            GameObject.FindGameObjectWithTag("Mark").GetComponent<ChangeModeSelector>().selected = false;
+            GameObject.FindGameObjectWithTag("Destroy").GetComponent<ChangeModeSelector>().selected = true;
+            GameObject.FindGameObjectWithTag("Mark").GetComponent<MeshRenderer>().material = _unselectedModeSelectorMat;
+            GameObject.FindGameObjectWithTag("Destroy").GetComponent<MeshRenderer>().material = _selectedModeSelectorMat;
+            _currentGameMode = GameMode.Destroy;
+            MakeDestroyable();
+        }
+        else if (_currentGameMode == GameMode.Destroy) {
+            GameObject.FindGameObjectWithTag("Mark").GetComponent<ChangeModeSelector>().selected = true;
+            GameObject.FindGameObjectWithTag("Destroy").GetComponent<ChangeModeSelector>().selected = false;
+            GameObject.FindGameObjectWithTag("Mark").GetComponent<MeshRenderer>().material = _selectedModeSelectorMat;
+            GameObject.FindGameObjectWithTag("Destroy").GetComponent<MeshRenderer>().material = _unselectedModeSelectorMat;
+            _currentGameMode = GameMode.Mark;
+            MakeMarkable();
+        } 
+        else if (_currentGameMode == GameMode.Build) {
+            GameObject.FindGameObjectWithTag("Mark").GetComponent<ChangeModeSelector>().selected = true;
+            GameObject.FindGameObjectWithTag("Build").GetComponent<ChangeModeSelector>().selected = false;
+            GameObject.FindGameObjectWithTag("Mark").GetComponent<MeshRenderer>().material = _selectedModeSelectorMat;
+            GameObject.FindGameObjectWithTag("Build").GetComponent<MeshRenderer>().material = _unselectedModeSelectorMat;
+            _currentGameMode = GameMode.Mark;
+            MakeMarkable();
+        }
+        yield return new WaitForSeconds(0.25f);
+        modeSwitchable = true;
+    }
+
+    public void MakeBuildable()
     {
         for (int i = 0; i < length; i++)
         {
@@ -734,7 +732,7 @@ public class VoxelManager : MonoBehaviour
         }
     }
 
-    private void MakeDestroyable()
+    public void MakeDestroyable()
     {
         for (int i = 0; i < length; i++)
         {
@@ -753,7 +751,7 @@ public class VoxelManager : MonoBehaviour
         }
     }
 
-    private void MakeMarkable()
+    public void MakeMarkable()
     {
         for (int i = 0; i < length; i++)
         {
