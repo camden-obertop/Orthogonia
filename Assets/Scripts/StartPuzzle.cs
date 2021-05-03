@@ -3,23 +3,11 @@ using UnityEngine;
 public class StartPuzzle : MonoBehaviour
 {
     [SerializeField] private Puzzle puzzle;
-    public Puzzle PuzzleObject => puzzle;
-
-    [SerializeField] private VoxelManager voxelManager;
-    [SerializeField] private GameObject controlScheme;
-    [SerializeField] private GameObject player;
-
-    private void Start()
-    {
-        transform.parent = null;
-        DontDestroyOnLoad(gameObject);
-    }
+    [SerializeField] private GameObject voxelManager;
     
     public void GoToPuzzle()
     {
-        Instantiate(voxelManager, transform.position + transform.forward * 5f, Quaternion.identity);
-        // Destroy(controlScheme);
-        // Destroy(player);
-        // levelLoader.SetActive(true);
+        GameObject voxelManagerInstance = Instantiate(voxelManager, transform.position + transform.forward * 5f, Quaternion.identity);
+        voxelManagerInstance.GetComponent<VoxelManager>().BeginPuzzle(puzzle);
     }
 }

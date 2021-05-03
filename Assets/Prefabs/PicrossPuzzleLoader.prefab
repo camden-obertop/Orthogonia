@@ -44,6 +44,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzle: {fileID: 0}
-  levelLoader: {fileID: 0}
-  controlScheme: {fileID: 0}
-  player: {fileID: 0}
+  voxelManager: {fileID: 3177179837364014113, guid: 1562a9f0624351a4e9dfa1c0ab21123b, type: 3}

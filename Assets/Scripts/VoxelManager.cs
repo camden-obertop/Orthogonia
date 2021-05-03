@@ -65,10 +65,9 @@ public class VoxelManager : MonoBehaviour
     [SerializeField] private float rotateSpeed;
 
     [Header("Dependencies")]
-    [SerializeField] private GameObject mainCamera;
     [SerializeField] private GameObject cube;
     [SerializeField] private GameObject completedPuzzle;
-
+    [SerializeField] private Text _modeText;
     [SerializeField] private Material _clearMaterial;
 
     private VoxelState[,,] _voxelStates;
@@ -78,6 +77,7 @@ public class VoxelManager : MonoBehaviour
         set => _voxelStates = value;
     }
 
+    private GameObject _mainCamera;
     private bool _canEditPuzzle = true;
     public bool CanEditPuzzle => _canEditPuzzle;
 
@@ -97,9 +97,7 @@ public class VoxelManager : MonoBehaviour
     private Dictionary<string, Vector3> _cubeFaceCenterCoords;
     private string _nearestFace;
     private Coroutine _checkSolutionCoroutine;
-
     private GameMode _currentGameMode = GameMode.Mark;
-    [SerializeField] private Text _modeText;
 
     public GameMode CurrentGameMode
     {
@@ -107,8 +105,11 @@ public class VoxelManager : MonoBehaviour
         set => _currentGameMode = value;
     }
 
-    private void Start()
+    public void BeginPuzzle(Puzzle puzzleObject)
     {
+        _mainCamera = Camera.main.gameObject;
+        _modeText.transform.parent = null;
+        
         _target = transform.position;
         
         _visibleLayersX = length - 1;
@@ -120,13 +121,6 @@ public class VoxelManager : MonoBehaviour
 
         InitializeCurrentLayers();
 
-        GameObject loadedPuzzle = GameObject.FindGameObjectWithTag("PuzzleLoader");
-        if (loadedPuzzle != null)
-        {
-            puzzleObject = loadedPuzzle.GetComponent<StartPuzzle>().PuzzleObject;
-            Destroy(loadedPuzzle);
-        }
-        
         if (generateRandomPuzzle || puzzleObject == null)
         {
             CreateSolution();
@@ -146,7 +140,7 @@ public class VoxelManager : MonoBehaviour
         }
         InitializeVoxels();
 
-        _cameraTransform = mainCamera.transform;
+        _cameraTransform = _mainCamera.transform;
 
         _frontClues = new Clue[length, height];
         _sideClues = new Clue[width, height];
@@ -607,12 +601,12 @@ public class VoxelManager : MonoBehaviour
     private void GetNearestFace()
     {
         CalculateFaceCenters();
-        float positiveXDistance = Vector3.Distance(mainCamera.transform.position, _cubeFaceCenterCoords["positiveX"]);
-        float negativeXDistance = Vector3.Distance(mainCamera.transform.position, _cubeFaceCenterCoords["negativeX"]);
-        float positiveYDistance = Vector3.Distance(mainCamera.transform.position, _cubeFaceCenterCoords["positiveY"]);
-        float negativeYDistance = Vector3.Distance(mainCamera.transform.position, _cubeFaceCenterCoords["negativeY"]);
-        float positiveZDistance = Vector3.Distance(mainCamera.transform.position, _cubeFaceCenterCoords["positiveZ"]);
-        float negativeZDistance = Vector3.Distance(mainCamera.transform.position, _cubeFaceCenterCoords["negativeZ"]);
+        float positiveXDistance = Vector3.Distance(_mainCamera.transform.position, _cubeFaceCenterCoords["positiveX"]);
+        float negativeXDistance = Vector3.Distance(_mainCamera.transform.position, _cubeFaceCenterCoords["negativeX"]);
+        float positiveYDistance = Vector3.Distance(_mainCamera.transform.position, _cubeFaceCenterCoords["positiveY"]);
+        float negativeYDistance = Vector3.Distance(_mainCamera.transform.position, _cubeFaceCenterCoords["negativeY"]);
+        float positiveZDistance = Vector3.Distance(_mainCamera.transform.position, _cubeFaceCenterCoords["positiveZ"]);
+        float negativeZDistance = Vector3.Distance(_mainCamera.transform.position, _cubeFaceCenterCoords["negativeZ"]);
 
         float minimumDistance = 1000f;
         if (positiveXDistance < minimumDistance)
@@ -656,12 +650,12 @@ public class VoxelManager : MonoBehaviour
         _cubeFaceCenterCoords["positiveZ"] = transform.position + transform.forward * (width * cube.transform.localScale.z / 2);
         _cubeFaceCenterCoords["negativeZ"] = transform.position + transform.forward * (-width * cube.transform.localScale.z / 2);
 
-        Debug.DrawLine(mainCamera.transform.position, _cubeFaceCenterCoords["positiveX"], Color.red);
-        Debug.DrawLine(mainCamera.transform.position, _cubeFaceCenterCoords["negativeX"], Color.red);
-        Debug.DrawLine(mainCamera.transform.position, _cubeFaceCenterCoords["positiveY"], Color.red);
-        Debug.DrawLine(mainCamera.transform.position, _cubeFaceCenterCoords["negativeY"], Color.red);
-        Debug.DrawLine(mainCamera.transform.position, _cubeFaceCenterCoords["positiveZ"], Color.red);
-        Debug.DrawLine(mainCamera.transform.position, _cubeFaceCenterCoords["negativeZ"], Color.red);
+        Debug.DrawLine(_mainCamera.transform.position, _cubeFaceCenterCoords["positiveX"], Color.red);
+        Debug.DrawLine(_mainCamera.transform.position, _cubeFaceCenterCoords["negativeX"], Color.red);
+        Debug.DrawLine(_mainCamera.transform.position, _cubeFaceCenterCoords["positiveY"], Color.red);
+        Debug.DrawLine(_mainCamera.transform.position, _cubeFaceCenterCoords["negativeY"], Color.red);
+        Debug.DrawLine(_mainCamera.transform.position, _cubeFaceCenterCoords["positiveZ"], Color.red);
+        Debug.DrawLine(_mainCamera.transform.position, _cubeFaceCenterCoords["negativeZ"], Color.red);
     }
 
     private void ManageMode()
