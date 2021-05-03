@@ -114,7 +114,6 @@ public class VoxelManager : MonoBehaviour
     public void BeginPuzzle(Puzzle puzzleObject)
     {
         _mainCamera = Camera.main.gameObject;
-        _modeText.transform.parent = null;
         
         _target = transform.position;
         
@@ -159,6 +158,7 @@ public class VoxelManager : MonoBehaviour
         // Debug.Log("Calculated Sol:");
         // PrintSolution(calculatedSolution);
 
+        _modeText.transform.parent.parent.parent = null; // bring text canvas into overworld so it isn't rotated
         _modeText.text = "Mark";
 
         _cubeFaceCenterCoords = new Dictionary<string, Vector3>();
@@ -680,9 +680,10 @@ public class VoxelManager : MonoBehaviour
         }
     }
 
-    IEnumerator SwitchModeCoroutine()
+    private IEnumerator SwitchModeCoroutine()
     {
         modeSwitchable = false;
+        string textToSet = "Mark";
         if (_currentGameMode == GameMode.Mark)
         {
             GameObject.FindGameObjectWithTag("Mark").GetComponent<ChangeModeSelector>().selected = false;
@@ -690,6 +691,7 @@ public class VoxelManager : MonoBehaviour
             GameObject.FindGameObjectWithTag("Mark").GetComponent<MeshRenderer>().material = _unselectedModeSelectorMat;
             GameObject.FindGameObjectWithTag("Destroy").GetComponent<MeshRenderer>().material = _selectedModeSelectorMat;
             _currentGameMode = GameMode.Destroy;
+            textToSet = "Destroy";
             MakeDestroyable();
         }
         else if (_currentGameMode == GameMode.Destroy) {
@@ -708,6 +710,7 @@ public class VoxelManager : MonoBehaviour
             _currentGameMode = GameMode.Mark;
             MakeMarkable();
         }
+        _modeText.text = textToSet;
         yield return new WaitForSeconds(0.25f);
         modeSwitchable = true;
     }

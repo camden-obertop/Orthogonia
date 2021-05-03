@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 6923204139043196027}
   - component: {fileID: 6923204139043196025}
   - component: {fileID: 6923204139043196021}
-  - component: {fileID: 1948378761}
+  - component: {fileID: 5587869286766807535}
   m_Layer: 0
   m_Name: Destroy
   m_TagString: Destroy
@@ -279,7 +279,7 @@ MonoBehaviour:
   _selectedMaterial: {fileID: 2100000, guid: dad2f0de9ebd9444b9912d54a4c85594, type: 2}
   _hoverMaterial: {fileID: 2100000, guid: 47f3f092283bef348bab821707d32c70, type: 2}
   selected: 0
---- !u!54 &1948378761
+--- !u!54 &5587869286766807535
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -308,7 +308,7 @@ GameObject:
   - component: {fileID: 6923204139239354895}
   - component: {fileID: 6923204139239354893}
   - component: {fileID: 6923204139239354889}
-  - component: {fileID: 1898420955}
+  - component: {fileID: 4264247355191686883}
   m_Layer: 0
   m_Name: Mark
   m_TagString: Mark
@@ -410,7 +410,7 @@ MonoBehaviour:
   _selectedMaterial: {fileID: 2100000, guid: dad2f0de9ebd9444b9912d54a4c85594, type: 2}
   _hoverMaterial: {fileID: 2100000, guid: 47f3f092283bef348bab821707d32c70, type: 2}
   selected: 0
---- !u!54 &1898420955
+--- !u!54 &4264247355191686883
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -439,7 +439,7 @@ GameObject:
   - component: {fileID: 6923204139449189826}
   - component: {fileID: 6923204139449189824}
   - component: {fileID: 6923204139449189852}
-  - component: {fileID: 1105859131}
+  - component: {fileID: 7441537613255211885}
   m_Layer: 0
   m_Name: Build
   m_TagString: Build
@@ -541,7 +541,7 @@ MonoBehaviour:
   _selectedMaterial: {fileID: 2100000, guid: dad2f0de9ebd9444b9912d54a4c85594, type: 2}
   _hoverMaterial: {fileID: 2100000, guid: 47f3f092283bef348bab821707d32c70, type: 2}
   selected: 0
---- !u!54 &1105859131
+--- !u!54 &7441537613255211885
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -656,7 +656,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4546969019094468855
 Transform:
   m_ObjectHideFlags: 0
@@ -666,7 +666,7 @@ Transform:
   m_GameObject: {fileID: 8411001999446633891}
   m_LocalRotation: {x: -0.70906377, y: -0.008252367, z: -0.0044342577, w: 0.7050821}
   m_LocalPosition: {x: 2.237, y: 0.954, z: 0}
-  m_LocalScale: {x: 0.019773813, y: 0.14273, z: 0.0067303916}
+  m_LocalScale: {x: 0.01977, y: 0.14273, z: 0.006729999}
   m_Children:
   - {fileID: 6923204139239354930}
   - {fileID: 6923204139043196030}
