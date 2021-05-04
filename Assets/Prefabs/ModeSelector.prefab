@@ -279,6 +279,7 @@ MonoBehaviour:
   _selectedMaterial: {fileID: 2100000, guid: dad2f0de9ebd9444b9912d54a4c85594, type: 2}
   _hoverMaterial: {fileID: 2100000, guid: 47f3f092283bef348bab821707d32c70, type: 2}
   selected: 0
+  _switchModeSound: {fileID: 1715767742990133076, guid: 237e8238b15e8504ba683a03d79b05cc, type: 3}
 --- !u!54 &5587869286766807535
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -410,6 +411,7 @@ MonoBehaviour:
   _selectedMaterial: {fileID: 2100000, guid: dad2f0de9ebd9444b9912d54a4c85594, type: 2}
   _hoverMaterial: {fileID: 2100000, guid: 47f3f092283bef348bab821707d32c70, type: 2}
   selected: 0
+  _switchModeSound: {fileID: 1715767742990133076, guid: 237e8238b15e8504ba683a03d79b05cc, type: 3}
 --- !u!54 &4264247355191686883
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -541,6 +543,7 @@ MonoBehaviour:
   _selectedMaterial: {fileID: 2100000, guid: dad2f0de9ebd9444b9912d54a4c85594, type: 2}
   _hoverMaterial: {fileID: 2100000, guid: 47f3f092283bef348bab821707d32c70, type: 2}
   selected: 0
+  _switchModeSound: {fileID: 1715767742990133076, guid: 237e8238b15e8504ba683a03d79b05cc, type: 3}
 --- !u!54 &7441537613255211885
 Rigidbody:
   m_ObjectHideFlags: 0

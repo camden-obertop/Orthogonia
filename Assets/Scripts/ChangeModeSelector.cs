@@ -22,6 +22,7 @@ public class ChangeModeSelector : MonoBehaviour
     [SerializeField] private Material _selectedMaterial;
     [SerializeField] private Material _hoverMaterial;
     public bool selected = false;
+    [SerializeField] private GameObject _switchModeSound;
 
     private void Start() {
         _meshRenderer = GetComponent<MeshRenderer>();
@@ -48,6 +49,7 @@ public class ChangeModeSelector : MonoBehaviour
                 if (_voxelManager.CurrentGameMode == VoxelManager.GameMode.Mark) {
                     Debug.Log("Don't do anything!");
                 } else {
+                    Instantiate(_switchModeSound);
                     GameObject.FindGameObjectWithTag("Destroy").GetComponent<MeshRenderer>().material = _unselectedMaterial;
                     GameObject.FindGameObjectWithTag("Build").GetComponent<MeshRenderer>().material = _unselectedMaterial;
                     GameObject.FindGameObjectWithTag("Destroy").GetComponent<ChangeModeSelector>().selected = false;
@@ -64,6 +66,7 @@ public class ChangeModeSelector : MonoBehaviour
                 if (_voxelManager.CurrentGameMode == VoxelManager.GameMode.Destroy) {
                     Debug.Log("Don't do anything!");
                 } else {
+                    Instantiate(_switchModeSound);
                     GameObject.FindGameObjectWithTag("Mark").GetComponent<MeshRenderer>().material = _unselectedMaterial;
                     GameObject.FindGameObjectWithTag("Build").GetComponent<MeshRenderer>().material = _unselectedMaterial;
                     GameObject.FindGameObjectWithTag("Mark").GetComponent<ChangeModeSelector>().selected = false;
@@ -79,6 +82,7 @@ public class ChangeModeSelector : MonoBehaviour
                 if (_voxelManager.CurrentGameMode == VoxelManager.GameMode.Build) {
                     Debug.Log("Don't do anything!");
                 } else {
+                    Instantiate(_switchModeSound);
                     GameObject.FindGameObjectWithTag("Destroy").GetComponent<MeshRenderer>().material = _unselectedMaterial;
                     GameObject.FindGameObjectWithTag("Mark").GetComponent<MeshRenderer>().material = _unselectedMaterial;
                     GameObject.FindGameObjectWithTag("Destroy").GetComponent<ChangeModeSelector>().selected = false;
@@ -89,26 +93,6 @@ public class ChangeModeSelector : MonoBehaviour
                     _meshRenderer.material = _selectedMaterial;
                 }
             }
-        }
-    }
-
-    public void ChangeModeVisualFromVoxelManager() {
-        if (_voxelManagerGameObject == null) {
-            _voxelManagerGameObject = GameObject.FindGameObjectWithTag("VoxelManager");
-        }
-
-        VoxelManager _voxelManager = _voxelManagerGameObject.GetComponent<VoxelManager>();
-
-        if (_voxelManager.CurrentGameMode == VoxelManager.GameMode.Mark) {
-            GameObject.FindGameObjectWithTag("Mark").GetComponent<MeshRenderer>().material = _unselectedMaterial;
-            GameObject.FindGameObjectWithTag("Mark").GetComponent<ChangeModeSelector>().selected = false;
-            GameObject.FindGameObjectWithTag("Destroy").GetComponent<MeshRenderer>().material = _selectedMaterial;
-            GameObject.FindGameObjectWithTag("Destroy").GetComponent<ChangeModeSelector>().selected = true;
-        } else if (_voxelManager.CurrentGameMode == VoxelManager.GameMode.Destroy) {
-            GameObject.FindGameObjectWithTag("Destroy").GetComponent<MeshRenderer>().material = _unselectedMaterial;
-            GameObject.FindGameObjectWithTag("Destroy").GetComponent<ChangeModeSelector>().selected = false;
-            GameObject.FindGameObjectWithTag("Mark").GetComponent<MeshRenderer>().material = _selectedMaterial;
-            GameObject.FindGameObjectWithTag("Mark").GetComponent<ChangeModeSelector>().selected = true;
         }
     }
 

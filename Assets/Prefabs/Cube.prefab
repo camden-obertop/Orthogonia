@@ -1798,6 +1798,9 @@ MonoBehaviour:
   leftSideHint: {fileID: 3879213630739027967}
   bottomHint: {fileID: 8892446232949199425}
   _isPuzzleVoxel: 0
+  _buildSound: {fileID: 5215621274238688038, guid: 7d92cc8c452d8ac4fb3a1dc48e4746be, type: 3}
+  _destroySound: {fileID: 4602344942983387283, guid: 639156f0738e89a42a8f9b1be7940033, type: 3}
+  _markSound: {fileID: 6071048412897913013, guid: c2e64eebaa21f194cb8148797d236294, type: 3}
 --- !u!54 &4293691981919372668
 Rigidbody:
   m_ObjectHideFlags: 0

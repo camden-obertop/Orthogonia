@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3177179837364014113
+--- !u!1 &2082918970340644559
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,71 +8,45 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3177179837364014112}
-  - component: {fileID: 3177179837364014127}
-  - component: {fileID: -8702980834511205213}
+  - component: {fileID: 2082918970340644557}
+  - component: {fileID: 2082918970340644556}
+  - component: {fileID: -979927108471446171}
   m_Layer: 0
-  m_Name: Voxel Manager
-  m_TagString: VoxelManager
-  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
+  m_Name: Scroll_Rotate
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3177179837364014112
+--- !u!4 &2082918970340644557
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3177179837364014113}
+  m_GameObject: {fileID: 2082918970340644559}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.25, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3177179837364014127
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3177179837364014113}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00eb7e37a0b883244860050cf6ed6394, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  puzzleObject: {fileID: 0}
-  generateRandomPuzzle: 0
-  length: 3
-  height: 3
-  width: 3
-  rotateSpeed: 100
-  cube: {fileID: 6549536629210668778, guid: 0b99d12d87ba2354a89eb9d28c8b62a6, type: 3}
-  completedPuzzle: {fileID: 6031440201314962155, guid: af03b89316225334db7f5924fb83d223, type: 3}
-  _clearMaterial: {fileID: 2100000, guid: ab71d0cbe67e8f2458f7f1695cae47e8, type: 2}
-  _hideLayerSound: {fileID: 7051550814354193123, guid: df64eff64708ba0428a91bb9a721b05b, type: 3}
-  _showLayerSound: {fileID: 6456834500233717955, guid: 6746726e9d93bc04e8b816fc1ae163f9, type: 3}
-  _switchModeSound: {fileID: 1715767742990133076, guid: 237e8238b15e8504ba683a03d79b05cc, type: 3}
-  _unselectedModeSelectorMat: {fileID: 2100000, guid: 21399efd84b5c5f45bc2b2e90f1b7142, type: 2}
-  _selectedModeSelectorMat: {fileID: 2100000, guid: dad2f0de9ebd9444b9912d54a4c85594, type: 2}
---- !u!82 &-8702980834511205213
+--- !u!82 &2082918970340644556
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3177179837364014113}
+  m_GameObject: {fileID: 2082918970340644559}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 572a5aa4f6a78d84cb4688abc2146f00, type: 3}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -114,7 +88,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.166
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -154,3 +128,15 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-979927108471446171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2082918970340644559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48d76b5bf2680ba46acda309fce75f93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

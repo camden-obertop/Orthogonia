@@ -29,6 +29,11 @@ public class Voxel : MonoBehaviour
 
     [SerializeField] private bool _isPuzzleVoxel;
 
+    [Header("Sounds")]
+    [SerializeField] private GameObject _buildSound;
+    [SerializeField] private GameObject _destroySound;
+    [SerializeField] private GameObject _markSound;
+
     public bool IsPuzzleVoxel
     {
         get => _isPuzzleVoxel;
@@ -130,6 +135,8 @@ public class Voxel : MonoBehaviour
     {
         if (!_isVisible && _manager.CanEditPuzzle)
         {
+            Instantiate(_buildSound);
+
             foreach (HintText hint in _hints)
             {
                 hint.gameObject.SetActive(true);
@@ -167,6 +174,7 @@ public class Voxel : MonoBehaviour
     {
         if (_isVisible && _manager.CanEditPuzzle)
         {
+            Instantiate(_markSound);
             if (_isMarked)
             {
                 _isMarked = false;
@@ -186,6 +194,7 @@ public class Voxel : MonoBehaviour
     {
         if (_manager.CanEditPuzzle)
         {
+            Instantiate(_destroySound);
             foreach (HintText hint in _hints)
             {
                 hint.gameObject.SetActive(!_isVisible);

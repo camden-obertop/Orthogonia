@@ -69,6 +69,11 @@ public class VoxelManager : MonoBehaviour
     [SerializeField] private GameObject completedPuzzle;
     [SerializeField] private Material _clearMaterial;
 
+    [Header("Sounds")]
+    [SerializeField] private GameObject _hideLayerSound;
+    [SerializeField] private GameObject _showLayerSound;
+    [SerializeField] private GameObject _switchModeSound;
+
     private VoxelState[,,] _voxelStates;
     public VoxelState[,,] VoxelStates
     {
@@ -425,6 +430,7 @@ public class VoxelManager : MonoBehaviour
     }
 
     private void ResetAllLayers() {
+        Instantiate(_showLayerSound);
         InitializeCurrentLayers();
         while (_hiddenVoxels.Count > 0) {
             GameObject tempVoxel = _hiddenVoxels.Pop();
@@ -442,6 +448,7 @@ public class VoxelManager : MonoBehaviour
                         if (CheckIfFaceChanged("posX")) {
                             ResetAllLayers();
                         } else {
+                            Instantiate(_hideLayerSound);
                             Debug.Log("Hide positiveX");
                             for (int i = 0; i < height; i++) {
                                 for (int j = 0; j < width; j++) {
@@ -455,6 +462,7 @@ public class VoxelManager : MonoBehaviour
                         if (CheckIfFaceChanged("posX")) {
                             ResetAllLayers();
                         } else {
+                            Instantiate(_showLayerSound);
                             Debug.Log("Show positiveX");
                             for (int i = 0; i < height * width; i++) {
                                 GameObject tempVoxel = _hiddenVoxels.Pop();
@@ -469,6 +477,7 @@ public class VoxelManager : MonoBehaviour
                         if (CheckIfFaceChanged("negX")) {
                             ResetAllLayers();
                         } else {
+                            Instantiate(_hideLayerSound);
                             Debug.Log("Hide positiveX");
                             for (int i = 0; i < height; i++) {
                                 for (int j = 0; j < width; j++) {
@@ -482,6 +491,7 @@ public class VoxelManager : MonoBehaviour
                         if (CheckIfFaceChanged("negX")) {
                             ResetAllLayers();
                         } else {
+                            Instantiate(_showLayerSound);
                             Debug.Log("Show positiveX");
                             for (int i = 0; i < height * width; i++) {
                                 GameObject tempVoxel = _hiddenVoxels.Pop();
@@ -496,6 +506,7 @@ public class VoxelManager : MonoBehaviour
                         if (CheckIfFaceChanged("posY")) {
                             ResetAllLayers();
                         } else {
+                            Instantiate(_hideLayerSound);
                             Debug.Log("Hide positiveY");
                             for (int i = 0; i < length; i++) {
                                 for (int j = 0; j < width; j++) {
@@ -509,6 +520,7 @@ public class VoxelManager : MonoBehaviour
                         if (CheckIfFaceChanged("posY")) {
                             ResetAllLayers();
                         } else {
+                            Instantiate(_showLayerSound);
                             Debug.Log("Show positiveY");
                             for (int i = 0; i < length * width; i++) {
                                 GameObject tempVoxel = _hiddenVoxels.Pop();
@@ -523,6 +535,7 @@ public class VoxelManager : MonoBehaviour
                         if (CheckIfFaceChanged("negY")) {
                             ResetAllLayers();
                         } else {
+                            Instantiate(_hideLayerSound);
                             Debug.Log("Hide negativeY");
                             for (int i = 0; i < length; i++) {
                                 for (int j = 0; j < width; j++) {
@@ -536,6 +549,7 @@ public class VoxelManager : MonoBehaviour
                         if (CheckIfFaceChanged("negY")) {
                             ResetAllLayers();
                         } else {
+                            Instantiate(_showLayerSound);
                             Debug.Log("Show negativeY");
                             for (int i = 0; i < length * width; i++) {
                                 GameObject tempVoxel = _hiddenVoxels.Pop();
@@ -550,6 +564,7 @@ public class VoxelManager : MonoBehaviour
                         if (CheckIfFaceChanged("posZ")) {
                             ResetAllLayers();
                         } else {
+                            Instantiate(_hideLayerSound);
                             Debug.Log("Hide positiveZ");
                             for (int i = 0; i < length; i++) {
                                 for (int j = 0; j < height; j++) {
@@ -563,6 +578,7 @@ public class VoxelManager : MonoBehaviour
                         if (CheckIfFaceChanged("posZ")) {
                             ResetAllLayers();
                         } else {
+                            Instantiate(_showLayerSound);
                             Debug.Log("Show positiveY");
                             for (int i = 0; i < length * height; i++) {
                                 GameObject tempVoxel = _hiddenVoxels.Pop();
@@ -577,6 +593,7 @@ public class VoxelManager : MonoBehaviour
                         if (CheckIfFaceChanged("negZ")) {
                             ResetAllLayers();
                         } else {
+                            Instantiate(_hideLayerSound);
                             Debug.Log("Hide negitiveZ");
                             for (int i = 0; i < length; i++) {
                                 for (int j = 0; j < height; j++) {
@@ -590,6 +607,7 @@ public class VoxelManager : MonoBehaviour
                         if (CheckIfFaceChanged("negZ")) {
                             ResetAllLayers();
                         } else {
+                            Instantiate(_showLayerSound);
                             Debug.Log("Show negitiveY");
                             for (int i = 0; i < length * height; i++) {
                                 GameObject tempVoxel = _hiddenVoxels.Pop();
@@ -648,12 +666,12 @@ public class VoxelManager : MonoBehaviour
 
     private void CalculateFaceCenters()
     {
-        _cubeFaceCenterCoords["positiveX"] = transform.position + transform.right * (length * cube.transform.localScale.x / 2);
-        _cubeFaceCenterCoords["negativeX"] = transform.position + transform.right * (-length * cube.transform.localScale.x / 2);
+        _cubeFaceCenterCoords["negativeX"] = transform.position + transform.right * (length * cube.transform.localScale.x / 2);
+        _cubeFaceCenterCoords["positiveX"] = transform.position + transform.right * (-length * cube.transform.localScale.x / 2);
         _cubeFaceCenterCoords["positiveY"] = transform.position + transform.up * (height * cube.transform.localScale.y / 2);
         _cubeFaceCenterCoords["negativeY"] = transform.position + transform.up * (-height * cube.transform.localScale.y / 2);
-        _cubeFaceCenterCoords["positiveZ"] = transform.position + transform.forward * (width * cube.transform.localScale.z / 2);
-        _cubeFaceCenterCoords["negativeZ"] = transform.position + transform.forward * (-width * cube.transform.localScale.z / 2);
+        _cubeFaceCenterCoords["negativeZ"] = transform.position + transform.forward * (width * cube.transform.localScale.z / 2);
+        _cubeFaceCenterCoords["positiveZ"] = transform.position + transform.forward * (-width * cube.transform.localScale.z / 2);
 
         Debug.DrawLine(_mainCamera.transform.position, _cubeFaceCenterCoords["positiveX"], Color.red);
         Debug.DrawLine(_mainCamera.transform.position, _cubeFaceCenterCoords["negativeX"], Color.red);
@@ -674,6 +692,7 @@ public class VoxelManager : MonoBehaviour
         {
             if (modeSwitchable)
             {
+                Instantiate(_switchModeSound);
                 StartCoroutine(SwitchModeCoroutine());
             }
         }
@@ -1138,31 +1157,46 @@ public class VoxelManager : MonoBehaviour
 
         float timeSpeed = rotateSpeed * Time.deltaTime;
 
+        AudioSource audioSource = GetComponent<AudioSource>();
+
         if (_canEditPuzzle)
         {
+            bool rotating = false;
             if (Input.GetKey(KeyCode.J) || rotateLeft)
             {
                 transform.RotateAround(_target, transform.up, timeSpeed);
+                rotating = true;
             }
 
             if (Input.GetKey(KeyCode.L) || rotateRight)
             {
                 transform.RotateAround(_target, transform.up, -timeSpeed);
+                rotating = true;
             }
 
             if (Input.GetKey(KeyCode.I) || rotateUp && _canVerticallyRotate)
             {
                 transform.RotateAround(_target, _cameraTransform.right, timeSpeed);
+                rotating = true;
             }
 
             if (Input.GetKey(KeyCode.K) || rotateDown && _canVerticallyRotate)
             {
                 transform.RotateAround(_target, _cameraTransform.right, -timeSpeed);
+                rotating = true;
             }
 
             if (Input.GetKeyDown(KeyCode.R))
             {
                 transform.rotation = Quaternion.identity;
+            }
+
+            if (rotating && !audioSource.isPlaying)
+            {
+                audioSource.Play();
+            } else if (!rotating)
+            {
+                audioSource.Stop();
             }
         }
         else
