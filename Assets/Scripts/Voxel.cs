@@ -250,6 +250,7 @@ public class Voxel : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Interactor") && _manager.CanEditPuzzle)
         {
+            canPerformAction = true;
             _isHovering = true;
             if (_manager.CurrentGameMode == VoxelManager.GameMode.Destroy)
             {

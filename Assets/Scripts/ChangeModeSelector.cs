@@ -113,7 +113,6 @@ public class ChangeModeSelector : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
-        Debug.Log(other);
         if (other.gameObject.CompareTag("Interactor")) {
             _hovering = true;
             _meshRenderer.material = _hoverMaterial;
