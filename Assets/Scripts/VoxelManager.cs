@@ -67,7 +67,6 @@ public class VoxelManager : MonoBehaviour
     [Header("Dependencies")]
     [SerializeField] private GameObject cube;
     [SerializeField] private GameObject completedPuzzle;
-    [SerializeField] private Text _modeText;
     [SerializeField] private Material _clearMaterial;
 
     private VoxelState[,,] _voxelStates;
@@ -97,6 +96,8 @@ public class VoxelManager : MonoBehaviour
     private Dictionary<string, Vector3> _cubeFaceCenterCoords;
     private string _nearestFace;
     private Coroutine _checkSolutionCoroutine;
+    private GameObject _picrossPlayer;
+    private GameObject _overworldPlayer;
 
     private bool modeSwitchable = true;
 
@@ -111,10 +112,13 @@ public class VoxelManager : MonoBehaviour
         set => _currentGameMode = value;
     }
 
-    public void BeginPuzzle(Puzzle puzzleObject)
+    public void BeginPuzzle(Puzzle newPuzzleObject, GameObject picrossPlayer, GameObject overworldPlayer)
     {
         _mainCamera = Camera.main.gameObject;
-        
+        _picrossPlayer = picrossPlayer;
+        _overworldPlayer = overworldPlayer;
+        puzzleObject = newPuzzleObject;
+
         _target = transform.position;
         
         _visibleLayersX = length - 1;
@@ -157,9 +161,6 @@ public class VoxelManager : MonoBehaviour
         //
         // Debug.Log("Calculated Sol:");
         // PrintSolution(calculatedSolution);
-
-        _modeText.transform.parent.parent.parent = null; // bring text canvas into overworld so it isn't rotated
-        _modeText.text = "Mark";
 
         _cubeFaceCenterCoords = new Dictionary<string, Vector3>();
         _nearestFace = "";
@@ -335,12 +336,10 @@ public class VoxelManager : MonoBehaviour
 
             GameObject completedPuzzleInstance = Instantiate(completedPuzzle);
             completedPuzzleInstance.GetComponent<CompletedPuzzle>().PuzzleType = puzzleObject.PuzzleType;
-            SceneManager.LoadSceneAsync("Overworld Scene");
-            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-            if (playerObj != null)
-            {
-                Destroy(playerObj);
-            }
+            _overworldPlayer.transform.position = _picrossPlayer.transform.position;
+            _overworldPlayer.transform.rotation = _picrossPlayer.transform.rotation;
+            _picrossPlayer.SetActive(false);
+            _overworldPlayer.SetActive(true);
         }
 
         yield return correct;
@@ -683,7 +682,6 @@ public class VoxelManager : MonoBehaviour
     private IEnumerator SwitchModeCoroutine()
     {
         modeSwitchable = false;
-        string textToSet = "Mark";
         if (_currentGameMode == GameMode.Mark)
         {
             GameObject.FindGameObjectWithTag("Mark").GetComponent<ChangeModeSelector>().selected = false;
@@ -691,7 +689,6 @@ public class VoxelManager : MonoBehaviour
             GameObject.FindGameObjectWithTag("Mark").GetComponent<MeshRenderer>().material = _unselectedModeSelectorMat;
             GameObject.FindGameObjectWithTag("Destroy").GetComponent<MeshRenderer>().material = _selectedModeSelectorMat;
             _currentGameMode = GameMode.Destroy;
-            textToSet = "Destroy";
             MakeDestroyable();
         }
         else if (_currentGameMode == GameMode.Destroy) {
@@ -710,7 +707,6 @@ public class VoxelManager : MonoBehaviour
             _currentGameMode = GameMode.Mark;
             MakeMarkable();
         }
-        _modeText.text = textToSet;
         yield return new WaitForSeconds(0.25f);
         modeSwitchable = true;
     }

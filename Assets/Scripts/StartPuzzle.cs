@@ -25,6 +25,6 @@ public class StartPuzzle : MonoBehaviour
         
         GameObject voxelManagerInstance = Instantiate(voxelManager, transform.position + transform.forward * 2f,
             Quaternion.identity * Quaternion.Euler(0f, 180f, 0f));
-        voxelManagerInstance.GetComponent<VoxelManager>().BeginPuzzle(puzzle);
+        voxelManagerInstance.GetComponent<VoxelManager>().BeginPuzzle(puzzle, picrossPlayer, overworldPlayer);
     }
 }

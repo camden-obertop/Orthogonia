@@ -35,6 +35,11 @@ public class CompletedPuzzle : MonoBehaviour
 
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
+        GameObject.FindGameObjectWithTag("ProgressManager").GetComponent<ProgressManager>().ActivatePuzzleInWorld(_puzzleType);
+    }
+
+    private void LateUpdate()
+    {
+        //Destroy(gameObject);
     }
 }
