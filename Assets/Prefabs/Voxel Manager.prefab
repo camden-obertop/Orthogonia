@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3177179837364014112}
   - component: {fileID: 3177179837364014127}
-  - component: {fileID: 3177179837364014126}
   m_Layer: 0
   m_Name: Voxel Manager
   m_TagString: Untagged
@@ -57,25 +56,6 @@ MonoBehaviour:
   _clearMaterial: {fileID: 2100000, guid: ab71d0cbe67e8f2458f7f1695cae47e8, type: 2}
   _unselectedModeSelectorMat: {fileID: 2100000, guid: 21399efd84b5c5f45bc2b2e90f1b7142, type: 2}
   _selectedModeSelectorMat: {fileID: 2100000, guid: dad2f0de9ebd9444b9912d54a4c85594, type: 2}
---- !u!114 &3177179837364014126
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3177179837364014113}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27991c206a5e66147bb8ee3ef31c8bac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actionSet:
-    actionSetPath: /actions/picross
-  forSources: 0
-  disableAllOtherActionSets: 0
-  activateOnStart: 1
-  deactivateOnDestroy: 1
-  initialPriority: -5
 --- !u!1 &3963322058574210609
 GameObject:
   m_ObjectHideFlags: 0

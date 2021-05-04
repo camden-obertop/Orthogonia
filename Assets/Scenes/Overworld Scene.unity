@@ -413,7 +413,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1576287107}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &177933155
 MonoBehaviour:
@@ -872,6 +872,25 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 107946, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
   m_PrefabInstance: {fileID: 1315815364}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &251119411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 251119408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27991c206a5e66147bb8ee3ef31c8bac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionSet:
+    actionSetPath: /actions/overworld
+  forSources: 0
+  disableAllOtherActionSets: 0
+  activateOnStart: 1
+  deactivateOnDestroy: 1
+  initialPriority: 0
 --- !u!1001 &282368626
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1193,7 +1212,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &492205975 stripped
 Transform:
@@ -1740,7 +1759,7 @@ PrefabInstance:
     - target: {fileID: 7333203874298190773, guid: 64e8043846b58a844a05cfbc6404f819, type: 3}
       propertyPath: controlScheme
       value: 
-      objectReference: {fileID: 1299388752}
+      objectReference: {fileID: 0}
     - target: {fileID: 7333203874298190775, guid: 64e8043846b58a844a05cfbc6404f819, type: 3}
       propertyPath: m_Name
       value: PicrossPuzzleLoader
@@ -1763,6 +1782,67 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61adae24bf43c114c8f2224f3486bac4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &755469214
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4617765055166100842, guid: 4a2872932c4fb7c4e92dab1442685ef2, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4617765055166100842, guid: 4a2872932c4fb7c4e92dab1442685ef2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4617765055166100842, guid: 4a2872932c4fb7c4e92dab1442685ef2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4617765055166100842, guid: 4a2872932c4fb7c4e92dab1442685ef2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.027
+      objectReference: {fileID: 0}
+    - target: {fileID: 4617765055166100842, guid: 4a2872932c4fb7c4e92dab1442685ef2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4617765055166100842, guid: 4a2872932c4fb7c4e92dab1442685ef2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4617765055166100842, guid: 4a2872932c4fb7c4e92dab1442685ef2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4617765055166100842, guid: 4a2872932c4fb7c4e92dab1442685ef2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4617765055166100842, guid: 4a2872932c4fb7c4e92dab1442685ef2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4617765055166100842, guid: 4a2872932c4fb7c4e92dab1442685ef2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4617765055166100842, guid: 4a2872932c4fb7c4e92dab1442685ef2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4617765055166170386, guid: 4a2872932c4fb7c4e92dab1442685ef2, type: 3}
+      propertyPath: m_Name
+      value: PicrossPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 4617765055166170386, guid: 4a2872932c4fb7c4e92dab1442685ef2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4a2872932c4fb7c4e92dab1442685ef2, type: 3}
 --- !u!1 &776128914
 GameObject:
   m_ObjectHideFlags: 0
@@ -1799,7 +1879,7 @@ Transform:
   - {fileID: 89777739}
   - {fileID: 1782283255}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &790929811 stripped
 GameObject:
@@ -2975,7 +3055,7 @@ PrefabInstance:
     - target: {fileID: 7333203874298190773, guid: 64e8043846b58a844a05cfbc6404f819, type: 3}
       propertyPath: controlScheme
       value: 
-      objectReference: {fileID: 1299388752}
+      objectReference: {fileID: 0}
     - target: {fileID: 7333203874298190775, guid: 64e8043846b58a844a05cfbc6404f819, type: 3}
       propertyPath: m_Name
       value: PicrossPuzzleLoader
@@ -3029,56 +3109,6 @@ Transform:
   m_Father: {fileID: 1315815365}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1299388752
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1299388754}
-  - component: {fileID: 1299388753}
-  m_Layer: 0
-  m_Name: VRManager
-  m_TagString: VRManager
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1299388753
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1299388752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27991c206a5e66147bb8ee3ef31c8bac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actionSet:
-    actionSetPath: /actions/overworld
-  forSources: 0
-  disableAllOtherActionSets: 0
-  activateOnStart: 1
-  deactivateOnDestroy: 1
-  initialPriority: 0
---- !u!4 &1299388754
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1299388752}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1576287107}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1315815364
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3088,7 +3118,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 107946, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
       propertyPath: m_Name
-      value: Player
+      value: OverworldPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 107946, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
       propertyPath: m_IsActive
@@ -4182,10 +4212,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2035443240}
-  - {fileID: 1299388754}
   - {fileID: 177933154}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1586891761
 PrefabInstance:
@@ -4608,7 +4637,7 @@ PrefabInstance:
     - target: {fileID: 7333203874298190773, guid: 64e8043846b58a844a05cfbc6404f819, type: 3}
       propertyPath: controlScheme
       value: 
-      objectReference: {fileID: 1299388752}
+      objectReference: {fileID: 0}
     - target: {fileID: 7333203874298190775, guid: 64e8043846b58a844a05cfbc6404f819, type: 3}
       propertyPath: m_Name
       value: PicrossPuzzleLoader
@@ -5078,6 +5107,30 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6738745a4ad47a641b6a70410e82df69, type: 3}
   m_PrefabInstance: {fileID: 2126279402}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2135757627 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4617765055166170386, guid: 4a2872932c4fb7c4e92dab1442685ef2, type: 3}
+  m_PrefabInstance: {fileID: 755469214}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2135757628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2135757627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27991c206a5e66147bb8ee3ef31c8bac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionSet:
+    actionSetPath: /actions/picross
+  forSources: 0
+  disableAllOtherActionSets: 0
+  activateOnStart: 1
+  deactivateOnDestroy: 1
+  initialPriority: -5
 --- !u!23 &6162578404814309408
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5709,7 +5762,15 @@ PrefabInstance:
     - target: {fileID: 7333203874298190773, guid: 64e8043846b58a844a05cfbc6404f819, type: 3}
       propertyPath: controlScheme
       value: 
-      objectReference: {fileID: 1299388752}
+      objectReference: {fileID: 0}
+    - target: {fileID: 7333203874298190773, guid: 64e8043846b58a844a05cfbc6404f819, type: 3}
+      propertyPath: picrossPlayer
+      value: 
+      objectReference: {fileID: 2135757627}
+    - target: {fileID: 7333203874298190773, guid: 64e8043846b58a844a05cfbc6404f819, type: 3}
+      propertyPath: overworldPlayer
+      value: 
+      objectReference: {fileID: 251119408}
     - target: {fileID: 7333203874298190775, guid: 64e8043846b58a844a05cfbc6404f819, type: 3}
       propertyPath: m_Name
       value: PicrossPuzzleLoader

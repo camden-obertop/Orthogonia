@@ -4,12 +4,15 @@ public class StartPuzzle : MonoBehaviour
 {
     [SerializeField] private Puzzle puzzle;
     [SerializeField] private GameObject voxelManager;
+    [SerializeField] private GameObject overworldPlayer;
+    [SerializeField] private GameObject picrossPlayer;
 
     public void GoToPuzzle()
     {
-        GameObject vrManagerObject = GameObject.FindGameObjectWithTag("VRManager");
-        if (vrManagerObject != null)
-            Destroy(vrManagerObject);
+        picrossPlayer.transform.position = overworldPlayer.transform.position;
+        picrossPlayer.transform.rotation = overworldPlayer.transform.rotation;
+        overworldPlayer.SetActive(false);
+        picrossPlayer.SetActive(true);
 
         GameObject modeSelector = GameObject.FindGameObjectWithTag("ModeSelector");
         if (modeSelector != null)
