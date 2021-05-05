@@ -7,6 +7,14 @@ public class StartPuzzle : MonoBehaviour
     [SerializeField] private GameObject overworldPlayer;
     [SerializeField] private GameObject picrossPlayer;
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("HandCollider"))
+        {
+            GoToPuzzle();
+        }
+    }
+
     public void GoToPuzzle()
     {
         picrossPlayer.transform.position = overworldPlayer.transform.position;

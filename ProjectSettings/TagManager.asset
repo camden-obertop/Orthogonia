@@ -20,6 +20,7 @@ TagManager:
   - ProgressManager
   - Ground
   - Fruit
+  - HandCollider
   layers:
   - Default
   - TransparentFX
