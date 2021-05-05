@@ -1,5 +1,3 @@
-using System;
-using System.Security.Cryptography;
 using UnityEngine;
 
 public class ProgressManager : MonoBehaviour
@@ -11,9 +9,13 @@ public class ProgressManager : MonoBehaviour
     [SerializeField] private Material gloomySkybox;
     [SerializeField] private Material normalSkybox;
     [SerializeField] private GameObject earthTransition;
+    [SerializeField] private Color initialFogColor;
+    [SerializeField] private Light dirLight;
+    [SerializeField] private Color initialDirectionalLightColor;
 
     [Header("Earth")] [SerializeField] private GameObject earthLandscape;
     [SerializeField] private GameObject airLandscape;
+    [SerializeField] private GameObject windyAir;
     [SerializeField] private GameObject wormTransition;
 
     [Header("Worm")] 
@@ -26,9 +28,13 @@ public class ProgressManager : MonoBehaviour
 
     [Header("Sun")]
     [SerializeField] private GameObject oceanTransition;
+    [SerializeField] private Material sunSky;
+    [SerializeField] private Color sunFogColor;
+    [SerializeField] private Color sunDirectionalLightColor;
 
     [Header("Ocean")]
     [SerializeField] private GameObject cloudsTransition;
+    [SerializeField] private GameObject ocean;
 
     [Header("Clouds")]
     [SerializeField] private GameObject riverTransition;
@@ -84,6 +90,9 @@ public class ProgressManager : MonoBehaviour
                 airParticles.SetActive(false);
                 RenderSettings.skybox = normalSkybox;
                 RenderSettings.fogDensity = 0.007f;
+                RenderSettings.fogColor = initialFogColor;
+                dirLight.color = initialDirectionalLightColor;
+                windyAir.SetActive(true);
                 earthTransition.SetActive(true);
                 break;
             case CompletedPuzzle.Puzzle.Earth:
@@ -105,10 +114,14 @@ public class ProgressManager : MonoBehaviour
             case CompletedPuzzle.Puzzle.Sun:
                 sunTransition.SetActive(false);
                 oceanTransition.SetActive(true);
+                RenderSettings.skybox = sunSky;
+                RenderSettings.fogColor = sunFogColor;
+                dirLight.color = sunDirectionalLightColor;
                 break;
             case CompletedPuzzle.Puzzle.Ocean:
                 oceanTransition.SetActive(false);
                 cloudsTransition.SetActive(true);
+                ocean.SetActive(true);
                 break;
             case CompletedPuzzle.Puzzle.Clouds:
                 cloudsTransition.SetActive(false);

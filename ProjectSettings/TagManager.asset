@@ -18,6 +18,7 @@ TagManager:
   - VRManager
   - ModeSelector
   - ProgressManager
+  - Ground
   layers:
   - Default
   - TransparentFX
