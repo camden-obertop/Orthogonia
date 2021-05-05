@@ -13,7 +13,8 @@ public class ProgressManager : MonoBehaviour
     [SerializeField] private Light dirLight;
     [SerializeField] private Color initialDirectionalLightColor;
 
-    [Header("Earth")] [SerializeField] private GameObject earthLandscape;
+    [Header("Earth")] 
+    [SerializeField] private GameObject earthLandscape;
     [SerializeField] private GameObject airLandscape;
     [SerializeField] private GameObject windyAir;
     [SerializeField] private GameObject wormTransition;
@@ -46,6 +47,8 @@ public class ProgressManager : MonoBehaviour
 
     [Header("Grass")]
     [SerializeField] private GameObject flowerTransition;
+    [SerializeField] private GameObject grassEarth;
+    [SerializeField] private Material grassSky;
 
     [Header("Flower")]
     [SerializeField] private GameObject beeTransition;
@@ -138,6 +141,9 @@ public class ProgressManager : MonoBehaviour
             case CompletedPuzzle.Puzzle.Grass:
                 grassTransition.SetActive(false);
                 flowerTransition.SetActive(true);
+                earthLandscape.SetActive(false);
+                grassEarth.SetActive(true);
+                RenderSettings.skybox = grassSky;
                 break;
             case CompletedPuzzle.Puzzle.Flower:
                 flowerTransition.SetActive(false);
