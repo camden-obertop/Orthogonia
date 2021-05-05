@@ -17,7 +17,10 @@ public class PositionTitle : MonoBehaviour
 
     void Update()
     {
-        float height = _mainCamera.transform.position.y;
-        transform.position = _initialPosition + new Vector3(0, height + .8f, 0);
+        if (_mainCamera != null)
+        {
+            float height = _mainCamera.transform.position.y;
+            transform.position = _initialPosition + new Vector3(0, height + .8f, 0);
+        }
     }
 }

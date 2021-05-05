@@ -29,8 +29,11 @@ public class TitleStartCube : MonoBehaviour
     {
         transform.Rotate(new Vector3(0, .5f, 0));
 
-        float height = _mainCamera.transform.position.y;
-        transform.position = _initialPosition + new Vector3(0, height - 0.25f, 0);
+        if (_mainCamera != null)
+        {
+            float height = _mainCamera.transform.position.y;
+            transform.position = _initialPosition + new Vector3(0, height - 0.25f, 0);
+        }
 
         performActionFloat = SteamVR_Actions.picross.PerformActionFloat[SteamVR_Input_Sources.Any].axis;
         performAction = performActionFloat > 0.8f;

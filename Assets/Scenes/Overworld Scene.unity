@@ -39461,7 +39461,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 153878, guid: 7a135b1a2cb9c8f488d4dd00c55ab283, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 475244, guid: 7a135b1a2cb9c8f488d4dd00c55ab283, type: 3}
       propertyPath: m_RootOrder
@@ -39516,11 +39516,6 @@ PrefabInstance:
 --- !u!4 &2035443240 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 475244, guid: 7a135b1a2cb9c8f488d4dd00c55ab283, type: 3}
-  m_PrefabInstance: {fileID: 2035443239}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &2035443241 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 153878, guid: 7a135b1a2cb9c8f488d4dd00c55ab283, type: 3}
   m_PrefabInstance: {fileID: 2035443239}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2037639378
@@ -40187,7 +40182,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   introDialogue: {fileID: 8300000, guid: 90f866293c045f345af73c663c3ec46c, type: 3}
-  teleporting: {fileID: 2035443241}
+  teleporting: {fileID: 1650083591}
   rotateDialogue: {fileID: 8300000, guid: 77226a2ca411c5048b093c5bf02d68da, type: 3}
   numbersDialogue: {fileID: 8300000, guid: 9e3c73bff695b4847a2e63c247f970f8, type: 3}
   completeFirstPuzzle: {fileID: 8300000, guid: 1d040335103540e4dbe0d1d67c6e6aa2, type: 3}
@@ -45992,6 +45987,10 @@ PrefabInstance:
     - target: {fileID: 8199400267803964668, guid: 1b24d8aa69a70d344b0093700151f6af, type: 3}
       propertyPath: m_Name
       value: Air Transition
+      objectReference: {fileID: 0}
+    - target: {fileID: 8199400267803964668, guid: 1b24d8aa69a70d344b0093700151f6af, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8199400267935004588, guid: 1b24d8aa69a70d344b0093700151f6af, type: 3}
       propertyPath: firstPuzzle
