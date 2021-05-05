@@ -156,6 +156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rotateSpeed: 0.75
+  _randomizeOrientation: 0
 --- !u!65 &5793699
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -566,6 +567,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rotateSpeed: 0.75
+  _randomizeOrientation: 0
 --- !u!1 &567353853
 GameObject:
   m_ObjectHideFlags: 0
@@ -762,6 +764,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rotateSpeed: 0.75
+  _randomizeOrientation: 0
 --- !u!65 &643580759
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1644,6 +1647,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rotateSpeed: 0.75
+  _randomizeOrientation: 0
 --- !u!65 &1947613509
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2618,7 +2622,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2288376867692860870}
   - component: {fileID: 2288376867702830282}
-  - component: {fileID: 2288376867692651967}
   m_Layer: 0
   m_Name: PicrossPlayer
   m_TagString: Player
@@ -2626,18 +2629,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2288376867692651967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2288376867692651966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ced5b19998f5db3428de7a60528f1282, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2288376867692653174
 GameObject:
   m_ObjectHideFlags: 0

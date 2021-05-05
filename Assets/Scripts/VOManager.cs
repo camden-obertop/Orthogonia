@@ -23,7 +23,6 @@ public class VOManager : MonoBehaviour
     private void Start()
     {
         _source = GetComponent<AudioSource>();
-        StartCoroutine(BeginDialogue());
     }
 
     private void Update()
@@ -32,6 +31,11 @@ public class VOManager : MonoBehaviour
         {
             overworldPlayer.transform.position += Vector3.up * 0.01f;
         }
+    }
+
+    public void BeginDialogueDriver()
+    {
+        StartCoroutine(BeginDialogue());
     }
 
     private IEnumerator BeginDialogue()

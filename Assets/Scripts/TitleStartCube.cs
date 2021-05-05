@@ -8,9 +8,8 @@ public class TitleStartCube : MonoBehaviour
     [SerializeField] private GameObject _mainCamera;
     [SerializeField] private Material _defaultColor;
     [SerializeField] private Material _hoverColor;
-    [SerializeField] private GameObject _sceneLoader;
-    [SerializeField] private GameObject _controlSet;
     [SerializeField] private GameObject _player;
+    [SerializeField] private GameObject _overworldPlayer;
 
     private MeshRenderer _meshRenderer;
     private Vector3 _initialPosition;
@@ -23,6 +22,8 @@ public class TitleStartCube : MonoBehaviour
         _meshRenderer = GetComponent<MeshRenderer>();
         _meshRenderer.material = _defaultColor;
         _initialPosition = transform.position;
+        _overworldPlayer.SetActive(false);
+        _player.SetActive(true);
     }
 
     void Update()
@@ -62,9 +63,11 @@ public class TitleStartCube : MonoBehaviour
             yield return new WaitForSeconds(0.06f);
         }
 
-        Destroy(_controlSet);
-        Destroy(_player);
-        _sceneLoader.SetActive(true);
+        _overworldPlayer.transform.position = _player.transform.position;
+        _overworldPlayer.transform.rotation = _player.transform.rotation;
+        _overworldPlayer.SetActive(true);
+        GameObject.FindGameObjectWithTag("VO").GetComponent<VOManager>().BeginDialogueDriver();
+        transform.parent.gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
