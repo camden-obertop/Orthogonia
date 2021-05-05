@@ -72,7 +72,8 @@ public class ProgressManager : MonoBehaviour
 
     [Header("Fungus")]
     [SerializeField] private GameObject fishTransition;
-
+    [SerializeField] private GameObject mushrooms;
+    
     [Header("Fish")]
     [SerializeField] private GameObject birdTransition;
 

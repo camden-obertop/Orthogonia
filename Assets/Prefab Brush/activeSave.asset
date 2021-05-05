@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabList: []
   prefabData:
-  - prefab: {fileID: 919132149155446097, guid: 915f28e3907822e40827637537a8a8ab, type: 3}
+  - prefab: {fileID: 919132149155446097, guid: 7e6c7f2a8195da74c856bf29ca5ffb09, type: 3}
     selected: 1
   paintType: 0
   brushSize: 1
@@ -40,7 +40,7 @@ MonoBehaviour:
   requiredLayerMask: 0
   minRequiredSlope: 0
   maxRequiredSlope: 0
-  prefabOriginOffset: {x: 0, y: 0.675, z: 0}
+  prefabOriginOffset: {x: 0, y: 0.65, z: 0}
   prefabRotationOffset: {x: 0, y: 0, z: 0}
   draggingAction: 0
   rotationAxis: 0
