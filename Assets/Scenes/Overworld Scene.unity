@@ -28376,7 +28376,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 447954, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 35.87
+      value: 35.239
       objectReference: {fileID: 0}
     - target: {fileID: 447954, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -30695,6 +30695,10 @@ PrefabInstance:
       propertyPath: puzzle
       value: 
       objectReference: {fileID: 11400000, guid: f88561ef887e4ab40970a4223e4b9403, type: 2}
+    - target: {fileID: 8199400267935004588, guid: 1b24d8aa69a70d344b0093700151f6af, type: 3}
+      propertyPath: earthPuzzle
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8199400267935004588, guid: 1b24d8aa69a70d344b0093700151f6af, type: 3}
       propertyPath: picrossPlayer
       value: 
@@ -40069,7 +40073,7 @@ GameObject:
   - component: {fileID: 2085765869}
   m_Layer: 0
   m_Name: VO Manager
-  m_TagString: Untagged
+  m_TagString: VO
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
