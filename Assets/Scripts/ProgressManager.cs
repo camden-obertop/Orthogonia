@@ -174,6 +174,14 @@ public class ProgressManager : MonoBehaviour
             case CompletedPuzzle.Puzzle.Fruit:
                 fruitTransition.SetActive(false);
                 fungusTransition.SetActive(true);
+                GameObject[] fruits = GameObject.FindGameObjectsWithTag("Fruit");
+                foreach (GameObject fruit in fruits)
+                {
+                    foreach (Transform child in fruit.transform)
+                    {
+                        child.gameObject.SetActive(true);
+                    }
+                }
                 break;
             case CompletedPuzzle.Puzzle.Fungus:
                 fungusTransition.SetActive(false);

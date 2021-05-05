@@ -19,6 +19,7 @@ TagManager:
   - ModeSelector
   - ProgressManager
   - Ground
+  - Fruit
   layers:
   - Default
   - TransparentFX
