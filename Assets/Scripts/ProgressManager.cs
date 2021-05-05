@@ -61,7 +61,8 @@ public class ProgressManager : MonoBehaviour
 
     [Header("Tree")]
     [SerializeField] private GameObject bushTransition;
-
+    [SerializeField] private GameObject trees;
+    
     [Header("Bush")]
     [SerializeField] private GameObject fruitTransition;
 
