@@ -76,12 +76,15 @@ public class ProgressManager : MonoBehaviour
     
     [Header("Fish")]
     [SerializeField] private GameObject birdTransition;
-
+    [SerializeField] private GameObject fish;
+    
     [Header("Bird")]
     [SerializeField] private GameObject squirrelTransition;
-
+    [SerializeField] private GameObject birds;
+    
     [Header("Squirrel")]
     [SerializeField] private GameObject foxTransition;
+    [SerializeField] private GameObject squirrels;
 
     [Header("Fox")]
     [SerializeField] private GameObject humanTransition;
@@ -187,18 +190,22 @@ public class ProgressManager : MonoBehaviour
             case CompletedPuzzle.Puzzle.Fungus:
                 fungusTransition.SetActive(false);
                 fishTransition.SetActive(true);
+                mushrooms.SetActive(true);
                 break;
             case CompletedPuzzle.Puzzle.Fish:
                 fishTransition.SetActive(false);
                 birdTransition.SetActive(true);
+                fish.SetActive(true);
                 break;
             case CompletedPuzzle.Puzzle.Bird:
                 birdTransition.SetActive(false);
                 squirrelTransition.SetActive(true);
+                birds.SetActive(true);
                 break;
             case CompletedPuzzle.Puzzle.Squirrel:
                 squirrelTransition.SetActive(false);
                 foxTransition.SetActive(true);
+                squirrels.SetActive(true);
                 break;
             case CompletedPuzzle.Puzzle.Fox:
                 foxTransition.SetActive(false);

@@ -35,7 +35,7 @@ public class GroundWander : MonoBehaviour
                 break;
             case GroundWanderState.ROTATING:
                 _rigidbody.velocity = Vector3.zero;
-                transform.rotation = Quaternion.Euler(0f, transform.rotation.y + Random.Range(170f, 190f), 0f);
+                transform.rotation *= Quaternion.Euler(0f, Random.Range(160f, 200f), 0f);
                 break;
             case GroundWanderState.WANDERING:
                 _rigidbody.velocity = transform.forward * wanderSpeed;
@@ -53,10 +53,6 @@ public class GroundWander : MonoBehaviour
                 break;
             case GroundWanderState.ROTATING:
                 _currentState = GroundWanderState.WANDERING;
-                if (_pauseWait != null)
-                    StopCoroutine(_pauseWait);
-                if (_wanderingWait != null)
-                    StopCoroutine(_wanderingWait);
                 break;
             case GroundWanderState.WANDERING:
                 if (_wanderingWait == null)
@@ -67,9 +63,9 @@ public class GroundWander : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    public void CollideWithGround()
     {
-        if (collision.gameObject.CompareTag("Ground") && _currentState == GroundWanderState.WANDERING)
+        if (_currentState == GroundWanderState.WANDERING)
         {
             _currentState = GroundWanderState.ROTATING;
         }
