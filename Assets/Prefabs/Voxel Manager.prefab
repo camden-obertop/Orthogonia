@@ -53,7 +53,7 @@ MonoBehaviour:
   cube: {fileID: 6549536629210668778, guid: 0b99d12d87ba2354a89eb9d28c8b62a6, type: 3}
   completedPuzzle: {fileID: 6031440201314962155, guid: af03b89316225334db7f5924fb83d223, type: 3}
   _clearMaterial: {fileID: 2100000, guid: ab71d0cbe67e8f2458f7f1695cae47e8, type: 2}
-  completedParticles: {fileID: 6031440201314962155, guid: af03b89316225334db7f5924fb83d223, type: 3}
+  completedParticles: {fileID: 8990933630710112749, guid: ae6769246eff12b48b9f7378c1733453, type: 3}
   _hideLayerSound: {fileID: 7051550814354193123, guid: df64eff64708ba0428a91bb9a721b05b, type: 3}
   _showLayerSound: {fileID: 6456834500233717955, guid: 6746726e9d93bc04e8b816fc1ae163f9, type: 3}
   _switchModeSound: {fileID: 1715767742990133076, guid: 237e8238b15e8504ba683a03d79b05cc, type: 3}

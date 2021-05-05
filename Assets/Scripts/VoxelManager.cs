@@ -337,6 +337,9 @@ public class VoxelManager : MonoBehaviour
         {
             _canEditPuzzle = false;
 
+            Instantiate(completedParticles, transform.position, Quaternion.identity);
+            ResetAllLayers();
+
             for (int i = 0; i < voxelStates.GetLength(0); i++)
             {
                 for (int j = 0; j < voxelStates.GetLength(1); j++)
@@ -357,12 +360,12 @@ public class VoxelManager : MonoBehaviour
             }
 
             GameObject completedPuzzleInstance = Instantiate(completedPuzzle);
-            Instantiate(completedParticles, transform.position, Quaternion.identity);
             completedPuzzleInstance.GetComponent<CompletedPuzzle>().PuzzleType = puzzleObject.PuzzleType;
             _overworldPlayer.transform.position = _picrossPlayer.transform.position;
             _overworldPlayer.transform.rotation = _picrossPlayer.transform.rotation;
             _picrossPlayer.SetActive(false);
             yield return new WaitForEndOfFrame();
+            GameObject.FindGameObjectWithTag("VFX").GetComponent<VFXManager>().SwitchToOverworldMode();
             _overworldPlayer.SetActive(true);
             Destroy(gameObject);
         }

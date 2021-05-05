@@ -1,5 +1,7 @@
 using UnityEngine;
 
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 public class StartPuzzle : MonoBehaviour
 {
     [SerializeField] private Puzzle puzzle;
@@ -21,6 +23,8 @@ public class StartPuzzle : MonoBehaviour
         picrossPlayer.transform.rotation = overworldPlayer.transform.rotation;
         overworldPlayer.SetActive(false);
         picrossPlayer.SetActive(true);
+
+        GameObject.FindGameObjectWithTag("VFX").GetComponent<VFXManager>().SwitchToPicrossMode();
 
         GameObject modeSelector = GameObject.FindGameObjectWithTag("ModeSelector");
         if (modeSelector != null)

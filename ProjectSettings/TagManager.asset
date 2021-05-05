@@ -21,6 +21,7 @@ TagManager:
   - Ground
   - Fruit
   - HandCollider
+  - VFX
   layers:
   - Default
   - TransparentFX
