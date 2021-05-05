@@ -6,11 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Title Screen Scene.unity
+    guid: 1ebcb8515e00b0c4ea8ccc00361916f3
+  - enabled: 1
     path: Assets/Scenes/Overworld Scene.unity
     guid: f66c56ded2e94444d907decca2e31d8f
-  - enabled: 1
-    path: Assets/Scenes/VR Picross 2.unity
-    guid: f988bf416b6df3e43973adc033bb7b0c
   m_configObjects:
     Unity.XR.OpenVR.Settings: {fileID: 11400000, guid: 816a537b5e65d58418b63cafa51f66f8, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 03ad76ab192704644b38bdb1b468972f, type: 2}
