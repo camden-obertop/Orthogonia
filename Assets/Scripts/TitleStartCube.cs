@@ -16,31 +16,34 @@ public class TitleStartCube : MonoBehaviour
     private bool _isHovering = false;
     private float performActionFloat;
     private bool performAction;
+    private bool _initialized;
 
     void Start()
     {
         _meshRenderer = GetComponent<MeshRenderer>();
         _meshRenderer.material = _defaultColor;
         _initialPosition = transform.position;
-        _overworldPlayer.SetActive(false);
-        _player.SetActive(true);
+        StartCoroutine(WaitToLoad());
     }
 
     void Update()
     {
-        transform.Rotate(new Vector3(0, .5f, 0));
-
-        if (_mainCamera != null)
+        if (_initialized)
         {
-            float height = _mainCamera.transform.position.y;
-            transform.position = _initialPosition + new Vector3(0, height - 0.25f, 0);
-        }
+            transform.Rotate(new Vector3(0, .5f, 0));
 
-        performActionFloat = SteamVR_Actions.picross.PerformActionFloat[SteamVR_Input_Sources.Any].axis;
-        performAction = performActionFloat > 0.8f;
-        if (_isHovering && performAction)
-        {
-            StartCoroutine(StartGame());
+            if (_mainCamera != null)
+            {
+                float height = _mainCamera.transform.position.y;
+                transform.position = _initialPosition + new Vector3(0, height - 0.25f, 0);
+            }
+
+            performActionFloat = SteamVR_Actions.picross.PerformActionFloat[SteamVR_Input_Sources.Any].axis;
+            performAction = performActionFloat > 0.8f;
+            if (_isHovering && performAction)
+            {
+                StartCoroutine(StartGame());
+            }
         }
     }
 
@@ -86,5 +89,13 @@ public class TitleStartCube : MonoBehaviour
             _isHovering = false;
             _meshRenderer.material = _defaultColor;
         }
+    }
+
+    private IEnumerator WaitToLoad()
+    {
+        yield return new WaitForSeconds(0.5f);
+        _initialized = true;
+        _overworldPlayer.SetActive(false);
+        _player.SetActive(true);
     }
 }
