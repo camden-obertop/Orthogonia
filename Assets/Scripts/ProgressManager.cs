@@ -44,6 +44,7 @@ public class ProgressManager : MonoBehaviour
     [Header("River")]
     [SerializeField] private GameObject grassTransition;
     [SerializeField] private GameObject riverCover;
+    [SerializeField] private GameObject riverSFX;
 
     [Header("Grass")]
     [SerializeField] private GameObject flowerTransition;
@@ -88,6 +89,11 @@ public class ProgressManager : MonoBehaviour
 
     [Header("Fox")]
     [SerializeField] private GameObject humanTransition;
+    [SerializeField] private GameObject foxes;
+    
+    [Header("Human")]
+    [SerializeField] private GameObject destroyedHouse;
+    [SerializeField] private GameObject humanHouse;
 
     private void Start()
     {
@@ -114,6 +120,7 @@ public class ProgressManager : MonoBehaviour
                 earthLandscape.SetActive(true);
                 airLandscape.SetActive(false);
                 wormTransition.SetActive(true);
+                destroyedHouse.SetActive(true);
                 break;
             case CompletedPuzzle.Puzzle.Worm:
                 wormTransition.SetActive(false);
@@ -146,6 +153,7 @@ public class ProgressManager : MonoBehaviour
                 riverTransition.SetActive(false);
                 grassTransition.SetActive(true);
                 riverCover.SetActive(false);
+                riverSFX.SetActive(true);
                 break;
             case CompletedPuzzle.Puzzle.Grass:
                 grassTransition.SetActive(false);
@@ -210,9 +218,11 @@ public class ProgressManager : MonoBehaviour
             case CompletedPuzzle.Puzzle.Fox:
                 foxTransition.SetActive(false);
                 humanTransition.SetActive(true);
+                foxes.SetActive(true);
                 break;
             case CompletedPuzzle.Puzzle.Human:
                 humanTransition.SetActive(false);
+                humanHouse.SetActive(true);
                 break;
         }
     }
