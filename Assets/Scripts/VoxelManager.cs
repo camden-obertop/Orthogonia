@@ -360,6 +360,7 @@ public class VoxelManager : MonoBehaviour
             _overworldPlayer.transform.position = _picrossPlayer.transform.position;
             _overworldPlayer.transform.rotation = _picrossPlayer.transform.rotation;
             _picrossPlayer.SetActive(false);
+            yield return new WaitForEndOfFrame();
             _overworldPlayer.SetActive(true);
             Destroy(gameObject);
         }
@@ -398,7 +399,6 @@ public class VoxelManager : MonoBehaviour
         _cubeFaceCenterCoords.Add("negativeY", Vector3.zero);
         _cubeFaceCenterCoords.Add("positiveZ", Vector3.zero);
         _cubeFaceCenterCoords.Add("negativeZ", Vector3.zero);
-
     }
 
     private void Update()
@@ -1181,25 +1181,25 @@ public class VoxelManager : MonoBehaviour
             bool rotating = false;
             if (Input.GetKey(KeyCode.J) || rotateLeft)
             {
-                transform.RotateAround(_target, transform.up, timeSpeed);
+                transform.RotateAround(_target, Vector3.up, timeSpeed);
                 rotating = true;
             }
 
             if (Input.GetKey(KeyCode.L) || rotateRight)
             {
-                transform.RotateAround(_target, transform.up, -timeSpeed);
+                transform.RotateAround(_target, Vector3.up, -timeSpeed);
                 rotating = true;
             }
 
             if (Input.GetKey(KeyCode.I) || rotateUp && _canVerticallyRotate)
             {
-                transform.RotateAround(_target, _cameraTransform.right, timeSpeed);
+                transform.RotateAround(_target, transform.right, -timeSpeed);
                 rotating = true;
             }
 
             if (Input.GetKey(KeyCode.K) || rotateDown && _canVerticallyRotate)
             {
-                transform.RotateAround(_target, _cameraTransform.right, -timeSpeed);
+                transform.RotateAround(_target, transform.right, timeSpeed);
                 rotating = true;
             }
 

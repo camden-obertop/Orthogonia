@@ -54,7 +54,7 @@ namespace Valve.VR.InteractionSystem
 
         private void Update()
         {
-            Player player = Player.instance;
+            Player player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
 
             if (canRotate && snapLeftAction != null && snapRightAction != null && snapLeftAction.activeBinding && snapRightAction.activeBinding)
             {
@@ -108,7 +108,7 @@ namespace Valve.VR.InteractionSystem
         //-----------------------------------------------------
         private IEnumerator DoRotatePlayer(float angle)
         {
-            Player player = Player.instance;
+            Player player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
 
             canRotate = false;
 
@@ -171,7 +171,7 @@ namespace Valve.VR.InteractionSystem
 
         private void UpdateOrientation(GameObject fx)
         {
-            Player player = Player.instance;
+            Player player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
 
             //position fx in front of face
             this.transform.position = player.hmdTransform.position + (player.hmdTransform.forward * distanceFromFace);

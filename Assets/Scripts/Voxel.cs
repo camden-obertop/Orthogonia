@@ -20,6 +20,8 @@ public class Voxel : MonoBehaviour
     [SerializeField] private Material clearColor;
     [SerializeField] private Material whiteColor;
 
+    [SerializeField] private GameObject destroyParticles;
+
     [Header("Texts")] [SerializeField] private HintText frontHint;
     [SerializeField] private HintText rightSideHint;
     [SerializeField] private HintText topHint;
@@ -214,6 +216,7 @@ public class Voxel : MonoBehaviour
 
                 _manager.UpdateAdjacentVoxelHints(_indexPosition);
                 _manager.UpdateVoxelState(_indexPosition, VoxelManager.VoxelState.Cleared);
+                Instantiate(destroyParticles, transform.position, Quaternion.identity);
             }
         }
     }
