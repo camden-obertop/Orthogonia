@@ -65,7 +65,8 @@ public class ProgressManager : MonoBehaviour
     
     [Header("Bush")]
     [SerializeField] private GameObject fruitTransition;
-
+    [SerializeField] private GameObject bushes;
+    
     [Header("Fruit")]
     [SerializeField] private GameObject fungusTransition;
 
@@ -153,6 +154,7 @@ public class ProgressManager : MonoBehaviour
             case CompletedPuzzle.Puzzle.Flower:
                 flowerTransition.SetActive(false);
                 beeTransition.SetActive(true);
+                flowerParent.SetActive(true);
                 break;
             case CompletedPuzzle.Puzzle.Bee:
                 beeTransition.SetActive(false);
@@ -162,10 +164,12 @@ public class ProgressManager : MonoBehaviour
             case CompletedPuzzle.Puzzle.Tree:
                 treeTransition.SetActive(false);
                 bushTransition.SetActive(true);
+                trees.SetActive(true);
                 break;
             case CompletedPuzzle.Puzzle.Bush:
                 bushTransition.SetActive(false);
                 fruitTransition.SetActive(true);
+                bushes.SetActive(true);
                 break;
             case CompletedPuzzle.Puzzle.Fruit:
                 fruitTransition.SetActive(false);
