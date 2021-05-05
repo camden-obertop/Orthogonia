@@ -49,12 +49,15 @@ public class ProgressManager : MonoBehaviour
     [SerializeField] private GameObject flowerTransition;
     [SerializeField] private GameObject grassEarth;
     [SerializeField] private Material grassSky;
+    [SerializeField] private Material brighterWater;
 
     [Header("Flower")]
     [SerializeField] private GameObject beeTransition;
+    [SerializeField] private GameObject flowerParent;
 
     [Header("Bee")]
     [SerializeField] private GameObject treeTransition;
+    [SerializeField] private GameObject bees;
 
     [Header("Tree")]
     [SerializeField] private GameObject bushTransition;
@@ -144,6 +147,7 @@ public class ProgressManager : MonoBehaviour
                 earthLandscape.SetActive(false);
                 grassEarth.SetActive(true);
                 RenderSettings.skybox = grassSky;
+                ocean.GetComponent<MeshRenderer>().material = brighterWater;
                 break;
             case CompletedPuzzle.Puzzle.Flower:
                 flowerTransition.SetActive(false);
@@ -152,6 +156,7 @@ public class ProgressManager : MonoBehaviour
             case CompletedPuzzle.Puzzle.Bee:
                 beeTransition.SetActive(false);
                 treeTransition.SetActive(true);
+                bees.SetActive(true);
                 break;
             case CompletedPuzzle.Puzzle.Tree:
                 treeTransition.SetActive(false);
