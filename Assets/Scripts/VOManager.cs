@@ -12,7 +12,7 @@ public class VOManager : MonoBehaviour
     private void Start()
     {
         _source = GetComponent<AudioSource>();
-        
+        StartCoroutine(BeginDialogue());
     }
 
     private IEnumerator BeginDialogue()
