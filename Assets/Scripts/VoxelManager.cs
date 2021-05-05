@@ -154,6 +154,8 @@ public class VoxelManager : MonoBehaviour
         }
         InitializeVoxels();
 
+        InitializeGameMode();
+
         _cameraTransform = _mainCamera.transform;
 
         _frontClues = new Clue[length, height];
@@ -170,6 +172,20 @@ public class VoxelManager : MonoBehaviour
         _cubeFaceCenterCoords = new Dictionary<string, Vector3>();
         _nearestFace = "";
         InitializeCubeFaceCenterCoords();
+    }
+
+    private void InitializeGameMode()
+    {
+        GameObject.FindGameObjectWithTag("Mark").GetComponent<ChangeModeSelector>().selected = true;
+        GameObject.FindGameObjectWithTag("Build").GetComponent<ChangeModeSelector>().selected = false;
+        GameObject.FindGameObjectWithTag("Destroy").GetComponent<ChangeModeSelector>().selected = false;
+        GameObject.FindGameObjectWithTag("Mark").GetComponent<MeshRenderer>().material = _selectedModeSelectorMat;
+        GameObject.FindGameObjectWithTag("Build").GetComponent<MeshRenderer>().material = _unselectedModeSelectorMat;
+        GameObject.FindGameObjectWithTag("Destroy").GetComponent<MeshRenderer>().material = _unselectedModeSelectorMat;
+        _currentGameMode = GameMode.Mark;
+        MakeMarkable();
+        modeSwitchable = true;
+        Debug.Log(_currentGameMode);
     }
 
     public void UpdateAdjacentVoxelHints(Vector3 indexPosition)
@@ -345,6 +361,7 @@ public class VoxelManager : MonoBehaviour
             _overworldPlayer.transform.rotation = _picrossPlayer.transform.rotation;
             _picrossPlayer.SetActive(false);
             _overworldPlayer.SetActive(true);
+            Destroy(gameObject);
         }
 
         yield return correct;

@@ -24,10 +24,13 @@ public class ChangeModeSelector : MonoBehaviour
     public bool selected = false;
     [SerializeField] private GameObject _switchModeSound;
 
-    private void Start() {
+    private void OnEnable()
+    {
         _meshRenderer = GetComponent<MeshRenderer>();
+        _hovering = false;
 
-        if (currentModeSelectButton == ModeSelectButton.Mark) {
+        if (currentModeSelectButton == ModeSelectButton.Mark)
+        {
             selected = true;
             _meshRenderer.material = _selectedMaterial;
         }
@@ -47,7 +50,7 @@ public class ChangeModeSelector : MonoBehaviour
 
             if (currentModeSelectButton == ModeSelectButton.Mark) {
                 if (_voxelManager.CurrentGameMode == VoxelManager.GameMode.Mark) {
-                    Debug.Log("Don't do anything!");
+                    Debug.Log("mark Don't do anything!");
                 } else {
                     Instantiate(_switchModeSound);
                     GameObject.FindGameObjectWithTag("Destroy").GetComponent<MeshRenderer>().material = _unselectedMaterial;
@@ -64,7 +67,7 @@ public class ChangeModeSelector : MonoBehaviour
 
             if (currentModeSelectButton == ModeSelectButton.Destroy) {
                 if (_voxelManager.CurrentGameMode == VoxelManager.GameMode.Destroy) {
-                    Debug.Log("Don't do anything!");
+                    Debug.Log("destroy Don't do anything!");
                 } else {
                     Instantiate(_switchModeSound);
                     GameObject.FindGameObjectWithTag("Mark").GetComponent<MeshRenderer>().material = _unselectedMaterial;
@@ -80,7 +83,7 @@ public class ChangeModeSelector : MonoBehaviour
 
             if (currentModeSelectButton == ModeSelectButton.Build) {
                 if (_voxelManager.CurrentGameMode == VoxelManager.GameMode.Build) {
-                    Debug.Log("Don't do anything!");
+                    Debug.Log("build Don't do anything!");
                 } else {
                     Instantiate(_switchModeSound);
                     GameObject.FindGameObjectWithTag("Destroy").GetComponent<MeshRenderer>().material = _unselectedMaterial;
