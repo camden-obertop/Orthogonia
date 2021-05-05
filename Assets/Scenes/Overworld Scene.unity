@@ -1206,6 +1206,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   airTransition: {fileID: 6162578405651485417}
+  airParticles: {fileID: 1901102433}
+  gloomySkybox: {fileID: 2100000, guid: 882d0736364fac2439ddbd324d595774, type: 2}
+  normalSkybox: {fileID: 2100000, guid: e43752486a1e64c4fb1f6266051d9fab, type: 2}
   earthTransition: {fileID: 1099345859}
   earthLandscape: {fileID: 637567200}
   airLandscape: {fileID: 1031449018}

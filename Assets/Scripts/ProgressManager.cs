@@ -7,6 +7,9 @@ public class ProgressManager : MonoBehaviour
     // Each of these is called after you beat a level. I.e. the earth transition is enabled when you beat the air puzzle
     [Header("Air")] 
     [SerializeField] private GameObject airTransition;
+    [SerializeField] private GameObject airParticles;
+    [SerializeField] private Material gloomySkybox;
+    [SerializeField] private Material normalSkybox;
     [SerializeField] private GameObject earthTransition;
 
     [Header("Earth")] [SerializeField] private GameObject earthLandscape;
@@ -66,12 +69,21 @@ public class ProgressManager : MonoBehaviour
     [Header("Fox")]
     [SerializeField] private GameObject humanTransition;
 
+    private void Start()
+    {
+        RenderSettings.skybox = gloomySkybox;
+        RenderSettings.fogDensity = 0.18f;
+    }
+
     public void ActivatePuzzleInWorld(CompletedPuzzle.Puzzle puzzleType)
     {
         switch (puzzleType)
         {
             case CompletedPuzzle.Puzzle.Air:
                 airTransition.SetActive(false);
+                airParticles.SetActive(false);
+                RenderSettings.skybox = normalSkybox;
+                RenderSettings.fogDensity = 0.007f;
                 earthTransition.SetActive(true);
                 break;
             case CompletedPuzzle.Puzzle.Earth:
