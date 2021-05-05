@@ -375,6 +375,10 @@ public class VoxelManager : MonoBehaviour
             yield return new WaitForEndOfFrame();
             GameObject.FindGameObjectWithTag("VFX").GetComponent<VFXManager>().SwitchToOverworldMode();
             _overworldPlayer.SetActive(true);
+            if (puzzleObject.PuzzleType == CompletedPuzzle.Puzzle.Human)
+            {
+                GameObject.FindGameObjectWithTag("VO").GetComponent<VOManager>().EndingDriver();
+            }
             Destroy(gameObject);
         }
 

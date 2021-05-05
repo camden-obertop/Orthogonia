@@ -14,13 +14,24 @@ public class VOManager : MonoBehaviour
     [SerializeField] private AudioClip earthPuzzleDialogue3;
     [SerializeField] private AudioClip earthPuzzleDialogue4;
     [SerializeField] private AudioClip finishEarthPuzzle;
+    [SerializeField] private AudioClip congrats;
+    [SerializeField] private GameObject overworldPlayer;
     
     private AudioSource _source;
+    private bool _floating;
     
     private void Start()
     {
         _source = GetComponent<AudioSource>();
         StartCoroutine(BeginDialogue());
+    }
+
+    private void Update()
+    {
+        if (_floating)
+        {
+            overworldPlayer.transform.position += Vector3.up * 0.01f;
+        }
     }
 
     private IEnumerator BeginDialogue()
@@ -61,13 +72,13 @@ public class VOManager : MonoBehaviour
     {
         _source.clip = earthPuzzleDialogue;
         _source.Play();
-        yield return new WaitForSeconds(earthPuzzleDialogue.length + 2f);
+        yield return new WaitForSeconds(earthPuzzleDialogue.length + 1f);
         _source.clip = earthPuzzleDialogue2;
         _source.Play();
-        yield return new WaitForSeconds(earthPuzzleDialogue2.length + 2f);
+        yield return new WaitForSeconds(earthPuzzleDialogue2.length + 1f);
         _source.clip = earthPuzzleDialogue3;
         _source.Play();
-        yield return new WaitForSeconds(earthPuzzleDialogue3.length + 2f);
+        yield return new WaitForSeconds(earthPuzzleDialogue3.length + 1f);
         _source.clip = earthPuzzleDialogue4;
         _source.Play();
     }
@@ -76,5 +87,19 @@ public class VOManager : MonoBehaviour
     {
         _source.clip = finishEarthPuzzle;
         _source.Play();
+    }
+
+    public void EndingDriver()
+    {
+        StartCoroutine(Ending());
+    }
+
+    private IEnumerator Ending()
+    {
+        _floating = true;
+        _source.clip = congrats;
+        _source.Play();
+        yield return new WaitForSeconds(congrats.length + 1.5f);
+        Application.Quit();
     }
 }

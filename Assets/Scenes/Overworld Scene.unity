@@ -40196,6 +40196,8 @@ MonoBehaviour:
   earthPuzzleDialogue3: {fileID: 8300000, guid: 17ad56f53139ec44682300ac69e166ba, type: 3}
   earthPuzzleDialogue4: {fileID: 8300000, guid: 17b500ea65f92e342b3d6f4b4dd13038, type: 3}
   finishEarthPuzzle: {fileID: 8300000, guid: fa0bd1dddef47b24684b64f599128fc3, type: 3}
+  congrats: {fileID: 8300000, guid: 8d6dcc6aaa7d7a0489e4b461a908e248, type: 3}
+  overworldPlayer: {fileID: 251119408}
 --- !u!4 &2085765871
 Transform:
   m_ObjectHideFlags: 0
