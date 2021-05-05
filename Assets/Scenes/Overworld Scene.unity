@@ -40184,6 +40184,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   introDialogue: {fileID: 8300000, guid: 90f866293c045f345af73c663c3ec46c, type: 3}
   teleporting: {fileID: 2035443241}
+  rotateDialogue: {fileID: 8300000, guid: 77226a2ca411c5048b093c5bf02d68da, type: 3}
+  numbersDialogue: {fileID: 8300000, guid: 9e3c73bff695b4847a2e63c247f970f8, type: 3}
+  completeFirstPuzzle: {fileID: 8300000, guid: 1d040335103540e4dbe0d1d67c6e6aa2, type: 3}
+  earthPuzzleDialogue: {fileID: 8300000, guid: 1709dfd615f505f4dbbeeaa3da73bde5, type: 3}
+  earthPuzzleDialogue2: {fileID: 8300000, guid: cab85fe671a01b748b628507ffa2d5ab, type: 3}
+  earthPuzzleDialogue3: {fileID: 8300000, guid: 17ad56f53139ec44682300ac69e166ba, type: 3}
+  earthPuzzleDialogue4: {fileID: 8300000, guid: 17b500ea65f92e342b3d6f4b4dd13038, type: 3}
+  finishEarthPuzzle: {fileID: 8300000, guid: fa0bd1dddef47b24684b64f599128fc3, type: 3}
 --- !u!4 &2085765871
 Transform:
   m_ObjectHideFlags: 0
@@ -45978,6 +45986,10 @@ PrefabInstance:
     - target: {fileID: 8199400267803964668, guid: 1b24d8aa69a70d344b0093700151f6af, type: 3}
       propertyPath: m_Name
       value: Air Transition
+      objectReference: {fileID: 0}
+    - target: {fileID: 8199400267935004588, guid: 1b24d8aa69a70d344b0093700151f6af, type: 3}
+      propertyPath: firstPuzzle
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8199400267935004588, guid: 1b24d8aa69a70d344b0093700151f6af, type: 3}
       propertyPath: picrossPlayer

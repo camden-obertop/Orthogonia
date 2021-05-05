@@ -339,6 +339,14 @@ public class VoxelManager : MonoBehaviour
 
             Instantiate(completedParticles, transform.position, Quaternion.identity);
             ResetAllLayers();
+            if (puzzleObject.PuzzleType == CompletedPuzzle.Puzzle.Air)
+            {
+                GameObject.FindGameObjectWithTag("VO").GetComponent<VOManager>().CompleteFirstPuzzle();
+            }
+            else if (puzzleObject.PuzzleType == CompletedPuzzle.Puzzle.Earth)
+            {
+                GameObject.FindGameObjectWithTag("VO").GetComponent<VOManager>().FinishEarthPuzzle();
+            }
 
             for (int i = 0; i < voxelStates.GetLength(0); i++)
             {
