@@ -38,6 +38,7 @@ public class ProgressManager : MonoBehaviour
 
     [Header("Clouds")]
     [SerializeField] private GameObject riverTransition;
+    [SerializeField] private GameObject clouds;
 
     [Header("River")]
     [SerializeField] private GameObject grassTransition;
@@ -126,6 +127,7 @@ public class ProgressManager : MonoBehaviour
             case CompletedPuzzle.Puzzle.Clouds:
                 cloudsTransition.SetActive(false);
                 riverTransition.SetActive(true);
+                clouds.SetActive(true);
                 break;
             case CompletedPuzzle.Puzzle.River:
                 riverTransition.SetActive(false);

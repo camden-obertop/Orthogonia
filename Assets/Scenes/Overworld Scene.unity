@@ -1381,6 +1381,7 @@ MonoBehaviour:
   cloudsTransition: {fileID: 862036462}
   ocean: {fileID: 1114903822}
   riverTransition: {fileID: 1529626141}
+  clouds: {fileID: 2091162762}
   grassTransition: {fileID: 2134050086}
   flowerTransition: {fileID: 2014370228}
   beeTransition: {fileID: 1291945264}
@@ -15021,6 +15022,7 @@ Transform:
   - {fileID: 1782283255}
   - {fileID: 1901102434}
   - {fileID: 1114903826}
+  - {fileID: 2091162765}
   m_Father: {fileID: 776128915}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -30614,12 +30616,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2091162762}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: -318.5, y: 28, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_Father: {fileID: 1229673028}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &2097020707
 GameObject:
