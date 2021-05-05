@@ -68,6 +68,7 @@ public class VoxelManager : MonoBehaviour
     [SerializeField] private GameObject cube;
     [SerializeField] private GameObject completedPuzzle;
     [SerializeField] private Material _clearMaterial;
+    [SerializeField] private GameObject completedParticles;
 
     [Header("Sounds")]
     [SerializeField] private GameObject _hideLayerSound;
@@ -356,6 +357,7 @@ public class VoxelManager : MonoBehaviour
             }
 
             GameObject completedPuzzleInstance = Instantiate(completedPuzzle);
+            Instantiate(completedParticles, transform.position, Quaternion.identity);
             completedPuzzleInstance.GetComponent<CompletedPuzzle>().PuzzleType = puzzleObject.PuzzleType;
             _overworldPlayer.transform.position = _picrossPlayer.transform.position;
             _overworldPlayer.transform.rotation = _picrossPlayer.transform.rotation;
